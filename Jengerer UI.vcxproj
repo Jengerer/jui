@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5D3FF792-7C17-4B0B-BAF2-E5328F39934F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>JengererUI</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)\lib\libpng;$(SolutionDir)\lib\libcurl\include;$(SolutionDir)\lib\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(SolutionDir)\lib\libpng\projects\vstudio\Debug\;$(SolutionDir)\lib\libcurl\lib\Debug\;$(SolutionDir)\lib\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <TargetName>jengerer_ui_debug</TargetName>
+    <OutDir>$(SolutionDir)\build\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)\lib\libpng;$(SolutionDir)\lib\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(SolutionDir)\lib\libpng\projects\vstudio\Release\;$(SolutionDir)\lib\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <OutDir>$(SolutionDir)\build\</OutDir>
+    <TargetName>jengerer_ui</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;CURL_STATICLIB;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>zlib.lib;libpng15.lib;freetype247_D.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\jui\application.h" />
+    <ClInclude Include="include\jui\application_controller.h" />
+    <ClInclude Include="include\jui\box.h" />
+    <ClInclude Include="include\jui\colour.h" />
+    <ClInclude Include="include\jui\component.h" />
+    <ClInclude Include="include\jui\constrained_container.h" />
+    <ClInclude Include="include\jui\constraint.h" />
+    <ClInclude Include="include\jui\container.h" />
+    <ClInclude Include="include\jui\curl.h" />
+    <ClInclude Include="include\jui\file_downloader.h" />
+    <ClInclude Include="include\jui\file_texture.h" />
+    <ClInclude Include="include\jui\font.h" />
+    <ClInclude Include="include\jui\font_factory.h" />
+    <ClInclude Include="include\jui\graphics_2d.h" />
+    <ClInclude Include="include\jui\grid_layout.h" />
+    <ClInclude Include="include\jui\horizontal_layout.h" />
+    <ClInclude Include="include\jui\horizontal_split_layout.h" />
+    <ClInclude Include="include\jui\idownloader.h" />
+    <ClInclude Include="include\jui\idrawable.h" />
+    <ClInclude Include="include\jui\ikeyboard_handler.h" />
+    <ClInclude Include="include\jui\image.h" />
+    <ClInclude Include="include\jui\imouse_handler.h" />
+    <ClInclude Include="include\jui\iresource_source.h" />
+    <ClInclude Include="include\jui\keyboard.h" />
+    <ClInclude Include="include\jui\layout.h" />
+    <ClInclude Include="include\jui\mouse.h" />
+    <ClInclude Include="include\jui\opengl_shared.h" />
+    <ClInclude Include="include\jui\renderable_cstring.h" />
+    <ClInclude Include="include\jui\renderable_string.h" />
+    <ClInclude Include="include\jui\renderable_wide_string.h" />
+    <ClInclude Include="include\jui\rounded_container.h" />
+    <ClInclude Include="include\jui\rounded_rectangle.h" />
+    <ClInclude Include="include\jui\string_hasher.h" />
+    <ClInclude Include="include\jui\text.h" />
+    <ClInclude Include="include\jui\texture.h" />
+    <ClInclude Include="include\jui\vertical_layout.h" />
+    <ClInclude Include="include\jui\window.h" />
+    <ClInclude Include="include\jui\wrapped_text.h" />
+    <ClInclude Include="iresource_handler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\jui\application_controller.cpp" />
+    <ClCompile Include="src\application.cpp" />
+    <ClCompile Include="src\box.cpp" />
+    <ClCompile Include="src\colour.cpp" />
+    <ClCompile Include="src\component.cpp" />
+    <ClCompile Include="src\constrained_container.cpp" />
+    <ClCompile Include="src\constraint.cpp" />
+    <ClCompile Include="src\container.cpp" />
+    <ClCompile Include="src\curl.cpp" />
+    <ClCompile Include="src\file_downloader.cpp" />
+    <ClCompile Include="src\file_texture.cpp" />
+    <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\font_factory.cpp" />
+    <ClCompile Include="src\GLee.c" />
+    <ClCompile Include="src\graphics_2d.cpp" />
+    <ClCompile Include="src\grid_layout.cpp" />
+    <ClCompile Include="src\horizontal_layout.cpp" />
+    <ClCompile Include="src\horizontal_split_layout.cpp" />
+    <ClCompile Include="src\image.cpp" />
+    <ClCompile Include="src\keyboard.cpp" />
+    <ClCompile Include="src\layout.cpp" />
+    <ClCompile Include="src\mouse.cpp" />
+    <ClCompile Include="src\opengl_shared.cpp" />
+    <ClCompile Include="src\renderable_cstring.cpp" />
+    <ClCompile Include="src\renderable_string.cpp" />
+    <ClCompile Include="src\renderable_wide_string.cpp" />
+    <ClCompile Include="src\rounded_container.cpp" />
+    <ClCompile Include="src\rounded_rectangle.cpp" />
+    <ClCompile Include="src\text.cpp" />
+    <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\vertical_layout.cpp" />
+    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\wrapped_text.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
