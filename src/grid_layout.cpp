@@ -3,7 +3,7 @@
 GridLayout::GridLayout( int gridWidth, unsigned int spacing )
 {
 	gridWidth_ = gridWidth;
-	SetSpacing( spacing );
+	set_spacing( spacing );
 }
 
 GridLayout::~GridLayout( void )
@@ -22,7 +22,7 @@ void GridLayout::pack( void )
 	Component *first = components_.front();
 	int componentWidth = first->get_width();
 	int componentHeight = first->get_height();
-	int spacing = GetSpacing();
+	int spacing = get_spacing();
 
 	// Grid height is components / width, + 1 if remainder.
 	size_t numComponents = components_.size();

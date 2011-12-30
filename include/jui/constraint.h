@@ -7,12 +7,18 @@ class Constraint
 {
 public:
 
-	Constraint( Component* component, float localX, float localY );
-	void set_constraint( float localX, float localY );
+	// Constructor.
+	__declspec(dllexport) Constraint( Component* component, float localX, float localY );
+	
+	// Add/modify constraint.
+	__declspec(dllexport) void set_constraint( float localX, float localY );
 
-	Component* get_component() const;
-	float get_constraint_x() const;
-	float get_constraint_y() const;
+	// Get constraint target.
+	__declspec(dllexport) Component* get_component() const;
+
+	// Constraint getters.
+	__declspec(dllexport) float get_constraint_x() const;
+	__declspec(dllexport) float get_constraint_y() const;
 
 private:
 

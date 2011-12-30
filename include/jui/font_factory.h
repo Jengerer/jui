@@ -1,7 +1,7 @@
-#ifndef FONT_FACTORY_H
-#define FONT_FACTORY_H
+#ifndef FREETYPE_FONT_FACTORY_H
+#define FREETYPE_FONT_FACTORY_H
 
-#include "jui/font.h"
+#include "jui/ifont.h"
 
 #include <string>
 
@@ -10,15 +10,14 @@ class FontFactory
 
 public:
 
-	static __declspec(dllexport) void initialize();
-	static __declspec(dllexport) void shut_down();
-
 	// Loading and handling fonts.
-	static Font* create_font( const std::string& filename, FT_F26Dot6 height );
+	static __declspec(dllexport) IFont* create_font( const std::string& filename, unsigned int height );
 
-private:
+	// Destroy font.
+	static __declspec(dllexport) void destroy_font( IFont* font );
 
-	static FT_Library library_;
+	// Clean up interfaces.
+	static __declspec(dllexport) void shut_down();
 
 };
 

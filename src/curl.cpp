@@ -1,7 +1,6 @@
 #include "jui/curl.h"
 
 Curl* Curl::instance_ = nullptr;
-CURL* Curl::curl_ = nullptr;
 
 /*
  * Constructor does nothing.
@@ -27,7 +26,7 @@ Curl* Curl::get_instance()
 {
 	// Initialize instance if not exists.
 	if (instance_ == nullptr) {
-		instance_ = new Curl;
+		instance_ = new Curl();
 		instance_->initialize();
 	}
 

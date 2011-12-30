@@ -1,4 +1,4 @@
-#include "jui/font.h"
+#include "jui/freetype_font.h"
 
 // Constant character codes.
 const FT_ULong NEW_LINE = '\n';
@@ -9,7 +9,7 @@ const FT_ULong DASH = '-';
 /*
  * Font constructor.
  */
-Font::Font( FT_Face face )
+FreetypeFont::FreetypeFont( FT_Face face )
 {
 	// Add reference count.
 	face_ = face;
@@ -24,7 +24,7 @@ Font::Font( FT_Face face )
 /*
  * Font destructor.
  */
-Font::~Font()
+FreetypeFont::~FreetypeFont()
 {
 	unsigned int glyph_count = face_->num_glyphs;
 
@@ -53,7 +53,7 @@ Font::~Font()
 /*
  * Generate glyph textures.
  */
-void Font::generate_glyphs()
+void FreetypeFont::generate_glyphs()
 {
 	unsigned int glyph_count = face_->num_glyphs;
 
@@ -69,7 +69,7 @@ void Font::generate_glyphs()
 /*
  * Create OpenGL display list of textures.
  */
-void Font::create_display_lists()
+void FreetypeFont::create_display_lists()
 {
 	// Generate display lists for all characters.
 	FT_UInt index;
@@ -169,7 +169,7 @@ void Font::create_display_lists()
 /*
  * Draw character to screen.
  */
-void Font::draw_char( FT_ULong c ) const
+void FreetypeFont::draw_char( FT_ULong c ) const
 {
 	FT_UInt index = FT_Get_Char_Index( face_, c );
 	if (index != 0) {
@@ -180,7 +180,7 @@ void Font::draw_char( FT_ULong c ) const
 /*
  * Push draw position to new line.
  */
-void Font::new_line() const
+void FreetypeFont::new_line() const
 {
 	glTranslatef( 0.0f,
 		static_cast<float>(get_baseline_spacing()),
@@ -190,7 +190,7 @@ void Font::new_line() const
 /*
  * Get the width of a glyph.
  */
-FT_Pos Font::get_char_width( FT_ULong c ) const
+FT_Pos FreetypeFont::get_char_width( FT_ULong c ) const
 {
 	FT_UInt index = FT_Get_Char_Index( face_, c );
 	if (index != 0) {
@@ -203,7 +203,7 @@ FT_Pos Font::get_char_width( FT_ULong c ) const
 /*
  * Get width of a string.
  */
-FT_Pos Font::get_string_width( const RenderableString* text, size_t start, size_t end ) const
+FT_Pos FreetypeFont::get_string_width( const RenderableString* text, size_t start, size_t end ) const
 {
 	FT_Pos width = 0L;
 	for (size_t i = start; i < end; ++i) {
@@ -214,48 +214,10 @@ FT_Pos Font::get_string_width( const RenderableString* text, size_t start, size_
 }
 
 /*
- * Draw text to the screen.
- */
-void Font::draw( const RenderableString* text, size_t start, size_t end ) const
-{
-	for (size_t i = start; i < end; ++i) {
-		draw_char( text->char_code_at( i ) );
-	}
-}
-
-/*
- * Draw aligned text to the screen.
- */
-void Font::draw_aligned( const RenderableString* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const
-{
-	// Measure text.
-	float text_width = static_cast<float>(get_string_width( text, start, end ));
-
-	// Translate to alignment.
-	glPushMatrix();
-	switch (align_type) {
-	case TEXT_ALIGN_CENTER:
-		glTranslatef( (width - text_width) / 2.0f, 0.0f, 0.0f );
-		break;
-	case TEXT_ALIGN_RIGHT:
-		glTranslatef( (width - text_width), 0.0f, 0.0f );
-		break;
-	}
-
-	// Draw text.
-	draw( text, start, end );
-	glPopMatrix();
-}
-
-/*
  * Generate a list for drawing a string.
  */
-void Font::prepare_draw( RECT* rect, const RenderableString* text, GLuint list ) const
+void FreetypeFont::draw( RECT* rect, const RenderableString* text, size_t start, size_t end ) const
 {
-	// Start the list on a new matrix.
-	glNewList( list, GL_COMPILE );
-	glPushMatrix();
-	
 	// Push matrix for line.
 	glPushMatrix();
 
@@ -265,7 +227,7 @@ void Font::prepare_draw( RECT* rect, const RenderableString* text, GLuint list )
 	unsigned int new_lines = 0;
 
 	// Draw characters, split on new line.
-	for (size_t i = 0, len = text->length(); i < len; ++i) {
+	for (size_t i = start; i < end; ++i) {
 		FT_ULong c = text->char_code_at( i );
 		if (c == static_cast<FT_ULong>('\n')) {
 			// Update longest line.
@@ -292,20 +254,45 @@ void Font::prepare_draw( RECT* rect, const RenderableString* text, GLuint list )
 	}
 
 	// Set rect sizes.
-	rect->left = 0;
-	rect->right = longest;
-	rect->top = 0;
-	rect->bottom = new_lines * get_baseline_spacing() + get_line_height();
+	if (rect != nullptr) {
+		rect->left = 0;
+		rect->right = longest;
+		rect->top = 0;
+		rect->bottom = new_lines * get_baseline_spacing() + get_line_height();
+	}
 
 	glPopMatrix(); // End line matrix.
 	glPopMatrix(); // End draw matrix.
-	glEndList();
+}
+
+/*
+ * Draw aligned text to the screen.
+ */
+void FreetypeFont::draw_aligned( const RenderableString* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const
+{
+	// Measure text.
+	float text_width = static_cast<float>(get_string_width( text, start, end ));
+
+	// Translate to alignment.
+	glPushMatrix();
+	switch (align_type) {
+	case TEXT_ALIGN_CENTER:
+		glTranslatef( (width - text_width) / 2.0f, 0.0f, 0.0f );
+		break;
+	case TEXT_ALIGN_RIGHT:
+		glTranslatef( (width - text_width), 0.0f, 0.0f );
+		break;
+	}
+
+	// Draw text.
+	draw( nullptr, text, start, end );
+	glPopMatrix();
 }
 
 /*
  * Prepare drawing of wrapped string.
  */
-void Font::prepare_wrap_draw( RECT* bounds, const RenderableString* text, GLuint list, TextHorizontalAlignType align_type ) const
+void FreetypeFont::draw_wrapped( RECT* bounds, const RenderableString* text, TextHorizontalAlignType align_type ) const
 {
 	// Constant bounds.
 	const long LINE_WIDTH = bounds->right - bounds->left;
@@ -316,9 +303,6 @@ void Font::prepare_wrap_draw( RECT* bounds, const RenderableString* text, GLuint
 	long width_left = LINE_WIDTH;
 	long width_since_break = 0;
 	unsigned int new_lines = 0;
-
-	// Begin list.
-	glNewList( list, GL_COMPILE );
 
 	// Set local temporary transformation.
 	glPushMatrix();
@@ -394,13 +378,12 @@ void Font::prepare_wrap_draw( RECT* bounds, const RenderableString* text, GLuint
 	// Adjust rect bounds by this size.
 	bounds->bottom = bounds->top + (new_lines * get_baseline_spacing()) + get_line_height();
 	glPopMatrix();
-	glEndList();
 }
 
 /*
  * Get the height of a line.
  */
-GLsizei Font::get_line_height() const
+GLsizei FreetypeFont::get_line_height() const
 {
 	return face_->size->metrics.ascender >> 6;
 }
@@ -408,7 +391,7 @@ GLsizei Font::get_line_height() const
 /*
  * Get distance between lines.
  */
-GLsizei Font::get_baseline_spacing() const
+GLsizei FreetypeFont::get_baseline_spacing() const
 {
 	return face_->size->metrics.height >> 6;
 }

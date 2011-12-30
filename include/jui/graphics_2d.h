@@ -19,11 +19,11 @@ class Graphics2D
 
 public:
 
-	Graphics2D( Window* window );
-	~Graphics2D( void );
+	__declspec(dllexport) Graphics2D( Window* window );
+	__declspec(dllexport) ~Graphics2D( void );
 
 	// Loading/closing interfaces.
-	void initialize( void );
+	__declspec(dllexport) void initialize( void );
 	void clean_up( void );
 
 	// Scene initialization.
@@ -31,34 +31,33 @@ public:
 	void resize_scene( GLsizei width, GLsizei height );
 
 	// Buffer handling.
-	void clear_scene();
-	void swap_buffers();
+	__declspec(dllexport) void clear_scene();
+	__declspec(dllexport) void swap_buffers();
 
 	// Resource handling.
-	Texture*		create_empty_texture( GLsizei width, GLsizei height, GLenum format );
-	GLuint			create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
-	FileTexture*	get_texture( const std::string& filename );
+	__declspec(dllexport) Texture*		create_empty_texture( GLsizei width, GLsizei height, GLenum format );
+	__declspec(dllexport) GLuint		create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
+	__declspec(dllexport) FileTexture*	get_texture( const std::string& filename );
 
 	// Drawing functions.
-	void draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height );
-	void draw_rounded_rect( GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat radius );
-	void draw_texture( const Texture* texture, GLfloat x, GLfloat y );
-	void draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height );
-	void draw_display_list( GLuint list, GLfloat x, GLfloat y );
+	__declspec(dllexport) void draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height );
+	__declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y );
+	__declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height );
+	__declspec(dllexport) void draw_display_list( GLuint list, GLfloat x, GLfloat y );
 
 	// Setting render context.
-	HGLRC get_render_context() const;
-	HGLRC get_loading_context() const;
-	bool set_render_context( HGLRC context );
-	bool unset_render_context();
+	__declspec(dllexport) HGLRC get_render_context() const;
+	__declspec(dllexport) HGLRC get_loading_context() const;
+	__declspec(dllexport) bool set_render_context( HGLRC context );
+	__declspec(dllexport) bool unset_render_context();
 
 	// Render mode handling.
-	void set_blend_state( GLenum src_blend, GLenum dest_blend );
-	void set_colour( const Colour& colour );
+	__declspec(dllexport) void set_blend_state( GLenum src_blend, GLenum dest_blend );
+	__declspec(dllexport) void set_colour( const Colour& colour );
 
 	// Framebuffer handling.
-	void render_to_texture( const Texture* texture );
-	void reset_render_target();
+	__declspec(dllexport) void render_to_texture( const Texture* texture );
+	__declspec(dllexport) void reset_render_target();
 
 private:
 
@@ -83,7 +82,6 @@ private:
 
 	// Texture map.
 	TextureMap textures_;
-	FileTexture* rounded_corner_;
 
 };
 

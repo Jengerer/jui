@@ -8,10 +8,10 @@ class GridLayout : public Layout
 
 public:
 
-	GridLayout( int gridWidth, unsigned int spacing );
-	virtual ~GridLayout( void );
+	__declspec(dllexport) GridLayout( int gridWidth, unsigned int spacing );
+	__declspec(dllexport) virtual ~GridLayout( void );
 
-	virtual void pack( void );
+	__declspec(dllexport) virtual void pack( void );
 
 private:
 

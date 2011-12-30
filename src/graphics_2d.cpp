@@ -12,9 +12,6 @@ Graphics2D::Graphics2D( Window* window )
 	// Null device and resource context.
 	dc_ = nullptr;
 	rc_ = nullptr;
-
-	// Null the rounded corner texture.
-	rounded_corner_ = nullptr;
 }
 
 /*
@@ -100,9 +97,6 @@ void Graphics2D::initialize( void )
 	// Show window.
 	SetForegroundWindow( window_->get_handle() );
 	SetFocus( window_->get_handle() );
-
-	// Load the rounded rectangle texture.
-	rounded_corner_ = get_texture( "rounded_corner" );
 
 	// Set scene up.
 	setup_scene();
@@ -286,7 +280,7 @@ Texture* Graphics2D::create_empty_texture( GLsizei width, GLsizei height, GLenum
 void Graphics2D::load_texture( FileTexture* file_texture )
 {
 	// Get filename and URL.
-	const std::string& filename = "img/" + file_texture->get_filename() + ".png";
+	const std::string& filename = file_texture->get_filename();
 
 	// Output variables.
 	png_structp	png_ptr;
@@ -368,25 +362,6 @@ void Graphics2D::draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat he
 	glVertex2f( x2, y2 );
 	glVertex2f( x, y2 );
 	glEnd();
-}
-
-void Graphics2D::draw_rounded_rect( GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat radius )
-{
-	GLsizei size_radius = static_cast<GLsizei>(radius);
-
-	// Corners.
-	draw_texture( rounded_corner_, x, y, size_radius, size_radius ); // Top-left.
-	draw_texture( rounded_corner_, x + width, y, -size_radius, size_radius ); // Top-right.
-	draw_texture( rounded_corner_, x + width, y + height, -size_radius, -size_radius ); // Bottom-right.
-	draw_texture( rounded_corner_, x, y + height, size_radius, -size_radius ); // Bottom-left.
-
-	// Double radius.
-	GLfloat double_radius = radius * 2.0f;
-
-	// Fill in center and tops.
-	draw_rectangle( x, y + radius, width, height - double_radius ); // Middle.
-	draw_rectangle( x + radius, y, width - double_radius, radius ); // Top.
-	draw_rectangle( x + radius, y + height - radius, width - double_radius, radius ); // Bottom.
 }
 
 void Graphics2D::draw_texture( const Texture* texture, GLfloat x, GLfloat y )

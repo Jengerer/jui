@@ -46,7 +46,7 @@ void Container::draw( Graphics2D* graphics )
 	// Draw all children.
 	for (auto i = components_.begin(), end = components_.end(); i != end; ++i) {
 		Component* child = *i;
-		if (IsVisible( child )) {
+		if (is_visible( child )) {
 			child->draw( graphics );
 		}
 	}
@@ -68,7 +68,7 @@ void Container::set_alpha( int alpha )
 // Purpose: Checks whether a component is bounded by this
 //			container.
 //=============================================================
-bool Container::WithinBounds( Component *component ) const
+bool Container::is_within_bounds( Component *component ) const
 {
 	float childX = component->get_x();
 	float childY = component->get_y();
@@ -84,9 +84,9 @@ bool Container::WithinBounds( Component *component ) const
 // Purpose: Returns true if the child is visible in the
 //			given context and if it should be drawn.
 //=============================================================
-bool Container::IsVisible( Component *component ) const
+bool Container::is_visible( Component *component ) const
 {
-	return WithinBounds( component );
+	return is_within_bounds( component );
 }
 
 //=============================================================

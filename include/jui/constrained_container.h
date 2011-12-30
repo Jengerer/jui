@@ -9,21 +9,21 @@ class ConstrainedContainer : public Container
 {
 public:
 
-	ConstrainedContainer( float x = 0.0f, float y = 0.0f );
-	virtual ~ConstrainedContainer();
+	__declspec(dllexport) ConstrainedContainer( float x = 0.0f, float y = 0.0f );
+	__declspec(dllexport) virtual ~ConstrainedContainer();
 
 	// Component override.
-	virtual void set_position( float x, float y );
+	__declspec(dllexport) virtual void set_position( float x, float y );
 
 	// Container overrides.
-	virtual void remove( Component* child );
+	__declspec(dllexport) virtual void remove( Component* child );
 	
 	// Constraint management.
-	Constraint* set_constraint( Component* child, float localX, float localY );
-	void RemoveConstraint( Component* child );
-	void RemoveAllConstraints();
-	void apply_constraint( Constraint* constraint );
-	void apply_constraints();
+	__declspec(dllexport) Constraint* set_constraint( Component* child, float localX, float localY );
+	__declspec(dllexport) void remove_constraint( Component* child );
+	__declspec(dllexport) void remove_all_constraints();
+	__declspec(dllexport) void apply_constraint( Constraint* constraint );
+	__declspec(dllexport) void apply_constraints();
 
 private:
 

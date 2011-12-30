@@ -9,11 +9,11 @@ class HorizontalSplitLayout: public Layout
 
 public:
 
-	HorizontalSplitLayout( int width, unsigned int spacing = 0 );
+	__declspec(dllexport) HorizontalSplitLayout( int width, unsigned int spacing = 0 );
 
-	virtual void pack();
-	void add_left( Component* component );
-	void add_right( Component* component );
+	__declspec(dllexport) virtual void pack();
+	__declspec(dllexport) void add_left( Component* component );
+	__declspec(dllexport) void add_right( Component* component );
 
 private:
 

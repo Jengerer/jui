@@ -57,7 +57,7 @@ void Component::set_alpha( int alpha )
 	}
 }
 
-GLubyte Component::GetAlpha( void ) const
+GLubyte Component::get_alpha( void ) const
 {
 	return alpha_;
 }

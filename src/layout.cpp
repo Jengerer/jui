@@ -4,7 +4,7 @@ Layout::Layout( unsigned int spacing )
 {
 	// Layout created.
 	set_parent( nullptr );
-	SetSpacing( spacing );
+	set_spacing( spacing );
 }
 
 Layout::~Layout( void )
@@ -12,22 +12,22 @@ Layout::~Layout( void )
 	// Layout destroyed.
 }
 
-bool Layout::IsVisible( Component *component ) const
+bool Layout::is_visible( Component *component ) const
 {
 	const Container *parent = get_parent();
 	if ( parent != nullptr ) {
-		return parent->IsVisible( component );
+		return parent->is_visible( component );
 	}
 
-	return Container::IsVisible( component );
+	return Container::is_visible( component );
 }
 
-void Layout::SetSpacing( int spacing )
+void Layout::set_spacing( int spacing )
 {
 	spacing_ = spacing;
 }
 
-int Layout::GetSpacing( void ) const
+int Layout::get_spacing( void ) const
 {
 	return spacing_;
 }

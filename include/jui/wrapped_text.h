@@ -8,16 +8,16 @@ class WrappedText : public Text
 
 public:
 
-	WrappedText( Font *font, int textWidth );
-	virtual ~WrappedText( void );
+	__declspec(dllexport) WrappedText( IFont *font, int text_width );
+	__declspec(dllexport) virtual ~WrappedText( void );
 
-	virtual void	pack( void );
+	__declspec(dllexport) virtual void pack( void );
 
-	int				get_text_width( void ) const;
-	void			set_text_width( int textWidth );
+	__declspec(dllexport) int get_text_width( void ) const;
+	__declspec(dllexport) void set_text_width( int text_width );
 
-	DWORD			get_text_formatting( void ) const;
-	void			set_text_formatting( DWORD formatting );
+	__declspec(dllexport) DWORD	get_text_formatting( void ) const;
+	__declspec(dllexport) void set_text_formatting( DWORD formatting );
 
 private:
 

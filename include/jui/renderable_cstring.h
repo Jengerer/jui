@@ -9,7 +9,9 @@ class RenderableCString : public RenderableString
 public:
 
 	RenderableCString( const char* str, size_t length );
-	FT_ULong	char_code_at( size_t index ) const;
+
+	// Get character code.
+	unsigned long char_code_at( size_t index ) const;
 
 private:
 

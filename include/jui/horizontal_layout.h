@@ -14,14 +14,14 @@ class HorizontalLayout: public Layout
 
 public:
 
-	HorizontalLayout( unsigned int spacing = 0, EVerticalAlignType alignType = ALIGN_MIDDLE );
+	__declspec(dllexport) HorizontalLayout( unsigned int spacing = 0, EVerticalAlignType alignType = ALIGN_MIDDLE );
 
 	// Packs elements into a horizontal layout.
-	virtual void pack( void );
-	void SetMinimumHeight( int minimumHeight );
+	__declspec(dllexport) virtual void pack( void );
+	__declspec(dllexport) void SetMinimumHeight( int minimumHeight );
 
-	void				set_align_type( EVerticalAlignType alignType );
-	EVerticalAlignType	get_align_type( void ) const;
+	__declspec(dllexport) void set_align_type( EVerticalAlignType alignType );
+	__declspec(dllexport) EVerticalAlignType get_align_type( void ) const;
 
 private:
 

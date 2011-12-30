@@ -5,25 +5,40 @@
 #include "jui/curl.h"
 
 // Downloader interface.
-IDownloader* FileDownloader::downloader_ = nullptr;
+FileDownloader* FileDownloader::instance_ = nullptr;
 
 /*
- * Set up the downloader interface.
+ * Downloader constructor.
  */
-void FileDownloader::initialize()
+FileDownloader::FileDownloader()
 {
-	// Set up CURL interface.
+	// Get instance of CURL.
 	downloader_ = Curl::get_instance();
+}
+
+/*
+ * Create/get instance of singleton.
+ */
+FileDownloader* FileDownloader::get_instance()
+{
+	// Get instance.
+	if (instance_ == nullptr) {
+		instance_ = new FileDownloader();
+	}
+
+	return instance_;
 }
 
 /*
  * Clean up downloader interface.
  */
-void FileDownloader::close()
+void FileDownloader::shut_down()
 {
-	// Close CURL interface.
-	Curl::shut_down();
-	downloader_ = nullptr;
+	// Delete instance.
+	if (instance_ != nullptr) {
+		delete instance_;
+		instance_ = nullptr;
+	}
 }
 
 /*

@@ -9,24 +9,24 @@ class Component : public IDrawable
 
 public:
 
-	Component( float x = 0.0f, float y = 0.0f );
-	virtual ~Component( void );
+	__declspec(dllexport) Component( float x = 0.0f, float y = 0.0f );
+	__declspec(dllexport) virtual ~Component( void );
 
 	// Position functions.
-	virtual void	set_position( float x, float y );
+	__declspec(dllexport) virtual void	set_position( float x, float y );
 	
 	// Position getters.
-	virtual float	get_x() const;
-	virtual float	get_y() const;
+	__declspec(dllexport) virtual float	get_x() const;
+	__declspec(dllexport) virtual float	get_y() const;
 
 	// Visibility functions.
-	virtual void	set_alpha( int alpha ); // Using int to handle underflow.
-	GLubyte	GetAlpha( void ) const;
+	__declspec(dllexport) virtual void set_alpha( int alpha ); // Using int to handle underflow.
+	__declspec(dllexport) GLubyte get_alpha( void ) const;
 
 	// Size functions.
-	virtual void	set_size( int width, int height );
-	virtual int		get_width( void ) const;
-	virtual int		get_height( void ) const;
+	__declspec(dllexport) virtual void set_size( int width, int height );
+	__declspec(dllexport) virtual int get_width( void ) const;
+	__declspec(dllexport) virtual int get_height( void ) const;
 
 private:
 

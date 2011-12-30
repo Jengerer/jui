@@ -9,24 +9,28 @@ class Container : public Component
 
 public:
 
-	Container( float x = 0.0f, float y = 0.0f );
-	virtual ~Container();
+	// Container constructor.
+	__declspec(dllexport) Container( float x = 0.0f, float y = 0.0f );
+
+	// Container destructor.
+	__declspec(dllexport) virtual ~Container();
 
 	// Container resource handling.
-	virtual void	add( Component *component );
-	virtual void	remove( Component *component );
+	__declspec(dllexport) virtual void add( Component *component );
+	__declspec(dllexport) virtual void remove( Component *component );
 
 	// Drawing functions.
-	virtual void	draw( Graphics2D* graphics );
-	virtual void	set_alpha( int alpha );
+	__declspec(dllexport) virtual void draw( Graphics2D* graphics );
+	__declspec(dllexport) virtual void set_alpha( int alpha );
 
 	// Local/global child position handling.
-	void			clamp_child( Component *child, float padding = 0.0f ) const;
-	virtual bool	IsVisible( Component* child ) const;
-	virtual bool	WithinBounds( Component* child ) const;
+	__declspec(dllexport) void clamp_child( Component *child, float padding = 0.0f ) const;
+	__declspec(dllexport) virtual bool is_visible( Component* child ) const;
+	__declspec(dllexport) virtual bool is_within_bounds( Component* child ) const;
 
 protected:
 
+	// Vector of components.
 	std::vector<Component*>	components_;
 
 };

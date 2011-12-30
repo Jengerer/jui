@@ -7,7 +7,7 @@ ConstrainedContainer::ConstrainedContainer( float x, float y ) : Container( x, y
 
 ConstrainedContainer::~ConstrainedContainer()
 {
-	RemoveAllConstraints();
+	remove_all_constraints();
 }
 
 void ConstrainedContainer::set_position( float x, float y )
@@ -19,7 +19,7 @@ void ConstrainedContainer::set_position( float x, float y )
 void ConstrainedContainer::remove( Component* child )
 {
 	Container::remove( child );
-	RemoveConstraint( child );
+	remove_constraint( child );
 }
 
 Constraint* ConstrainedContainer::set_constraint( Component* child, float localX, float localY )
@@ -39,7 +39,7 @@ Constraint* ConstrainedContainer::set_constraint( Component* child, float localX
 	return constraint;
 }
 
-void ConstrainedContainer::RemoveConstraint( Component* child )
+void ConstrainedContainer::remove_constraint( Component* child )
 {
 	auto i = constraints_.find( child );
 	if (i != constraints_.end()) {
@@ -47,7 +47,7 @@ void ConstrainedContainer::RemoveConstraint( Component* child )
 	}
 }
 
-void ConstrainedContainer::RemoveAllConstraints()
+void ConstrainedContainer::remove_all_constraints()
 {
 	for (auto i = constraints_.begin(); i != constraints_.end(); i = constraints_.erase( i )) {
 		delete i->second;

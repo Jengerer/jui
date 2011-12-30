@@ -9,16 +9,16 @@ class Keyboard
 
 public:
 
-	Keyboard();
+	__declspec(dllexport) Keyboard();
 	
 	// Keyboard state getters.
-	bool is_key_pressed( int code ) const;
+	__declspec(dllexport) bool is_key_pressed( int code ) const;
 	
 	// State updater.
-	void set_key_state( int code, bool is_pressed );
+	__declspec(dllexport) void set_key_state( int code, bool is_pressed );
 
 	// Reset key states.
-	void clear_states();
+	__declspec(dllexport) void clear_states();
 
 private:
 

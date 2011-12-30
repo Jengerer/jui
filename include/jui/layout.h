@@ -10,22 +10,22 @@ class Layout: public ConstrainedContainer
 
 public:
 
-	Layout( unsigned int spacing = 0 );
-	virtual ~Layout( void );
+	__declspec(dllexport) Layout( unsigned int spacing = 0 );
+	__declspec(dllexport) virtual ~Layout( void );
 
 	// Format the elements into the appropriate layout.
-	virtual void		pack( void ) = 0;
+	__declspec(dllexport) virtual void		pack( void ) = 0;
 
 	// Sets the spacing between elements.
-	int					GetSpacing( void ) const;
-	void				SetSpacing( int spacing );
+	__declspec(dllexport) int	get_spacing( void ) const;
+	__declspec(dllexport) void	set_spacing( int spacing );
 
 	// Bound restriction based on parent.
-	virtual bool		IsVisible( Component *component ) const;
+	__declspec(dllexport) virtual bool is_visible( Component *component ) const;
 
 	// Sets a parent to handle size constraints.
-	void				set_parent( Container *parent );
-	const Container*	get_parent( void ) const ;
+	__declspec(dllexport) void set_parent( Container *parent );
+	__declspec(dllexport) const Container* get_parent( void ) const ;
 
 private:
 

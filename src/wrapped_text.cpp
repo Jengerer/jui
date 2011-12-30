@@ -1,10 +1,10 @@
 #include "jui/wrapped_text.h"
 #include "jui/renderable_cstring.h"
 
-WrappedText::WrappedText( Font *font, int textWidth ) : Text( font )
+WrappedText::WrappedText( IFont *font, int text_width ) : Text( font )
 {
 	set_text_formatting( 0 );
-	set_text_width( textWidth );
+	set_text_width( text_width );
 }
 
 WrappedText::~WrappedText( void )
@@ -17,7 +17,13 @@ void WrappedText::pack( void )
 	if (str_ != nullptr) {
 		// Wrap renderable string.
 		RECT bounds = { 0, 0, get_text_width(), 0 };
-		font_->prepare_wrap_draw( &bounds, str_, list_, TEXT_ALIGN_CENTER );
+
+		// Draw to list.
+		glNewList( list_, GL_COMPILE );
+		font_->draw_wrapped( &bounds, str_, TEXT_ALIGN_CENTER );
+		glEndList();
+
+		// Set text size.
 		set_size( get_text_width(), bounds.bottom - bounds.top );
 
 		// Delete renderable string.
@@ -34,9 +40,9 @@ int WrappedText::get_text_width( void ) const
 	return textWidth_;
 }
 
-void WrappedText::set_text_width( int textWidth )
+void WrappedText::set_text_width( int text_width )
 {
-	textWidth_ = textWidth;
+	textWidth_ = text_width;
 }
 
 DWORD WrappedText::get_text_formatting( void ) const

@@ -8,20 +8,20 @@ class Texture
 
 public:
 
-	Texture();
-	Texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu = 1.0f, GLfloat tv = 1.0f );
-	virtual ~Texture();
+	__declspec(dllexport) Texture();
+	__declspec(dllexport) Texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu = 1.0f, GLfloat tv = 1.0f );
+	__declspec(dllexport) virtual ~Texture();
 
 	// Texture setter.
-	void	set_texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu, GLfloat tv );
+	__declspec(dllexport) void set_texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu, GLfloat tv );
 
 	// Texture attribute functions.
-	bool	is_loaded() const;
-	GLuint	get_texture() const;
-	GLsizei	get_width() const;
-	GLsizei	get_height() const;
-	GLfloat	get_tu() const;
-	GLfloat	get_tv() const;
+	__declspec(dllexport) bool is_loaded() const;
+	__declspec(dllexport) GLuint get_texture() const;
+	__declspec(dllexport) GLsizei get_width() const;
+	__declspec(dllexport) GLsizei get_height() const;
+	__declspec(dllexport) GLfloat get_tu() const;
+	__declspec(dllexport) GLfloat get_tv() const;
 
 private:
 

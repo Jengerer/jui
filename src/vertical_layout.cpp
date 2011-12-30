@@ -47,7 +47,7 @@ void VerticalLayout::pack( void )
 		// Push width by component width and spacing (if not last).
 		height += component->get_height();
 		if ( component != components_.back() ) {
-			height += GetSpacing();
+			height += get_spacing();
 		}
 	}
 

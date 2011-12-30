@@ -26,10 +26,10 @@ public:
 	const char* get_title() const;
 
 	// Setting window display parameters.
-	void		set_title( const char* title );
-	void		set_size( int width, int height );
-	void		set_fullscreen( bool is_fullscreen );
-	void		set_border( bool has_border );
+	__declspec(dllexport) void set_title( const char* title );
+	__declspec(dllexport) void set_size( int width, int height );
+	__declspec(dllexport) void set_fullscreen( bool is_fullscreen );
+	__declspec(dllexport) void set_border( bool has_border );
 
 	// Get window display parameters.
 	int			get_width() const;

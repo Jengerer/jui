@@ -101,14 +101,16 @@
     <ClInclude Include="include\jui\curl.h" />
     <ClInclude Include="include\jui\file_downloader.h" />
     <ClInclude Include="include\jui\file_texture.h" />
-    <ClInclude Include="include\jui\font.h" />
+    <ClInclude Include="include\jui\freetype_font.h" />
     <ClInclude Include="include\jui\font_factory.h" />
+    <ClInclude Include="include\jui\freetype_font_manager.h" />
     <ClInclude Include="include\jui\graphics_2d.h" />
     <ClInclude Include="include\jui\grid_layout.h" />
     <ClInclude Include="include\jui\horizontal_layout.h" />
     <ClInclude Include="include\jui\horizontal_split_layout.h" />
     <ClInclude Include="include\jui\idownloader.h" />
     <ClInclude Include="include\jui\idrawable.h" />
+    <ClInclude Include="include\jui\ifont.h" />
     <ClInclude Include="include\jui\ikeyboard_handler.h" />
     <ClInclude Include="include\jui\image.h" />
     <ClInclude Include="include\jui\imouse_handler.h" />
@@ -120,8 +122,6 @@
     <ClInclude Include="include\jui\renderable_cstring.h" />
     <ClInclude Include="include\jui\renderable_string.h" />
     <ClInclude Include="include\jui\renderable_wide_string.h" />
-    <ClInclude Include="include\jui\rounded_container.h" />
-    <ClInclude Include="include\jui\rounded_rectangle.h" />
     <ClInclude Include="include\jui\string_hasher.h" />
     <ClInclude Include="include\jui\text.h" />
     <ClInclude Include="include\jui\texture.h" />
@@ -142,8 +142,9 @@
     <ClCompile Include="src\curl.cpp" />
     <ClCompile Include="src\file_downloader.cpp" />
     <ClCompile Include="src\file_texture.cpp" />
-    <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\freetype_font.cpp" />
     <ClCompile Include="src\font_factory.cpp" />
+    <ClCompile Include="src\freetype_font_manager.cpp" />
     <ClCompile Include="src\GLee.c" />
     <ClCompile Include="src\graphics_2d.cpp" />
     <ClCompile Include="src\grid_layout.cpp" />
@@ -157,8 +158,6 @@
     <ClCompile Include="src\renderable_cstring.cpp" />
     <ClCompile Include="src\renderable_string.cpp" />
     <ClCompile Include="src\renderable_wide_string.cpp" />
-    <ClCompile Include="src\rounded_container.cpp" />
-    <ClCompile Include="src\rounded_rectangle.cpp" />
     <ClCompile Include="src\text.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\vertical_layout.cpp" />

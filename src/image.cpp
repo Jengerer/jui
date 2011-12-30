@@ -21,7 +21,7 @@ void Image::draw( Graphics2D* graphics )
 void Image::set_alpha( int alpha )
 {
 	Component::set_alpha( alpha );
-	tint_.a = GetAlpha();
+	tint_.a = get_alpha();
 }
 
 void Image::set_tint( const Colour& tint )

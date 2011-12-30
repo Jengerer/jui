@@ -14,8 +14,8 @@ class Application: public Container, public IMouseHandler, public IKeyboardHandl
 {
 public:
 
-	Application( HINSTANCE instance );
-	virtual ~Application( void );
+	__declspec(dllexport) Application( HINSTANCE instance );
+	__declspec(dllexport) virtual ~Application( void );
 
 	// Create interfaces.
 	__declspec(dllexport) virtual void	load_interfaces( void );

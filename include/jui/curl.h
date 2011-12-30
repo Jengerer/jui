@@ -9,13 +9,15 @@
 #include "jui/idownloader.h"
 
 /* Struct for downloaded files. */
-struct Download {
+struct Download
+{
 	const char* filename;
 	FILE* file;
 };
 
 /* Struct for reading files. */
-struct MemoryBuffer {
+struct MemoryBuffer
+{
 	char* memory;
 	size_t size;
 };
@@ -25,31 +27,51 @@ static void *reallocate( void *buffer, size_t size );
 static size_t write( void *buffer, size_t size, size_t num_members, void* data );
 static size_t write_callback( void *buffer, size_t size, size_t num_members, void* data );
 
+/*
+ * Curl implementation of downloader interface.
+ */
 class Curl : public IDownloader
 {
 public:
 
+	// Create/get singleton instance.
 	static Curl* get_instance();
+
+	// Shut down singleton.
 	static void shut_down();
 
 	// Downloader interface functions.
 	virtual void download( const std::string& url, const std::string& destination );
+
+	// Read file to string.
 	virtual std::string read( const std::string& url );
 
 private:
 
+	// Private constructor.
 	Curl( void );
+
+	// Private destructor.
 	virtual ~Curl( void );
 
 	// Handling interfaces.
 	void initialize( void );
+
+	// Close interfaces.
 	void close( void );
+
+	// Clean interfaces.
 	void clean( void );
 
 private:
 	
+	// Singleton reference.
 	static Curl* instance_;
-	static CURL* curl_;
+
+private:
+
+	// Singleton members.
+	CURL* curl_;
 
 };
 

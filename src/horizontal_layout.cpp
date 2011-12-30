@@ -47,7 +47,7 @@ void HorizontalLayout::pack( void )
 		// Push width by component width and spacing (if not last).
 		width += static_cast<float>(component->get_width());
 		if ( component != components_.back() ) {
-			width += static_cast<float>(GetSpacing());
+			width += static_cast<float>(get_spacing());
 		}
 	}
 

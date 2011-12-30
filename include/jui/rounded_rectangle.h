@@ -20,16 +20,16 @@ public:
 	virtual void	draw( Graphics2D* graphics );
 
 	void			SetStroke( int size, const Colour& colour );
-	void			SetStrokeType( EStrokeType strokeType );
-	const Colour&	GetColour( void ) const;
-	void			SetColour( const Colour& colour );
+	void			set_stroke_type( EStrokeType strokeType );
+	const Colour&	get_colour( void ) const;
+	void			set_colour( const Colour& colour );
 	virtual void	set_size( int width, int height );
-	void			SetCornerRadius( int radius );
+	void			get_stroke_type( int radius );
 
 	// TODO: Maybe make Generate protected, but a friend of IPrecachable.
-	void			Generate( Graphics2D* graphics );
+	void			generate( Graphics2D* graphics );
 	Texture*		get_texture( void ) const;
-	void			RemoveTexture( void );
+	void			remove_texture( void );
 
 private:
 
@@ -37,9 +37,9 @@ private:
 	void		UnsetTexture( void );
 
 	// Private getters.
-	const Colour& GetStrokeColour( void ) const;
-	int			GetStrokeSize( void ) const;
-	EStrokeType	GetStrokeType( void ) const;
+	const Colour& get_stroke_colour( void ) const;
+	int			get_stroke_size( void ) const;
+	EStrokeType	get_stroke_type( void ) const;
 
 private:
 

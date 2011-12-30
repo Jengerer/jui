@@ -25,22 +25,22 @@ class Mouse
 
 public:
 
-	Mouse( Window* window );
+	__declspec(dllexport) Mouse( Window* window );
 
 	// Mouse control and settings.
-	void set_window( Window* window );
-	void poll();
+	__declspec(dllexport) void set_window( Window* window );
+	__declspec(dllexport) void poll();
 
 	// State getter.
-	void set_pressed( bool is_pressed );
-	bool is_pressed() const;
+	__declspec(dllexport) void set_pressed( bool is_pressed );
+	__declspec(dllexport) bool is_pressed() const;
 
 	// Position functions.
-	int get_x( void ) const;
-	int get_y( void ) const;
+	__declspec(dllexport) int get_x( void ) const;
+	__declspec(dllexport) int get_y( void ) const;
 
 	// Call to components.
-	bool is_touching( const Component* component ) const;
+	__declspec(dllexport) bool is_touching( const Component* component ) const;
 
 private:
 
