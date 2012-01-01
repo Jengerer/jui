@@ -45,6 +45,18 @@ public:
 	__declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height );
 	__declspec(dllexport) void draw_display_list( GLuint list, GLfloat x, GLfloat y );
 
+	// Line loop functions.
+	__declspec(dllexport) void begin_line_loop() const;
+	__declspec(dllexport) void draw_vertex( float x, float y ) const;
+	__declspec(dllexport) void end() const;
+
+	// Drawing state functions.
+	__declspec(dllexport) void translate( float x, float y ) const;
+
+	// Drawing matrix handling.
+	__declspec(dllexport) void push_matrix() const;
+	__declspec(dllexport) void pop_matrix() const;
+
 	// Setting render context.
 	__declspec(dllexport) HGLRC get_render_context() const;
 	__declspec(dllexport) HGLRC get_loading_context() const;

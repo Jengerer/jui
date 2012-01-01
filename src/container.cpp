@@ -46,9 +46,9 @@ void Container::draw( Graphics2D* graphics )
 	// Draw all children.
 	for (auto i = components_.begin(), end = components_.end(); i != end; ++i) {
 		Component* child = *i;
-		if (is_visible( child )) {
-			child->draw( graphics );
-		}
+
+		// TASK: make visibility optional; not all components have fixed width/height.
+		child->draw( graphics );
 	}
 }
 

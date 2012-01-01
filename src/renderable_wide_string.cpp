@@ -5,7 +5,7 @@ RenderableWideString::RenderableWideString( const wchar_t* wstr, size_t length )
 	wstr_ = wstr;
 }
 
-FT_ULong RenderableWideString::char_code_at( size_t index ) const
+unsigned long RenderableWideString::char_code_at( size_t index ) const
 {
-	return static_cast<FT_ULong>(wstr_[index]);
+	return static_cast<unsigned long>(wstr_[index]);
 }

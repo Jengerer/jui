@@ -190,6 +190,9 @@ void Graphics2D::resize_scene( GLsizei width, GLsizei height )
 	glLoadIdentity();
 }
 
+/* 
+ * Get texture by file name.
+ */
 FileTexture* Graphics2D::get_texture( const std::string& filename )
 {
 	// Check if exists in map.
@@ -207,16 +210,25 @@ FileTexture* Graphics2D::get_texture( const std::string& filename )
 	return result;
 }
 
+/*
+ * Clear scene.
+ */
 void Graphics2D::clear_scene()
 {
 	glClear( GL_COLOR_BUFFER_BIT );
 }
 
+/*
+ * Swap back buffers.
+ */
 void Graphics2D::swap_buffers()
 {
 	SwapBuffers( dc_ );
 }
 
+/*
+ * Create texture from bitmap.
+ */
 GLuint Graphics2D::create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format )
 {
 	// Create texture.
@@ -236,6 +248,9 @@ GLuint Graphics2D::create_texture( GLubyte* data, GLsizei width, GLsizei height,
 	return texture;
 }
 
+/*
+ * Create empty texture.
+ */
 Texture* Graphics2D::create_empty_texture( GLsizei width, GLsizei height, GLenum format )
 {
 	// Adjust size to be powers of 2.
@@ -277,6 +292,9 @@ Texture* Graphics2D::create_empty_texture( GLsizei width, GLsizei height, GLenum
 	return result;
 }
 
+/*
+ * Load PNG texture from file.
+ */
 void Graphics2D::load_texture( FileTexture* file_texture )
 {
 	// Get filename and URL.
@@ -350,6 +368,9 @@ void Graphics2D::load_texture( FileTexture* file_texture )
 	file_texture->set_texture( texture, width, height, tu, tv );
 }
 
+/*
+ * Draw rectangle.
+ */
 void Graphics2D::draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height )
 {
 	GLfloat x2 = x + width;
@@ -364,11 +385,17 @@ void Graphics2D::draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat he
 	glEnd();
 }
 
+/*
+ * Draw texture to buffer.
+ */
 void Graphics2D::draw_texture( const Texture* texture, GLfloat x, GLfloat y )
 {
 	draw_texture( texture, x, y, texture->get_width(), texture->get_height() );
 }
 
+/*
+ * Draw texture to buffer with size.
+ */
 void Graphics2D::draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height )
 {
 	// Set up end texture.
@@ -394,6 +421,9 @@ void Graphics2D::draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLs
 	glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
+/*
+ * Run a display list.
+ */
 void Graphics2D::draw_display_list( GLuint list, GLfloat x, GLfloat y )
 {
 	glPushMatrix();
@@ -402,36 +432,105 @@ void Graphics2D::draw_display_list( GLuint list, GLfloat x, GLfloat y )
 	glPopMatrix();
 }
 
+/*
+ * Begin drawing a line loop.
+ */
+void Graphics2D::begin_line_loop() const
+{
+	glBegin( GL_LINE_LOOP );
+}
+
+/*
+ * Add next vertex.
+ */
+void Graphics2D::draw_vertex( float x, float y ) const
+{
+	glVertex2f( x, y );
+}
+
+/*
+ * Finish drawing.
+ */
+void Graphics2D::end() const
+{
+	glEnd();
+}
+
+/*
+ * Set translation state.
+ */
+void Graphics2D::translate( float x, float y ) const
+{
+	glTranslatef( x, y, 0.0f );
+}
+
+/*
+ * Pushes a matrix onto the stack.
+ */
+void Graphics2D::push_matrix() const
+{
+	glPushMatrix();
+}
+
+/*
+ * Pops the matrix from the stack.
+ */
+void Graphics2D::pop_matrix() const
+{
+	glPopMatrix();
+}
+
+/*
+ * Get main render context.
+ */
 HGLRC Graphics2D::get_render_context() const
 {
 	return rc_;
 }
 
+/*
+ * Get loading context.
+ */
 HGLRC Graphics2D::get_loading_context() const
 {
 	return loading_rc_;
 }
 
+/*
+ * Set current thread's rendering context.
+ */
 bool Graphics2D::set_render_context( HGLRC context )
 {
 	return wglMakeCurrent( dc_, context ) != 0;
 }
 
+/*
+ * Unset the thread's rendering context.
+ */
 bool Graphics2D::unset_render_context()
 {
 	return wglMakeCurrent( nullptr, nullptr ) != 0;
 }
 
+/*
+ * Set the texture blend state.
+ */
 void Graphics2D::set_blend_state( GLenum src_blend, GLenum dest_blend )
 {
 	glBlendFunc( src_blend, dest_blend );
 }
 
+/*
+ * Set drawn colour.
+ */
 void Graphics2D::set_colour( const Colour& colour )
 {
 	glColor4ub( colour.r, colour.g, colour.b, colour.a );
 }
 
+/*
+ * Set texture to be rendered to.
+ */
 void Graphics2D::render_to_texture( const Texture* texture )
 {
 	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fbo_ );
@@ -446,6 +545,9 @@ void Graphics2D::render_to_texture( const Texture* texture )
 	glMatrixMode( GL_MODELVIEW );
 }
 
+/*
+ * Reset the render target.
+ */
 void Graphics2D::reset_render_target()
 {
 	// Unbind texture/buffer.
