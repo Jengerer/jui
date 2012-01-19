@@ -435,9 +435,9 @@ void Graphics2D::draw_display_list( GLuint list, GLfloat x, GLfloat y )
 /*
  * Begin drawing a line loop.
  */
-void Graphics2D::begin_line_loop() const
+void Graphics2D::begin( GLenum mode ) const
 {
-	glBegin( GL_LINE_LOOP );
+	glBegin( mode );
 }
 
 /*

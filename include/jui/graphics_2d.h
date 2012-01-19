@@ -46,7 +46,7 @@ public:
 	__declspec(dllexport) void draw_display_list( GLuint list, GLfloat x, GLfloat y );
 
 	// Line loop functions.
-	__declspec(dllexport) void begin_line_loop() const;
+	__declspec(dllexport) void begin( GLenum mode ) const;
 	__declspec(dllexport) void draw_vertex( float x, float y ) const;
 	__declspec(dllexport) void end() const;
 
