@@ -12,7 +12,7 @@ class ApplicationController
 public:
 
 	// Set controlled application.
-	static __declspec(dllexport) void initialize( Application* application );
+	static __declspec(dllexport) bool initialize( Application* application );
 
 	// Enter main loop.
 	static __declspec(dllexport) void main_loop();

@@ -6,7 +6,7 @@ Application* ApplicationController::application_ = nullptr;
 /*
  * Initialize application to be managed.
  */
-void ApplicationController::initialize( Application* application )
+bool ApplicationController::initialize( Application* application )
 {
 	try {
 		// Set new handle.
@@ -16,8 +16,12 @@ void ApplicationController::initialize( Application* application )
 		application->load_interfaces();
 	}
 	catch (const std::runtime_error& ex) {
-		MessageBox( NULL, ex.what(), "Application controller initialization failed!", MB_OK );
+		MessageBox( NULL, ex.what(), "Application initialize failed!", MB_OK );
+		set_application( nullptr );
+		return false;
 	}
+
+	return true;
 }
 
 /*

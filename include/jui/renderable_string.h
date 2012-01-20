@@ -1,9 +1,6 @@
 #ifndef IRENDERABLE_STRING_H
 #define IRENDERABLE_STRING_H
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
 class RenderableString
 {
 

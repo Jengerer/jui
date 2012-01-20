@@ -167,7 +167,9 @@ void Graphics2D::setup_scene()
 	wglSwapIntervalEXT( 1 );
 
 	// Flat shading.
-	glShadeModel( GL_FLAT );
+	glEnable( GL_POLYGON_SMOOTH );
+	glEnable( GL_LINE_SMOOTH );
+	glShadeModel( GL_SMOOTH );
 	
 	// Size scene to window.
 	resize_scene( window_->get_width(), window_->get_height() );
@@ -369,6 +371,18 @@ void Graphics2D::load_texture( FileTexture* file_texture )
 }
 
 /*
+ * Draw single pixel.
+ */
+void Graphics2D::draw_pixel( GLfloat x, GLfloat y, const Colour& colour )
+{
+	// Draw single pixel.
+	glBegin( GL_POINTS );
+	set_colour( colour );
+	this->draw_vertex( x, y );
+	glEnd();
+}
+
+/*
  * Draw rectangle.
  */
 void Graphics2D::draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height )
@@ -383,6 +397,43 @@ void Graphics2D::draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat he
 	glVertex2f( x2, y2 );
 	glVertex2f( x, y2 );
 	glEnd();
+}
+
+/*
+ * Draw rounded rectangle.
+ */
+void Graphics2D::draw_rounded_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat radius )
+{
+	// Segmentation constants.
+	const float PI = 3.14159f;
+	const unsigned int CORNER_SEGMENTS = 10;
+	const float ANGLE_FRACTION = PI / static_cast<float>(CORNER_SEGMENTS);
+
+	// Start triangle strip.
+	push_matrix();
+	translate( x, y );
+	glBegin( GL_TRIANGLE_FAN );
+
+	// Top left corner.
+	set_colour( Colour( 255, 255, 255, 255 ) );
+	draw_circle( radius, radius, radius, 1.5f * PI, 2.0f * PI, CORNER_SEGMENTS );
+	draw_circle( width - radius, radius, radius, 0, 0.5f * PI, CORNER_SEGMENTS );
+	draw_circle( width - radius, height - radius, radius, 0.5f * PI, PI, CORNER_SEGMENTS );
+	draw_circle( radius, height - radius, radius, PI, 1.5f * PI, CORNER_SEGMENTS );
+	end();
+	pop_matrix();
+}
+
+/*
+ * Sets vertices for a circle given a start and end radius.
+ */
+void Graphics2D::draw_circle( GLfloat x, GLfloat y, GLfloat radius, GLfloat start_angle, GLfloat end_angle, unsigned int step_count ) const
+{
+	// Draw all steps.
+	for (unsigned int i = 0; i < step_count; i++) {
+		float current_angle = start_angle + (end_angle - start_angle) * static_cast<float>(i) / static_cast<float>(step_count-1);
+		draw_vertex( x + radius * sin( current_angle ), y - radius * cos( current_angle ) );
+	}
 }
 
 /*
@@ -541,7 +592,7 @@ void Graphics2D::render_to_texture( const Texture* texture )
 	// Flip rendering for texture order.
 	glMatrixMode( GL_PROJECTION );
 	glScalef( 1.0f, -1.0f, 1.0f );
-	glTranslatef( 0.0f, static_cast<GLfloat>(-texture->get_height()),0.0f );
+	//glTranslatef( 0.0f, static_cast<GLfloat>(-texture->get_height()),0.0f );
 	glMatrixMode( GL_MODELVIEW );
 }
 

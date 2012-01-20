@@ -40,7 +40,9 @@ public:
 	__declspec(dllexport) FileTexture*	get_texture( const std::string& filename );
 
 	// Drawing functions.
+	__declspec(dllexport) void draw_pixel( GLfloat x, GLfloat y, const Colour& colour );
 	__declspec(dllexport) void draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height );
+	__declspec(dllexport) void draw_rounded_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat radius );
 	__declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y );
 	__declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height );
 	__declspec(dllexport) void draw_display_list( GLuint list, GLfloat x, GLfloat y );
@@ -72,6 +74,9 @@ public:
 	__declspec(dllexport) void reset_render_target();
 
 private:
+
+	// Helper for rounded rectangles.
+	void draw_circle( GLfloat x, GLfloat y, GLfloat radius, GLfloat start_angle, GLfloat step, unsigned int step_count ) const;
 
 	// Resource handling.
 	void load_texture( FileTexture* texture );
