@@ -262,7 +262,6 @@ void FreetypeFont::draw( RECT* rect, const RenderableString* text, size_t start,
 	}
 
 	glPopMatrix(); // End line matrix.
-	glPopMatrix(); // End draw matrix.
 }
 
 /*

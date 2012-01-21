@@ -592,7 +592,7 @@ void Graphics2D::render_to_texture( const Texture* texture )
 	// Flip rendering for texture order.
 	glMatrixMode( GL_PROJECTION );
 	glScalef( 1.0f, -1.0f, 1.0f );
-	//glTranslatef( 0.0f, static_cast<GLfloat>(-texture->get_height()),0.0f );
+	glTranslatef( 0.0f, static_cast<GLfloat>(-texture->get_height()),0.0f );
 	glMatrixMode( GL_MODELVIEW );
 }
 
