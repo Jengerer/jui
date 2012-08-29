@@ -1,32 +1,40 @@
-#pragma once
+#ifndef HORIZONTAL_LAYOUT_HPP
+#define HORIZONTAL_LAYOUT_HPP
 
-#include "jui/layout.h"
-#include "jui/component.h"
+#include "jui/layout/layout.hpp"
+#include "jui/layout/component.hpp"
 
-enum EVerticalAlignType {
-	ALIGN_TOP,
-	ALIGN_MIDDLE,
-	ALIGN_BOTTOM
-};
-
-class HorizontalLayout: public Layout
+namespace JUI
 {
 
-public:
+    enum EVerticalAlignType {
+        ALIGN_TOP,
+        ALIGN_MIDDLE,
+        ALIGN_BOTTOM
+    };
 
-	__declspec(dllexport) HorizontalLayout( unsigned int spacing = 0, EVerticalAlignType alignType = ALIGN_MIDDLE );
+    class HorizontalLayout: public Layout
+    {
 
-	// Packs elements into a horizontal layout.
-	__declspec(dllexport) virtual void pack( void );
-	__declspec(dllexport) void SetMinimumHeight( int minimumHeight );
+    public:
 
-	__declspec(dllexport) void set_align_type( EVerticalAlignType alignType );
-	__declspec(dllexport) EVerticalAlignType get_align_type( void ) const;
+        __declspec(dllexport) HorizontalLayout( unsigned int spacing = 0, EVerticalAlignType alignType = ALIGN_MIDDLE );
 
-private:
+        // Packs elements into a horizontal layout.
+        __declspec(dllexport) virtual void pack( void );
+        __declspec(dllexport) void SetMinimumHeight( int minimumHeight );
 
-	int minimumHeight_;
-	EVerticalAlignType alignType_;
+        __declspec(dllexport) void set_align_type( EVerticalAlignType alignType );
+        __declspec(dllexport) EVerticalAlignType get_align_type( void ) const;
+
+    private:
+
+        int minimumHeight_;
+        EVerticalAlignType alignType_;
 
 
-};
+    };
+
+}
+
+#endif // HORIZONTAL_LAYOUT_HPP

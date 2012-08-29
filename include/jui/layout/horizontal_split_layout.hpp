@@ -1,25 +1,30 @@
-#ifndef HORIZONTAL_SPLIT_CONTAINER_H
-#define HORIZONTAL_SPLIT_CONTAINER_H
+#ifndef HORIZONTAL_SPLIT_CONTAINER_HPP
+#define HORIZONTAL_SPLIT_CONTAINER_HPP
 
-#include "jui/layout.h"
-#include "jui/horizontal_layout.h"
+#include "jui/layout/layout.hpp"
+#include "jui/layout/horizontal_layout.hpp"
 
-class HorizontalSplitLayout: public Layout
+namespace JUI
 {
 
-public:
+    class HorizontalSplitLayout: public Layout
+    {
 
-	__declspec(dllexport) HorizontalSplitLayout( int width, unsigned int spacing = 0 );
+    public:
 
-	__declspec(dllexport) virtual void pack();
-	__declspec(dllexport) void add_left( Component* component );
-	__declspec(dllexport) void add_right( Component* component );
+        __declspec(dllexport) HorizontalSplitLayout( int width, unsigned int spacing = 0 );
 
-private:
+        __declspec(dllexport) virtual void pack();
+        __declspec(dllexport) void add_left( Component* component );
+        __declspec(dllexport) void add_right( Component* component );
 
-	HorizontalLayout* left_;
-	HorizontalLayout* right_;
+    private:
 
-};
+        HorizontalLayout* left_;
+        HorizontalLayout* right_;
 
-#endif // HORIZONTAL_SPLIT_CONTAINER_H
+    };
+
+}
+
+#endif // HORIZONTAL_SPLIT_CONTAINER_HPP
