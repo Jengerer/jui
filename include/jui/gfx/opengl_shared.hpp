@@ -16,6 +16,8 @@ namespace JUI
     class OpenGLShared
     {
 
+    public:
+
         static GLsizei next_power_of_2( GLsizei num );
 
     };

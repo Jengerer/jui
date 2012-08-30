@@ -1,8 +1,8 @@
 #include "jui/layout/container.hpp"
+#include <algorithm>
 
 namespace JUI
 {
-    #include <algorithm>
 
     Container::Container( float localX, float localY ) : Component( localX, localY )
     {
@@ -12,7 +12,7 @@ namespace JUI
     Container::~Container( void )
     {
         // Container destroyed.
-        std::vector<Component*>::iterator i;
+        ::std::vector<Component*>::iterator i;
         for (i = components_.begin(); i != components_.end(); i = components_.erase( i )) {
             delete *i;
         }

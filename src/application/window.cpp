@@ -1,8 +1,8 @@
 #include "jui/application/window.hpp"
+#include "jui/application/application_controller.hpp"
 
 namespace JUI
 {
-    #include "jui/application/application_controller.hpp"
 
     // Default window parameters.
     const char* DEFAULT_TITLE = "Default Application";
@@ -65,7 +65,7 @@ namespace JUI
     /*
      * Window destructor.
      */
-    Window::~Window()
+    Window::~Window( void )
     {
         // Window has been destroyed.
     }
@@ -73,16 +73,16 @@ namespace JUI
     /*
      * Registers and creates the window.
      */
-    void Window::create_window()
+    Window::ReturnStatus Window::create_window( void )
     {
         // Check for repeated creations.
         if (get_handle() != nullptr) {
-            throw std::runtime_error( "Cannot create window twice." );
+            return DuplicateWindowFailure;
         }
 
         // Register window class.
         if (!register_class()) {
-            throw std::runtime_error( "Failed to register class." );
+            return RegisterClassFailure;
         }
 
         // Get screen resolution to center window.
@@ -99,7 +99,7 @@ namespace JUI
         // Adjust size for style.
         DWORD display_style = (is_fullscreen() || !has_border() ? WS_POPUP : WS_CAPTION | WS_SYSMENU);
         if (!AdjustWindowRect( &windowRect, display_style, false )) {
-            throw std::runtime_error( "Failed to adjust window rectangle." );
+            return AdjustSizeFailure;
         }
 
         // Create window.
@@ -113,7 +113,7 @@ namespace JUI
             get_instance(),
             NULL );
         if (wnd == nullptr) {
-            throw std::runtime_error( "Failed to create window." );
+            return CreateWindowFailure;
         }
 
         // Display window.
@@ -122,12 +122,13 @@ namespace JUI
 
         // Set window handle.
         set_handle( wnd );
+        return Success;
     }
 
     /*
      * Sets the window handle.
      */
-    HWND Window::get_handle() const
+    HWND Window::get_handle( void ) const
     {
         return wnd_;
     }
@@ -135,7 +136,7 @@ namespace JUI
     /*
      * Gets the window title.
      */
-    const char* Window::get_title() const
+    const char* Window::get_title( void ) const
     {
         return title_;
     }
@@ -176,7 +177,7 @@ namespace JUI
     /*
      * Gets the width of the window.
      */
-    int Window::get_width() const
+    int Window::get_width( void ) const
     {
         return width_;
     }
@@ -184,7 +185,7 @@ namespace JUI
     /*
      * Gets the height of the window.
      */
-    int Window::get_height() const
+    int Window::get_height( void ) const
     {
         return height_;
     }
@@ -192,7 +193,7 @@ namespace JUI
     /*
      * Checks if the window is in fullscreen mode.
      */
-    bool Window::is_fullscreen() const
+    bool Window::is_fullscreen( void ) const
     {
         return is_fullscreen_;
     }
@@ -200,7 +201,7 @@ namespace JUI
     /*
      * Checks if the window has a border.
      */
-    bool Window::has_border() const
+    bool Window::has_border( void ) const
     {
         return has_border_;
     }
@@ -208,7 +209,7 @@ namespace JUI
     /*
      * Returns if the window is currently in user focus.
      */
-    bool Window::is_active()
+    bool Window::is_active( void )
     {
         return GetFocus() == get_handle();
     }
@@ -216,7 +217,7 @@ namespace JUI
     /*
      * Register the window class.
      */
-    bool Window::register_class()
+    bool Window::register_class( void )
     {
         WNDCLASS wnd_class;
         wnd_class.hInstance		= get_instance();
@@ -243,7 +244,7 @@ namespace JUI
         instance_ = instance;
     }
 
-    HINSTANCE Window::get_instance() const
+    HINSTANCE Window::get_instance( void ) const
     {
         return instance_;
     }

@@ -4,9 +4,6 @@
     <ClCompile Include="src\application\application.cpp">
       <Filter>src\application</Filter>
     </ClCompile>
-    <ClCompile Include="include\jui\application\application_controller.cpp">
-      <Filter>src\application</Filter>
-    </ClCompile>
     <ClCompile Include="src\gfx\box.cpp">
       <Filter>src\gfx</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
     <ClCompile Include="src\gfx\renderable_wide_string.cpp">
       <Filter>src\gfx</Filter>
     </ClCompile>
-    <ClCompile Include="src\layout\wrapped_text.cpp">
-      <Filter>src\gfx</Filter>
-    </ClCompile>
     <ClCompile Include="src\gfx\text.cpp">
       <Filter>src\gfx</Filter>
     </ClCompile>
@@ -97,9 +91,10 @@
     <ClCompile Include="src\io\keyboard.cpp">
       <Filter>src\io</Filter>
     </ClCompile>
+    <ClCompile Include="src\gfx\wrapped_text.cpp" />
+    <ClCompile Include="src\application\application_controller.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\jui\string_hasher.h" />
     <ClInclude Include="include\jui\application\application.hpp">
       <Filter>include\jutil\application</Filter>
     </ClInclude>
@@ -211,6 +206,7 @@
     <ClInclude Include="include\jui\application\window.hpp">
       <Filter>include\jutil\application</Filter>
     </ClInclude>
+    <ClInclude Include="include\jui\string_hasher.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

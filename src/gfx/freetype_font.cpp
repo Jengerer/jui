@@ -91,8 +91,8 @@ namespace JUI
 
             // Get the texture size.
             FT_Bitmap& bitmap = face_->glyph->bitmap;
-            GLsizei width = next_power_of_2( bitmap.width );
-            GLsizei height = next_power_of_2( bitmap.rows );
+            GLsizei width = OpenGLShared::next_power_of_2( bitmap.width );
+            GLsizei height = OpenGLShared::next_power_of_2( bitmap.rows );
 
             // Create buffer for pixels.
             const unsigned int SRC_BPP = 1;

@@ -2,7 +2,7 @@
 #include <png.h>
 
 namespace JUI
-{
+{        
 
     /*
      * Graphics constructor.
@@ -28,7 +28,7 @@ namespace JUI
     /*
      * Initialize contexts and scene.
      */
-    void Graphics2D::initialize( void )
+    Graphics2D::ReturnStatus Graphics2D::initialize( void )
     {
         // Fill out pixel format.
         PIXELFORMATDESCRIPTOR pixelDesc;
@@ -44,7 +44,7 @@ namespace JUI
         // Get device context.
         dc_ = GetDC( window_->get_handle() );
         if (dc_ == nullptr) {
-            throw std::runtime_error( "Failed to get device context for window." );
+            return GetDCFailure;
         }
 
         // Create window settings if fullscreen.
@@ -57,41 +57,41 @@ namespace JUI
             settings.dmBitsPerPel = 16;
             settings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
             if (ChangeDisplaySettings( &settings, CDS_FULLSCREEN ) != DISP_CHANGE_SUCCESSFUL) {
-                throw std::runtime_error( "Failed to set fullscreen mode." );
+                return ChangeDisplaySettingsFailure;
             }
         }
 
         // Choose pixel format.
         GLuint pixelFormat = ChoosePixelFormat( dc_, &pixelDesc );
         if (pixelFormat == 0) {
-            throw std::runtime_error( "Failed to choose pixel format." );
+            return ChoosePixelFormatFailure;
         }
 
         // Set received pixel format.
         if (!SetPixelFormat( dc_, pixelFormat, &pixelDesc )) {
-            throw std::runtime_error( "Failed to set pixel format." );
+            return SetPixelFormatFailure;
         }
 
         // Create GLRC handle.
         rc_ = wglCreateContext( dc_ );
         if (rc_ == nullptr) {
-            throw std::runtime_error( "Failed to create OpenGL context." );
+            return CreateRCFailure;
         }
 
         // Creating loading GLRC handle.
         loading_rc_ = wglCreateContext( dc_ );
         if (loading_rc_ == nullptr) {
-            throw std::runtime_error( "Failed to create loading OpenGL context." );
+            return CreateRCFailure;
         }
 
         // Share lists between threads.
         if (!wglShareLists( rc_, loading_rc_ )) {
-            throw std::runtime_error( "Failed to share lists between contexts." );
+            return ShareListsFailure;
         }
 
         // Set current contexts.
         if (!set_render_context( rc_ )) {
-            throw std::runtime_error( "Failed to set current context." );
+            return SetRCFailure;
         }
 
         // Create framebuffer objects.
@@ -103,12 +103,13 @@ namespace JUI
 
         // Set scene up.
         setup_scene();
+        return Success;
     }
 
     /*
      * Remove texture resources and contexts.
      */
-    void Graphics2D::clean_up()
+    Graphics2D::ReturnStatus Graphics2D::clean_up( void )
     {
         // Empty texture map.
         for (auto i = textures_.begin(); i != textures_.end(); i = textures_.erase( i )) {
@@ -119,12 +120,12 @@ namespace JUI
         if (rc_ != nullptr) {
             // Unset contexts.
             if (!unset_render_context()) {
-                throw std::runtime_error( "Release of device and render context failed." );
+                return UnsetRCFailure;
             }
 
             // Delete rendering context.
             if (!wglDeleteContext( rc_ )) {
-                throw std::runtime_error( "Releasing render context failed." );
+                return DeleteRCFailure;
             }
 
             rc_ = nullptr;
@@ -133,7 +134,7 @@ namespace JUI
         // Close loading rendering context.
         if (loading_rc_ != nullptr) {
             if (!wglDeleteContext( loading_rc_ )) {
-                throw std::runtime_error( "Failed to release load render context." );
+                return DeleteRCFailure;
             }
 
             loading_rc_ = nullptr;
@@ -142,9 +143,11 @@ namespace JUI
         // Release device context.
         if (dc_ != nullptr) {
             if (ReleaseDC( window_->get_handle(), dc_ ) == 0) {
-                throw std::runtime_error( "Failed to release device context." );
+                return ReleaseDCFailure;
             }
         }
+
+        return Success;
     }
 
     /*
@@ -259,8 +262,8 @@ namespace JUI
     Texture* Graphics2D::create_empty_texture( GLsizei width, GLsizei height, GLenum format )
     {
         // Adjust size to be powers of 2.
-        GLsizei real_width = next_power_of_2( width );
-        GLsizei real_height = next_power_of_2( height );
+        GLsizei real_width = OpenGLShared::next_power_of_2( width );
+        GLsizei real_height = OpenGLShared::next_power_of_2( height );
         
         // Get component count.
         GLuint components;
@@ -282,6 +285,9 @@ namespace JUI
         // Allocate and zero a buffer.
         GLuint size = real_width * real_height * components;
         GLubyte* data = new GLubyte[size];
+        if (data == nullptr) {
+            return nullptr;
+        }
         ZeroMemory( data, size );
 
         // Calculate texture coordinates.
@@ -342,8 +348,8 @@ namespace JUI
         // Get size and allocate.
         png_uint_32 width = png_get_image_width( png_ptr, info_ptr );
         png_uint_32 height = png_get_image_height( png_ptr, info_ptr );
-        png_uint_32 padded_width = next_power_of_2( width );
-        png_uint_32 padded_height = next_power_of_2( height );
+        png_uint_32 padded_width = OpenGLShared::next_power_of_2( width );
+        png_uint_32 padded_height = OpenGLShared::next_power_of_2( height );
         unsigned int allocSize = 4 * padded_width * padded_height;
         GLubyte* output = new GLubyte[ allocSize ];
         if (output == nullptr) {

@@ -1,5 +1,5 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef WINDOW_HPP
+#define WINDOW_HPP
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -16,16 +16,28 @@ namespace JUI
 
     public:
 
+        // Window return status.
+        enum ReturnStatus
+        {
+            Success = 0,            // No error.
+            RegisterClassFailure,   // Failed to register window class.
+            DuplicateWindowFailure, // Window already exists.
+            AdjustSizeFailure,      // Failed to adjust window rect.
+            CreateWindowFailure,    // Failed to create window.
+        };
+
+    public:
+
         //Class constructor.
         Window( HINSTANCE hInstance );
-        ~Window();
+        ~Window( void );
 
         // Window creation.
-        void		create_window();
+        ReturnStatus  create_window( void );
         
         // Get window external parameters.
-        HWND		get_handle() const;
-        const char* get_title() const;
+        HWND		get_handle( void ) const;
+        const char* get_title( void ) const;
 
         // Setting window display parameters.
         __declspec(dllexport) void set_title( const char* title );
@@ -34,23 +46,23 @@ namespace JUI
         __declspec(dllexport) void set_border( bool has_border );
 
         // Get window display parameters.
-        int			get_width() const;
-        int			get_height() const;
-        bool		is_fullscreen() const;
-        bool		has_border() const;
+        int			get_width( void ) const;
+        int			get_height( void ) const;
+        bool		is_fullscreen( void ) const;
+        bool		has_border( void ) const;
 
         // Window status parameters.
-        bool		is_active();
+        bool		is_active( void );
 
     private:
 
         // Creating window class.
-        bool        register_class();
+        bool        register_class( void );
 
         // Setting window external parameters.
         void		set_handle( HWND hwnd );
         void		set_instance( HINSTANCE instance );
-        HINSTANCE	get_instance() const;
+        HINSTANCE	get_instance( void ) const;
 
     private:
 
@@ -71,4 +83,4 @@ namespace JUI
 
 }
 
-#endif // WINDOW_H
+#endif // WINDOW_HPP

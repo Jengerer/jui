@@ -1,4 +1,4 @@
-#include "jui/application.hpp"
+#include "jui/application/application.hpp"
 #include <tlhelp32.h>
 
 namespace JUI
@@ -22,7 +22,7 @@ namespace JUI
     /*
      * Application destructor.
      */
-    Application::~Application()
+    Application::~Application( void )
     {
         close_interfaces();
     }
@@ -30,14 +30,22 @@ namespace JUI
     /*
      * Initialize application interfaces.
      */
-    void Application::load_interfaces( void )
+    Application::ReturnStatus Application::load_interfaces( void )
     {
         // Set window size and create.
         window_->set_size( get_width(), get_height() );
-        window_->create_window();
+        Window::ReturnStatus window_status = window_->create_window();
+        if (window_status != Window::Success) {
+            return WindowCreateFailure;
+        }
 
         // Initialize graphics.
-        graphics_->initialize();
+        Graphics2D::ReturnStatus graphics_status = graphics_->initialize();
+        if (graphics_status != Graphics2D::Success) {
+            return GraphicsInitializeFailure;
+        }
+
+        return Success;
     }
 
     /*
@@ -67,7 +75,7 @@ namespace JUI
     /*
      * Post the window destroy message.
      */
-    void Application::exit_application()
+    void Application::exit_application( void )
     {
         PostMessage( get_window()->get_handle(), WM_DESTROY, 0, 0 );
     }
@@ -98,7 +106,7 @@ namespace JUI
     /*
      * Get the application's window.
      */
-    Window* Application::get_window() const
+    Window* Application::get_window( void ) const
     {
         return window_;
     }

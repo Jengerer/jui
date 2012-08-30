@@ -1,5 +1,5 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
 
 #include "jui/layout/container.hpp"
 #include "jui/gfx/graphics_2d.hpp"
@@ -15,13 +15,24 @@ namespace JUI
     // Main class that's the base of all applications.
     class Application: public Container, public IMouseHandler, public IKeyboardHandler
     {
+
+    public:
+
+        // Return code for application functions.
+        enum ReturnStatus
+        {
+            Success = 0,
+            WindowCreateFailure,
+            GraphicsInitializeFailure,
+        };
+
     public:
 
         __declspec(dllexport) Application( HINSTANCE instance );
         __declspec(dllexport) virtual ~Application( void );
 
         // Create interfaces.
-        __declspec(dllexport) virtual void	load_interfaces( void );
+        __declspec(dllexport) virtual ReturnStatus	load_interfaces( void );
         __declspec(dllexport) virtual void	close_interfaces( void );
         __declspec(dllexport) void			exit_application( void );
 
@@ -54,4 +65,4 @@ namespace JUI
 
 }
 
-#endif // APPLICATION_H
+#endif // APPLICATION_HPP

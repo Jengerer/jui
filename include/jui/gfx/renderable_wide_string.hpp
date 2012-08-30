@@ -1,7 +1,7 @@
 #ifndef RENDERABLE_WIDE_STRING_HPP
 #define RENDERABLE_WIDE_STRING_HPP
 
-#include "jui/renderable_string.hpp"
+#include "jui/gfx/renderable_string.hpp"
 
 namespace JUI
 {

@@ -7,47 +7,52 @@
 #include <string>
 #include <vector>
 
-/*
- * Freetype font object manager.
- */
-class FreetypeFontManager
+namespace JUI
 {
 
-public:
+    /*
+     * Freetype font object manager.
+     */
+    class FreetypeFontManager
+    {
 
-	// Get singleton instance.
-	static FreetypeFontManager* get_instance();
+    public:
 
-	// Destroy singleton instance.
-	static void shut_down();
+	    // Get singleton instance.
+	    static FreetypeFontManager* get_instance();
 
-	// Get a font by file and size.
-	IFont* create_font( const std::string& filename, unsigned int height );
+	    // Destroy singleton instance.
+	    static void shut_down();
 
-	// Destroy a font instance.
-	void destroy_font( IFont* font );
+	    // Get a font by file and size.
+	    IFont* create_font( const std::string& filename, unsigned int height );
 
-private:
+	    // Destroy a font instance.
+	    void destroy_font( IFont* font );
 
-	// Private constructor/destructor.
-	FreetypeFontManager();
-	~FreetypeFontManager();
+    private:
 
-	// Interface initializer.
-	void initialize();
-	void close();
+	    // Private constructor/destructor.
+	    FreetypeFontManager();
+	    ~FreetypeFontManager();
 
-private:
+	    // Interface initializer.
+	    void initialize();
+	    void close();
 
-	// Singleton instance.
-	static FreetypeFontManager* instance_;
+    private:
 
-private:
+	    // Singleton instance.
+	    static FreetypeFontManager* instance_;
 
-	// Singleton member variables.
-	FT_Library library_;
-	std::vector<FreetypeFont*> fonts_;
+    private:
 
-};
+	    // Singleton member variables.
+	    FT_Library library_;
+	    std::vector<FreetypeFont*> fonts_;
+
+    };
+
+}
 
 #endif // FREETYPE_FONT_MANAGER_HPP

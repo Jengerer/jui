@@ -14,6 +14,7 @@
 namespace JUI
 {
 
+    // Data structure control textures.
     typedef std::hash_map<std::string, FileTexture*, StringHasher> TextureMap;
 
     class Graphics2D
@@ -21,12 +22,30 @@ namespace JUI
 
     public:
 
+        // Return codes for graphics functions.
+        enum ReturnStatus
+        {
+            Success = 0,
+            GetDCFailure,   // Failed to get device context for window.
+            ReleaseDCFailure,
+            ChangeDisplaySettingsFailure,
+            ChoosePixelFormatFailure,
+            SetPixelFormatFailure,
+            CreateRCFailure,
+            ShareListsFailure,
+            SetRCFailure,
+            UnsetRCFailure,
+            DeleteRCFailure,
+        };
+
+    public:
+
         __declspec(dllexport) Graphics2D( Window* window );
         __declspec(dllexport) ~Graphics2D( void );
 
         // Loading/closing interfaces.
-        __declspec(dllexport) void initialize( void );
-        void clean_up( void );
+        __declspec(dllexport) ReturnStatus initialize( void );
+        ReturnStatus clean_up( void );
 
         // Scene initialization.
         void setup_scene();

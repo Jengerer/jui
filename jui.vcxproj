@@ -38,18 +38,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\lib\libpng;$(SolutionDir)\lib\libcurl\include;$(SolutionDir)\lib\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <IncludePath>./include;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SolutionDir)\lib\libpng\projects\vstudio\Debug\;$(SolutionDir)\lib\libcurl\lib\Debug\;$(SolutionDir)\lib\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath>$(SDK_LIB_DIR)\libpng\projects\vstudio\Debug\;$(SDK_LIB_DIR)\libcurl\lib\Debug\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
     <TargetName>jengerer_ui_debug</TargetName>
     <OutDir>$(SolutionDir)\build\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\lib\libpng;$(SolutionDir)\lib\freetype\include;$(VCInstallDir)include;$(SolutionDir)\lib\libcurl\include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <IncludePath>$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SolutionDir)\lib\libpng\projects\vstudio\Release\;$(SolutionDir)\lib\libcurl\lib\Release\;$(SolutionDir)\lib\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath>$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
     <OutDir>$(SolutionDir)\build\</OutDir>
     <TargetName>jengerer_ui</TargetName>
   </PropertyGroup>
@@ -65,7 +65,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zlib.lib;libpng15.lib;freetype248_D.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;libpng15.lib;freetype2410_D.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,13 +84,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>zlib.lib;libpng15.lib;freetype248.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;libpng15.lib;freetype2410.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\jui\application\application.hpp" />
     <ClInclude Include="include\jui\application\application_controller.hpp" />
-    <ClCompile Include="include\jui\application\application_controller.cpp" />
     <ClInclude Include="include\jui\application\window.hpp" />
     <ClInclude Include="include\jui\gfx\box.hpp" />
     <ClInclude Include="include\jui\gfx\colour.hpp" />
@@ -130,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp" />
+    <ClCompile Include="src\application\application_controller.cpp" />
     <ClCompile Include="src\application\window.cpp" />
     <ClCompile Include="src\gfx\box.cpp" />
     <ClCompile Include="src\gfx\colour.cpp" />
