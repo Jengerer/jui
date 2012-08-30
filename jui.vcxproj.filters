@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\application\application.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="include\jui\application\application_controller.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\box.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\colour.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\component.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\constrained_container.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\constraint.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\container.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\grid_layout.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\horizontal_layout.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\horizontal_split_layout.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\vertical_layout.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\curl.cpp">
+      <Filter>src\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\file_downloader.cpp">
+      <Filter>src\net</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\file_texture.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\font_factory.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\freetype_font.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\freetype_font_manager.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\GLee.c">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\graphics_2d.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\opengl_shared.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\renderable_cstring.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\renderable_string.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\renderable_wide_string.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\wrapped_text.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\text.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\texture.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layout\layout.cpp">
+      <Filter>src\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\image.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\window.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\mouse.cpp">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\keyboard.cpp">
+      <Filter>src\io</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\jui\string_hasher.h" />
+    <ClInclude Include="include\jui\application\application.hpp">
+      <Filter>include\jutil\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\application\application_controller.hpp">
+      <Filter>include\jutil\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\box.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\colour.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\component.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\constrained_container.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\constraint.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\container.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\net\curl.hpp">
+      <Filter>include\jutil\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\net\file_downloader.hpp">
+      <Filter>include\jutil\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\file_texture.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\font_factory.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\freetype_font.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\freetype_font_manager.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\graphics_2d.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\ifont.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\idrawable.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\image.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\opengl_shared.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\renderable_wide_string.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\renderable_string.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\renderable_cstring.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\text.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\texture.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\wrapped_text.hpp">
+      <Filter>include\jutil\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\vertical_layout.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\layout.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\horizontal_split_layout.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\horizontal_layout.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\grid_layout.hpp">
+      <Filter>include\jutil\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\io\keyboard.hpp">
+      <Filter>include\jutil\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\io\mouse.hpp">
+      <Filter>include\jutil\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\net\idownloader.hpp">
+      <Filter>include\jutil\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\net\iresource_source.hpp">
+      <Filter>include\jutil\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\io\imouse_handler.hpp">
+      <Filter>include\jutil\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\io\ikeyboard_handler.hpp">
+      <Filter>include\jutil\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\application\window.hpp">
+      <Filter>include\jutil\application</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{100e89c9-68f0-45f9-889d-aa65c914003a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{f8b24d5a-2e3f-4da6-9c2b-888bff49d2e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\application">
+      <UniqueIdentifier>{f64be02c-dd57-4d84-96ca-9fced5626699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gfx">
+      <UniqueIdentifier>{7185aae5-3526-4ef4-a9fe-7f78138f5064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\io">
+      <UniqueIdentifier>{decc22a7-4fef-4e23-b24e-4eacf08420bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\layout">
+      <UniqueIdentifier>{53893e7e-c1dd-45be-bba0-a62c6cdc403c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net">
+      <UniqueIdentifier>{e403541d-14af-49f9-8dda-40fe80a3f635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\jutil">
+      <UniqueIdentifier>{f1c415fb-0fc1-49c3-85e0-d6294279976f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\jutil\net">
+      <UniqueIdentifier>{d6a5e32d-1aed-4d81-ab05-a4d58bc69095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\jutil\application">
+      <UniqueIdentifier>{e2e8bfa4-9454-4d7f-9b6a-ab268b41b4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\jutil\gfx">
+      <UniqueIdentifier>{384bba8e-9f61-4f22-8f1f-dd65d46df848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\jutil\io">
+      <UniqueIdentifier>{0bb48944-6b36-4d34-bd99-843adf726d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\jutil\layout">
+      <UniqueIdentifier>{5ee433c3-cf64-4f58-8a23-9585e683497b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

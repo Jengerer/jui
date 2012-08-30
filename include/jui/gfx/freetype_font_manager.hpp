@@ -1,8 +1,8 @@
 #ifndef FREETYPE_FONT_MANAGER_HPP
 #define FREETYPE_FONT_MANAGER_HPP
 
-#include "jui/gfx/freetype_font.h"
-#include "jui/gfx/ifont.h"
+#include "jui/gfx/freetype_font.hpp"
+#include "jui/gfx/ifont.hpp"
 
 #include <string>
 #include <vector>

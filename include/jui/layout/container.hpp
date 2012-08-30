@@ -2,7 +2,7 @@
 #define CONTAINER_HPP
 
 #include <vector>
-#include "jui/component.hpp"
+#include "jui/layout/component.hpp"
 
 namespace JUI
 {

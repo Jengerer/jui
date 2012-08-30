@@ -2,10 +2,8 @@
 #define CURL_HPP
 
 #include <string>
-
 #include <curl/curl.h>
 #include <curl/easy.h>
-
 #include "jui/net/idownloader.hpp"
 
 /*

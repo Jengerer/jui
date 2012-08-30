@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jengerer UI", "Jengerer UI.vcxproj", "{5D3FF792-7C17-4B0B-BAF2-E5328F39934F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jui", "jui.vcxproj", "{5D3FF792-7C17-4B0B-BAF2-E5328F39934F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

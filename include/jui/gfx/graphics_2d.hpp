@@ -4,13 +4,12 @@
 #include "jui/application/window.hpp"
 #include "jui/gfx/colour.hpp"
 #include "jui/gfx/file_texture.hpp"
-#include "jui/gfx/opengl_.hppared.hpp"
+#include "jui/gfx/opengl_shared.hpp"
 #include "jui/net/iresource_source.hpp"
-#include "jui/string.hppa.hpper.hpp"
+#include "jui/string_hasher.hpp"
 
 #include <hash_map>
 #include <string>
-#include <stdexcept>
 
 namespace JUI
 {
