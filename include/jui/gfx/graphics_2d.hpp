@@ -6,16 +6,16 @@
 #include "jui/gfx/file_texture.hpp"
 #include "jui/gfx/opengl_shared.hpp"
 #include "jui/net/iresource_source.hpp"
-#include "jui/string_hasher.hpp"
 
-#include <hash_map>
-#include <string>
+#include <string/constant_string.hpp>
+#include <string/string_hasher.hpp>
+#include <containers/hash_map.hpp>
 
 namespace JUI
 {
 
     // Data structure control textures.
-    typedef std::hash_map<std::string, FileTexture*, StringHasher> TextureMap;
+    typedef JUTIL::HashMap<int, JUTIL::ConstantString, FileTexture*, JUTIL::StringHasher> TextureMap;
 
     class Graphics2D
     {
@@ -36,6 +36,11 @@ namespace JUI
             SetRCFailure,
             UnsetRCFailure,
             DeleteRCFailure,
+
+            // Texture errors.
+            OpenTextureFailure,
+            ReadPNGFormatFailure,
+            NoMemoryForTextureFailure,
         };
 
     public:
@@ -58,7 +63,7 @@ namespace JUI
         // Resource handling.
         __declspec(dllexport) Texture*		create_empty_texture( GLsizei width, GLsizei height, GLenum format );
         __declspec(dllexport) GLuint		create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
-        __declspec(dllexport) FileTexture*	get_texture( const std::string& filename );
+        __declspec(dllexport) ReturnStatus	get_texture( const JUTIL::ConstantString& filename, FileTexture** output );
 
         // Drawing functions.
         __declspec(dllexport) void draw_pixel( GLfloat x, GLfloat y, const Colour& colour );
@@ -100,7 +105,7 @@ namespace JUI
         void draw_circle( GLfloat x, GLfloat y, GLfloat radius, GLfloat start_angle, GLfloat step, unsigned int step_count ) const;
 
         // Resource handling.
-        void load_texture( FileTexture* texture );
+        ReturnStatus load_texture( FileTexture* texture );
 
     public:
 

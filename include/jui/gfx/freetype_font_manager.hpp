@@ -4,8 +4,8 @@
 #include "jui/gfx/freetype_font.hpp"
 #include "jui/gfx/ifont.hpp"
 
-#include <string>
-#include <vector>
+#include <containers/vector.hpp>
+#include <string/constant_string.hpp>
 
 namespace JUI
 {
@@ -19,10 +19,10 @@ namespace JUI
     public:
 
 	    // Get singleton instance.
-	    static FreetypeFontManager* get_instance();
+	    static FreetypeFontManager* get_instance( void );
 
 	    // Destroy singleton instance.
-	    static void shut_down();
+	    static void shut_down( void );
 
 	    // Get a font by file and size.
 	    IFont* create_font( const std::string& filename, unsigned int height );
@@ -33,12 +33,12 @@ namespace JUI
     private:
 
 	    // Private constructor/destructor.
-	    FreetypeFontManager();
-	    ~FreetypeFontManager();
+	    FreetypeFontManager( void );
+	    ~FreetypeFontManager( void );
 
 	    // Interface initializer.
-	    void initialize();
-	    void close();
+	    void initialize( void );
+	    void close( void );
 
     private:
 
@@ -49,7 +49,7 @@ namespace JUI
 
 	    // Singleton member variables.
 	    FT_Library library_;
-	    std::vector<FreetypeFont*> fonts_;
+	    JUTIL::Vector<FreetypeFont*> fonts_;
 
     };
 

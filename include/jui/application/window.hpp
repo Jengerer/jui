@@ -70,7 +70,7 @@ namespace JUI
         HWND		wnd_;
 
         // Window external parameters.
-        const char*	title_;
+        const char* title_;
         HINSTANCE	instance_;
 
         // Window display parameters.

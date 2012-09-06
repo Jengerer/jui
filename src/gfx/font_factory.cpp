@@ -7,7 +7,7 @@ namespace JUI
     /*
      * Get font interface.
      */
-    IFont* FontFactory::create_font( const std::string& filename, unsigned int height )
+    IFont* FontFactory::create_font( const JUTIL::ConstantString& file_name, unsigned int height )
     {
         // Get font from freetype manager.
         FreetypeFontManager* manager = FreetypeFontManager::get_instance();

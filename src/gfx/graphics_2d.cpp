@@ -112,9 +112,10 @@ namespace JUI
     Graphics2D::ReturnStatus Graphics2D::clean_up( void )
     {
         // Empty texture map.
-        for (auto i = textures_.begin(); i != textures_.end(); i = textures_.erase( i )) {
-            delete i->second;
+        for (auto i = textures_.begin(); i.has_next(); i.next()) {
+            delete i.get_value();
         }
+        textures_.clear();
 
         // Close rendering context.
         if (rc_ != nullptr) {
@@ -201,21 +202,24 @@ namespace JUI
     /* 
      * Get texture by file name.
      */
-    FileTexture* Graphics2D::get_texture( const std::string& filename )
+    Graphics2D::ReturnStatus Graphics2D::get_texture( const JUTIL::ConstantString& filename, FileTexture** output )
     {
         // Check if exists in map.
-        auto i = textures_.find( filename );
-        if (i != textures_.end()) {
-            return i->second;
+        FileTexture* texture;
+        if (textures_.get( filename, &texture )) {
+            *output = texture;
+            return Success;
         }
         
         // Not found, load and insert.
-        FileTexture* result = new FileTexture( filename );
-        textures_[filename] = result;
-
-        // NOTE: Inserted into table before load so cleanup works.
-        load_texture( result );
-        return result;
+        texture = new FileTexture( filename );
+        ReturnStatus error = load_texture( texture );
+        if (error != Success) {
+            return error;
+        }
+        textures_.insert( filename, texture );
+        *output = texture;
+        return Success;
     }
 
     /*
@@ -306,10 +310,10 @@ namespace JUI
     /*
      * Load PNG texture from file.
      */
-    void Graphics2D::load_texture( FileTexture* file_texture )
+    Graphics2D::ReturnStatus Graphics2D::load_texture( FileTexture* file_texture )
     {
         // Get filename and URL.
-        const std::string& filename = file_texture->get_filename();
+        const JUTIL::ConstantString* filename = file_texture->get_filename();
 
         // Output variables.
         png_structp	png_ptr;
@@ -318,16 +322,16 @@ namespace JUI
         
         // Attempt to open the file.
         FILE* fp = nullptr;
-        errno_t error = fopen_s( &fp, filename.c_str(), "rb" );
+        errno_t error = fopen_s( &fp, filename->get_string(), "rb" );
         if (error != 0) {
-            throw std::runtime_error( "Failed to open texture file: " + filename + "!" );
+            return OpenTextureFailure;
         }
 
         // Read PNG struct.
         png_ptr = png_create_read_struct( PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr );
         if (png_ptr == nullptr) {
             fclose( fp );
-            throw std::runtime_error( "Failed to create PNG read struct." );
+            return ReadPNGFormatFailure;
         }
 
         // Create PNG info struct.
@@ -335,7 +339,7 @@ namespace JUI
         if (info_ptr == nullptr) {
             fclose( fp );
             png_destroy_read_struct( &png_ptr, nullptr, nullptr );
-            throw std::runtime_error( "Failed to create PNG info struct." );
+            return ReadPNGFormatFailure;
         }
 
         // Initialize I/O.
@@ -350,10 +354,10 @@ namespace JUI
         png_uint_32 height = png_get_image_height( png_ptr, info_ptr );
         png_uint_32 padded_width = OpenGLShared::next_power_of_2( width );
         png_uint_32 padded_height = OpenGLShared::next_power_of_2( height );
-        unsigned int allocSize = 4 * padded_width * padded_height;
-        GLubyte* output = new GLubyte[ allocSize ];
+        unsigned int alloc_size = 4 * padded_width * padded_height;
+        GLubyte* output = (GLubyte*)malloc( alloc_size );
         if (output == nullptr) {
-            throw std::runtime_error( "Failed to allocate memory for PNG image." );
+            return NoMemoryForTextureFailure;
         }
 
         // Copy information.
@@ -377,6 +381,7 @@ namespace JUI
 
         // Set texture.
         file_texture->set_texture( texture, width, height, tu, tv );
+        return Success;
     }
 
     /*

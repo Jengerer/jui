@@ -2,7 +2,7 @@
 #define FILE_TEXTURE_HPP
 
 #include "jui/gfx/texture.hpp"
-#include <string>
+#include <string/constant_string.hpp>
 
 namespace JUI
 {
@@ -12,14 +12,12 @@ namespace JUI
         
     public:
 
-        __declspec(dllexport) FileTexture( const std::string& filename );
-
-        // File attributes.
-        __declspec(dllexport) const std::string& get_filename() const;
+        __declspec(dllexport) FileTexture( const JUTIL::ConstantString& filename );
+        __declspec(dllexport) const JUTIL::ConstantString* get_filename( void ) const;
 
     private:
 
-        std::string filename_;
+        JUTIL::ConstantString filename_;
 
     };
 
