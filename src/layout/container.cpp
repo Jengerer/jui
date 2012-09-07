@@ -1,107 +1,140 @@
 #include "jui/layout/container.hpp"
-#include <algorithm>
+#include <memory/base_allocator.hpp>
 
 namespace JUI
 {
 
+    /*
+     * Container constructor.
+     */
     Container::Container( float localX, float localY ) : Component( localX, localY )
     {
         // Container created.
     }
 
+    /*
+     * Container destructor; destroys all children.
+     */
     Container::~Container( void )
     {
-        // Container destroyed.
-        ::std::vector<Component*>::iterator i;
-        for (i = components_.begin(); i != components_.end(); i = components_.erase( i )) {
-            delete *i;
+        size_t i;
+        size_t length = components_.get_length();
+        for (i = 0; i < length; ++i) {
+            Component* current = components_.get( i );
+            JUTIL::BaseAllocator::destroy( current );
         }
     }
 
-    void Container::add( Component* component )
+    /*
+     * Add an element to the container.
+     */
+    bool Container::add( Component* component )
     {
-        components_.push_back( component );
+        return components_.push( component );
     }
 
+    /*
+     * Remove an element from the container (without destroying it).
+     */
     void Container::remove( Component* component )
     {
-        std::vector<Component*>::iterator i = find( components_.begin(), components_.end(), component );
-        if (i != components_.end()) {
-            components_.erase( i );
-        }
+        components_.remove( component );
     }
 
+    /*
+     * Draw this container (and all children).
+     */
     void Container::draw( Graphics2D* graphics )
     {
         // Draw all children.
-        for (auto i = components_.begin(), end = components_.end(); i != end; ++i) {
-            Component* child = *i;
+        size_t i;
+        size_t length = components_.get_length();
+        for (i = 0; i < length; ++i) {
+            Component* child = components_.get( i );
 
             // TASK: make visibility optional; not all components have fixed width/height.
             child->draw( graphics );
         }
     }
 
+    /*
+     * Set the container's alpha and propogate call to children.
+     */
     void Container::set_alpha( int alpha )
     {
         Component::set_alpha( alpha );
-        for (auto i = components_.begin(), end = components_.end(); i != end; ++i) {
-            Component* child = *i;
+
+        // Pass to children.
+        size_t i;
+        size_t length = components_.get_length();
+        for (i = 0; i < length; ++i) {
+            Component* child = components_.get( i );
             child->set_alpha( alpha );
         }
     }
 
+    /*
+     * Check if component is within bounds of this one.
+     */
     bool Container::is_within_bounds( Component *component ) const
     {
-        float childX = component->get_x();
-        float childY = component->get_y();
-        float parentX = get_x();
-        float parentY = get_y();
-        return (childX > parentX - component->get_width()) && 
-            (childX < parentX + get_width()) && 
-            (childY > parentY - component->get_height()) && 
-            (childY < parentY + get_height());
+        float child_x = component->get_x();
+        float child_y = component->get_y();
+        float parent_x = get_x();
+        float parent_y = get_y();
+        return (child_x > parent_x - component->get_width()) && 
+            (child_x < parent_x + get_width()) && 
+            (child_y > parent_y - component->get_height()) && 
+            (child_y < parent_y + get_height());
     }
 
+    /*
+     * Returns if a component is visible inside this one.
+     */
     bool Container::is_visible( Component *component ) const
     {
         return is_within_bounds( component );
     }
 
+    /*
+     * Clamps a component to this container with a given padding.
+     * Makes sure the child's top-left is at least (padding, padding) and
+     * child's bottom-right is at most (width - padding, width - padding).
+     */
     void Container::clamp_child( Component *component, float padding ) const
     {
-        float childX = component->get_x();
-        float childY = component->get_y();
-        float parentX = get_x();
-        float parentY = get_y();
+        float child_x = component->get_x();
+        float child_y = component->get_y();
+        float parent_x = get_x();
+        float parent_y = get_y();
         
         // Generate bounds.
-        float leftBound = parentX + padding;
-        float topBound = parentY + padding;
+        float left_bound = parent_x + padding;
+        float top_bound = parent_y + padding;
 
         // Clamp X position.
-        if (childX < leftBound) {
-            childX = leftBound;
+        if (child_x < left_bound) {
+            child_x = left_bound;
         }
         else {
-            float rightBound = parentX + get_width() - component->get_width() - padding;
-            if (childX > rightBound) {
-                childX = rightBound;
+            float rightBound = parent_x + get_width() - component->get_width() - padding;
+            if (child_x > rightBound) {
+                child_x = rightBound;
             }
         }
 
         // Clamp Y position.
-        if (childY < topBound) {
-            childY = topBound;
+        if (child_y < top_bound) {
+            child_y = top_bound;
         }
         else {
-            float bottomBound = parentY + get_height() - component->get_height() - padding;
-            if (childY > bottomBound) {
-                childY = bottomBound;
+            float bottomBound = parent_y + get_height() - component->get_height() - padding;
+            if (child_y > bottomBound) {
+                child_y = bottomBound;
             }
         }
 
-        component->set_position( childX, childY );
+        component->set_position( child_x, child_y );
     }
 
 }

@@ -3,34 +3,34 @@
 
 #include "jui/layout/constraint.hpp"
 #include "jui/layout/container.hpp"
-#include <map>
+#include <containers/map.hpp>
 
 namespace JUI
 {
 
-    class ConstrainedContainer : public Container
+    class __declspec(dllexport) ConstrainedContainer : public Container
     {
     public:
 
-        __declspec(dllexport) ConstrainedContainer( float x = 0.0f, float y = 0.0f );
-        __declspec(dllexport) virtual ~ConstrainedContainer();
+        ConstrainedContainer( float x = 0.0f, float y = 0.0f );
+        virtual ~ConstrainedContainer();
 
         // Component override.
-        __declspec(dllexport) virtual void set_position( float x, float y );
+        virtual void set_position( float x, float y );
 
         // Container overrides.
-        __declspec(dllexport) virtual void remove( Component* child );
+        virtual void remove( Component* child );
         
         // Constraint management.
-        __declspec(dllexport) Constraint* set_constraint( Component* child, float localX, float localY );
-        __declspec(dllexport) void remove_constraint( Component* child );
-        __declspec(dllexport) void remove_all_constraints();
-        __declspec(dllexport) void apply_constraint( Constraint* constraint );
-        __declspec(dllexport) void apply_constraints();
+        Constraint* set_constraint( Component* child, float x, float y );
+        void remove_constraint( Component* child );
+        void remove_all_constraints( void );
+        void apply_constraint( Constraint* constraint );
+        void apply_constraints( void );
 
     private:
 
-        std::map<Component*, Constraint*> constraints_;
+        JUTIL::Map<Component*, Constraint*> constraints_;
 
     };
 

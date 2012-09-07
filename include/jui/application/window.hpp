@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <string/constant_string.hpp>
 
 namespace JUI
 {
@@ -37,10 +38,10 @@ namespace JUI
         
         // Get window external parameters.
         HWND		get_handle( void ) const;
-        const char* get_title( void ) const;
+        const JUTIL::ConstantString* get_title( void ) const;
 
         // Setting window display parameters.
-        __declspec(dllexport) void set_title( const char* title );
+        __declspec(dllexport) void set_title( const JUTIL::ConstantString& title );
         __declspec(dllexport) void set_size( int width, int height );
         __declspec(dllexport) void set_fullscreen( bool is_fullscreen );
         __declspec(dllexport) void set_border( bool has_border );
@@ -70,8 +71,8 @@ namespace JUI
         HWND		wnd_;
 
         // Window external parameters.
-        const char* title_;
-        HINSTANCE	instance_;
+        JUTIL::ConstantString title_;
+        HINSTANCE  instance_;
 
         // Window display parameters.
         int			width_;

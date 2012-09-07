@@ -13,24 +13,27 @@ namespace JUI
         ALIGN_RIGHT
     };
 
+    /*
+     * Vertical layout that distributes elements across a vertical span.
+     */
     class VerticalLayout : public Layout
     {
 
     public:
 
-        __declspec(dllexport) VerticalLayout( unsigned int spacing = 0, EHorizontalAlignType alignType = ALIGN_CENTER );
+        __declspec(dllexport) VerticalLayout( unsigned int spacing = 0, EHorizontalAlignType align_type = ALIGN_CENTER );
 
         // Packs elements into a horizontal layout.
         __declspec(dllexport) virtual void pack( void );
         __declspec(dllexport) void set_minimum_width( int minimumWidth );
 
-        __declspec(dllexport) void set_align_type( EHorizontalAlignType alignType );
+        __declspec(dllexport) void set_align_type( EHorizontalAlignType align_type );
         __declspec(dllexport) EHorizontalAlignType get_align_type( void ) const;
 
     private:
 
-        int minimumWidth_;
-        EHorizontalAlignType alignType_;
+        int minimum_width_;
+        EHorizontalAlignType align_type_;
 
 
     };

@@ -3,74 +3,76 @@
 namespace JUI
 {
 
-    HorizontalLayout::HorizontalLayout( unsigned int spacing, EVerticalAlignType alignType ) : Layout( spacing )
+    HorizontalLayout::HorizontalLayout( unsigned int spacing, EVerticalAlignType align_type ) : Layout( spacing )
     {
         // HorizontalLayout created.
-        set_align_type( alignType );
+        set_align_type( align_type );
         SetMinimumHeight( 0 );
     }
 
     void HorizontalLayout::pack( void )
     {
         // First get maximum height.
-        int maxHeight = 0;
-        for (auto i = components_.begin(); i != components_.end(); i++) {
-            Component *component = *i;
+        int max_height = 0;
+        size_t i;
+        size_t length = components_.get_length();
+        for (i = 0; i < length; ++i) {
+            Component* component = components_.get( i );
             int height = component->get_height();
-            if (height > maxHeight) {
-                maxHeight = height;
+            if (height > max_height) {
+                max_height = height;
             }
         }
-
-        if (maxHeight < minimumHeight_) {
-            maxHeight = minimumHeight_;
+        if (max_height < minimum_height_) {
+            max_height = minimum_height_;
         }
 
         // Now pack.
         float width = 0.0f;
-        for (auto i = components_.begin(); i != components_.end(); i++) {
-            Component *component = *i;
+        for (i = 0; i < length; ++i) {
+            Component* component = components_.get( i );
+
+            // Push by spacing if not first.
+            if (i != 0) {
+                width += get_spacing();
+            }
 
             // Set position aligned vertically.
-            float posY;
+            float y;
             switch (get_align_type()) {
             case ALIGN_TOP:
-                posY = 0.0f;
+                y = 0.0f;
                 break;
             case ALIGN_MIDDLE:
-                posY = static_cast<float>(maxHeight - component->get_height()) / 2.0f;
+                y = static_cast<float>(max_height - component->get_height()) / 2.0f;
                 break;
             case ALIGN_BOTTOM:
-                posY += static_cast<float>(maxHeight - component->get_height());
+                y += static_cast<float>(max_height - component->get_height());
                 break;
             }
+            set_constraint( component, width, y );
 
-            set_constraint( component, width, posY );
-
-            // Push width by component width and spacing (if not last).
+            // Push width by component width.
             width += static_cast<float>(component->get_width());
-            if ( component != components_.back() ) {
-                width += static_cast<float>(get_spacing());
-            }
         }
 
         // Update size.
-        set_size( static_cast<int>(width), maxHeight );
+        set_size( static_cast<int>(width), max_height );
     }
 
     void HorizontalLayout::SetMinimumHeight( int minimumHeight )
     {
-        minimumHeight_ = minimumHeight;
+        minimum_height_ = minimumHeight;
     }
 
-    void HorizontalLayout::set_align_type( EVerticalAlignType alignType )
+    void HorizontalLayout::set_align_type( EVerticalAlignType align_type )
     {
-        alignType_ = alignType;
+        align_type_ = align_type;
     }
 
     EVerticalAlignType HorizontalLayout::get_align_type( void ) const
     {
-        return alignType_;
+        return align_type_;
     }
 
 }

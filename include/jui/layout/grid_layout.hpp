@@ -6,19 +6,24 @@
 namespace JUI
 {
 
-    class GridLayout : public Layout
+    /*
+     * Layout that inserts equally sized elements into a grid format
+     * given a certain number of elements per row.
+     */
+    class __declspec(dllexport) GridLayout : public Layout
     {
 
     public:
 
-        __declspec(dllexport) GridLayout( int gridWidth, unsigned int spacing );
-        __declspec(dllexport) virtual ~GridLayout( void );
+        GridLayout( int grid_width, unsigned int spacing );
+        virtual ~GridLayout( void );
 
-        __declspec(dllexport) virtual void pack( void );
+        // Layout packing.
+        virtual void pack( void );
 
     private:
 
-        int gridWidth_;
+        int grid_width_;
 
     };
 

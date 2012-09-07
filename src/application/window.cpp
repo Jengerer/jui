@@ -104,7 +104,7 @@ namespace JUI
 
         // Create window.
         HWND wnd = CreateWindow(
-            title_, title_,
+            title_.get_string(), title_.get_string(),
             display_style | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
             CW_USEDEFAULT, CW_USEDEFAULT,
             windowRect.right - windowRect.left, 
@@ -136,15 +136,15 @@ namespace JUI
     /*
      * Gets the window title.
      */
-    const char* Window::get_title( void ) const
+    const JUTIL::ConstantString* Window::get_title( void ) const
     {
-        return title_;
+        return &title_;
     }
 
     /*
      * Sets the window title.
      */
-    void Window::set_title( const char* title )
+    void Window::set_title( const JUTIL::ConstantString& title )
     {
         title_ = title;
     }
@@ -227,7 +227,7 @@ namespace JUI
         wnd_class.cbWndExtra	= 0;
         wnd_class.cbClsExtra	= 0;
         wnd_class.lpfnWndProc	= wnd_proc;
-        wnd_class.lpszClassName	= title_;
+        wnd_class.lpszClassName	= title_.get_string();
         wnd_class.lpszMenuName	= NULL;
         wnd_class.style			= CS_OWNDC;
 

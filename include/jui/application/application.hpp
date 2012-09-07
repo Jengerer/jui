@@ -13,7 +13,7 @@ namespace JUI
 {
 
     // Main class that's the base of all applications.
-    class Application: public Container, public IMouseHandler, public IKeyboardHandler
+    class Application: public Container, public MouseHandlerInterface, public KeyboardHandlerInterface
     {
 
     public:

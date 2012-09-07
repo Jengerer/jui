@@ -14,12 +14,18 @@ namespace JUI
 
         __declspec(dllexport) HorizontalSplitLayout( int width, unsigned int spacing = 0 );
 
-        __declspec(dllexport) virtual void pack();
-        __declspec(dllexport) void add_left( Component* component );
-        __declspec(dllexport) void add_right( Component* component );
+        // Over-write reserve function for left and right.
+        virtual bool reserve( void );
+
+        // Layout packing functions.
+        __declspec(dllexport) virtual void pack( void );
+        __declspec(dllexport) bool add_left( Component* component );
+        __declspec(dllexport) bool add_right( Component* component );
 
     private:
 
+        // Layout functions.
+        unsigned int spacing_;
         HorizontalLayout* left_;
         HorizontalLayout* right_;
 

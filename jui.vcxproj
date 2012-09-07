@@ -95,6 +95,7 @@
     <ClInclude Include="include\jui\gfx\box.hpp" />
     <ClInclude Include="include\jui\gfx\colour.hpp" />
     <ClInclude Include="include\jui\gfx\file_texture.hpp" />
+    <ClInclude Include="include\jui\gfx\font_interface.hpp" />
     <ClInclude Include="include\jui\gfx\freetype_font.hpp" />
     <ClInclude Include="include\jui\gfx\font_factory.hpp" />
     <ClInclude Include="include\jui\gfx\freetype_font_manager.hpp" />
@@ -106,13 +107,13 @@
     <ClInclude Include="include\jui\gfx\renderable_string.hpp" />
     <ClInclude Include="include\jui\gfx\wrapped_text.hpp" />
     <ClInclude Include="include\jui\gfx\renderable_wide_string.hpp" />
-    <ClInclude Include="include\jui\gfx\ifont.hpp" />
     <ClInclude Include="include\jui\gfx\text.hpp" />
     <ClInclude Include="include\jui\gfx\texture.hpp" />
     <ClInclude Include="include\jui\io\ikeyboard_handler.hpp" />
     <ClInclude Include="include\jui\io\imouse_handler.hpp" />
     <ClInclude Include="include\jui\io\mouse.hpp" />
     <ClInclude Include="include\jui\io\keyboard.hpp" />
+    <ClInclude Include="include\jui\layout\reserve_interface.hpp" />
     <ClInclude Include="include\jui\layout\component.hpp" />
     <ClInclude Include="include\jui\layout\constrained_container.hpp" />
     <ClInclude Include="include\jui\layout\vertical_layout.hpp" />

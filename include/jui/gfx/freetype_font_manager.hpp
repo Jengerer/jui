@@ -2,7 +2,7 @@
 #define FREETYPE_FONT_MANAGER_HPP
 
 #include "jui/gfx/freetype_font.hpp"
-#include "jui/gfx/ifont.hpp"
+#include "jui/gfx/font_interface.hpp"
 
 #include <containers/vector.hpp>
 #include <string/constant_string.hpp>
@@ -18,17 +18,13 @@ namespace JUI
 
     public:
 
-	    // Get singleton instance.
+	    // Singleton instance manager.
 	    static FreetypeFontManager* get_instance( void );
-
-	    // Destroy singleton instance.
 	    static void shut_down( void );
 
-	    // Get a font by file and size.
-	    IFont* create_font( const std::string& filename, unsigned int height );
-
-	    // Destroy a font instance.
-	    void destroy_font( IFont* font );
+	    // Font creation and destruction.
+	    FontInterface* create_font( const JUTIL::ConstantString& filename, unsigned int height );
+	    void destroy_font( FontInterface* font );
 
     private:
 
@@ -37,7 +33,7 @@ namespace JUI
 	    ~FreetypeFontManager( void );
 
 	    // Interface initializer.
-	    void initialize( void );
+	    bool initialize( void );
 	    void close( void );
 
     private:
@@ -49,7 +45,7 @@ namespace JUI
 
 	    // Singleton member variables.
 	    FT_Library library_;
-	    JUTIL::Vector<FreetypeFont*> fonts_;
+	    JUTIL::Vector<FontInterface*> fonts_;
 
     };
 

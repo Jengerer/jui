@@ -140,9 +140,6 @@
     <ClInclude Include="include\jui\gfx\graphics_2d.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
-    <ClInclude Include="include\jui\gfx\ifont.hpp">
-      <Filter>include\jui\gfx</Filter>
-    </ClInclude>
     <ClInclude Include="include\jui\gfx\idrawable.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
@@ -208,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="include\jui\application\error_stack.hpp">
       <Filter>include\jui\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\font_interface.hpp">
+      <Filter>include\jui\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\layout\reserve_interface.hpp">
+      <Filter>include\jui\layout</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
 namespace JUI
 {
 
-    WrappedText::WrappedText( IFont *font, int text_width ) : Text( font )
+    WrappedText::WrappedText( FontInterface *font, int text_width ) : Text( font )
     {
         set_text_formatting( 0 );
         set_text_width( text_width );

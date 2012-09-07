@@ -3,9 +3,9 @@
 namespace JUI
 {
 
-    GridLayout::GridLayout( int gridWidth, unsigned int spacing )
+    GridLayout::GridLayout( int grid_width, unsigned int spacing )
     {
-        gridWidth_ = gridWidth;
+        grid_width_ = grid_width;
         set_spacing( spacing );
     }
 
@@ -16,33 +16,33 @@ namespace JUI
 
     void GridLayout::pack( void )
     {
-        if (components_.empty()) {
+        if (components_.is_empty()) {
             set_size( 0, 0 );
             return;
         }
 
         // Base component sizes on first element.
-        Component *first = components_.front();
-        int componentWidth = first->get_width();
-        int componentHeight = first->get_height();
+        Component *first = components_.get( 0 );
+        int component_width = first->get_width();
+        int component_height = first->get_height();
         int spacing = get_spacing();
 
         // Grid height is components / width, + 1 if remainder.
-        size_t numComponents = components_.size();
-        int gridHeight = numComponents / gridWidth_ + (numComponents % gridWidth_ == 0 ? 0 : 1);
+        size_t num_components = components_.get_length();
+        int grid_height = num_components / grid_width_ + (num_components % grid_width_ == 0 ? 0 : 1);
 
         // Calculate width and height.
-        int totalWidth = gridWidth_ * (componentWidth + spacing) - spacing;
-        int totalHeight = gridHeight * (componentHeight + spacing) - spacing;
-        set_size( totalWidth, totalHeight );
+        int total_width = grid_width_ * (component_width + spacing) - spacing;
+        int total_height = grid_height * (component_height + spacing) - spacing;
+        set_size( total_width, total_height );
 
         size_t index = 0;
         float x, y;
-        std::vector<Component*>::iterator i, end;
-        for (i = components_.begin(), end = components_.end(); i != end; ++i) {
-            Component *current = *i;
-            x = static_cast<float>((index % gridWidth_) * (componentWidth + spacing));
-            y = static_cast<float>((index / gridWidth_) * (componentHeight + spacing));
+        size_t i;
+        for (i = 0; i < num_components; ++i) {
+            Component* current = components_.get( i );
+            x = static_cast<float>((index % grid_width_) * (component_width + spacing));
+            y = static_cast<float>((index / grid_width_) * (component_height + spacing));
             set_constraint( current, x, y );
 
             ++index;

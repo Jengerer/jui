@@ -3,74 +3,92 @@
 namespace JUI
 {
 
-    VerticalLayout::VerticalLayout( unsigned int spacing, EHorizontalAlignType alignType ) : Layout( spacing )
+    /*
+     * Vertical layout constructor.
+     */
+    VerticalLayout::VerticalLayout( unsigned int spacing, EHorizontalAlignType align_type ) : Layout( spacing )
     {
-        set_align_type( alignType );
+        set_align_type( align_type );
         set_minimum_width( 0 );
     }
 
+    /*
+     * Align all elements into vertical layout.
+     */
     void VerticalLayout::pack( void )
     {
         // First get maximum width.
-        int maxWidth = 0;
-        std::vector<Component*>::const_iterator i, end;
-        for (i = components_.begin(), end = components_.end(); i != end; ++i) {
-            Component *component = *i;
+        int max_width = 0;
+        size_t i;
+        size_t length = components_.get_length();
+        for (i = 0; i < length; ++i) {
+            Component* component = components_.get( i );
             int width = component->get_width();
-            if (width > maxWidth) {
-                maxWidth = width;
+            if (width > max_width) {
+                max_width = width;
             }
         }
 
-        if (maxWidth < minimumWidth_) {
-            maxWidth = minimumWidth_;
+        // Enforce minimal width.
+        if (max_width < minimum_width_) {
+            max_width = minimum_width_;
         }
 
         // Now pack.
         int height = 0;
-        for (i = components_.begin(); i != end; i++) {
-            Component *component = *i;
+        for (i = 0; i < length; ++i) {
+            Component *component = components_.get( i );
 
-            // Set position aligned horizontally.
-            float posX;
-            switch (get_align_type()) {
-            case ALIGN_LEFT:
-                posX = 0.0f;
-                break;
-            case ALIGN_CENTER:
-                posX = static_cast<float>(maxWidth - component->get_width()) / 2.0f;
-                break;
-            case ALIGN_RIGHT:
-                posX = static_cast<float>(maxWidth - component->get_width());
-                break;
-            }
-
-            set_constraint( component, posX, static_cast<float>(height) );
-
-            // Push width by component width and spacing (if not last).
-            height += component->get_height();
-            if ( component != components_.back() ) {
+            // Push by spacing if not first.
+            if (i != 0) {
                 height += get_spacing();
             }
+
+            // Set position aligned horizontally.
+            float x;
+            switch (get_align_type()) {
+            case ALIGN_LEFT:
+                x = 0.0f;
+                break;
+            case ALIGN_CENTER:
+                x = static_cast<float>(max_width - component->get_width()) / 2.0f;
+                break;
+            case ALIGN_RIGHT:
+                x = static_cast<float>(max_width - component->get_width());
+                break;
+            }
+            set_constraint( component, x, static_cast<float>(height) );
+
+            // Push height by component height.
+            height += component->get_height();
         }
 
         // Update size.
-        set_size( maxWidth, height );
+        set_size( max_width, height );
     }
 
-    void VerticalLayout::set_align_type( EHorizontalAlignType alignType )
+    /*
+     * Set horizontal element alignment type.
+     */
+    void VerticalLayout::set_align_type( EHorizontalAlignType align_type )
     {
-        alignType_ = alignType;
+        align_type_ = align_type;
     }
 
+    /*
+     * Get current setting for alignment type.
+     */
     EHorizontalAlignType VerticalLayout::get_align_type( void ) const
     {
-        return alignType_;
+        return align_type_;
     }
 
+    /*
+     * Set minimum width for layout.
+     */
     void VerticalLayout::set_minimum_width( int minimumWidth )
     {
-        minimumWidth_ = minimumWidth;
+        minimum_width_ = minimumWidth;
     }
 
 }

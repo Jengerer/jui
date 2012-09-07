@@ -6,7 +6,10 @@
 namespace JUI
 {
 
-    class IMouseHandler
+    /*
+     * Interface to handle mouse events.
+     */
+    class MouseHandlerInterface
     {
 
     public:

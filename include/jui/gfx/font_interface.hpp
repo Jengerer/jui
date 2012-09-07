@@ -1,5 +1,5 @@
-#ifndef IFONT_HPP
-#define IFONT_HPP
+#ifndef FONT_INTERFACE_HPP
+#define FONT_INTERFACE_HPP
 
 #include "jui/gfx/graphics_2d.hpp"
 #include "jui/gfx/renderable_string.hpp"
@@ -15,30 +15,26 @@ namespace JUI
     };
 
     /*
-     * Font interface.
+     * Font abstraction class.
      */
-    class IFont
+    class FontInterface
     {
 
     public:
 
-        // Draw characters.
+        // Releasing font handle.
+        virtual bool initialize( void ) = 0;
+        virtual void release( void ) = 0;
+
+        // Drawing functions.
         virtual void draw_char( unsigned long c ) const = 0;
-
-        // Jump to next line.
         virtual void new_line( void ) const = 0;
-
-        // Draw measured renderable string.
         virtual void draw( RECT* rect, const RenderableString* text, size_t start, size_t end ) const = 0;
-
-        // Draw aligned renderable string.
         virtual void draw_aligned( const RenderableString* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const = 0;
-
-        // Prepare draw list for wrapped string.
         virtual void draw_wrapped( RECT* rect, const RenderableString* text, TextHorizontalAlignType align_type ) const = 0;
 
     };
 
 }
 
-#endif // IFONT_HPP
+#endif // FONT_INTERFACE_HPP

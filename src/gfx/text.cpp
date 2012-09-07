@@ -8,7 +8,7 @@ namespace JUI
     /*
      * Text constructor.
      */
-    Text::Text( IFont *font )
+    Text::Text( FontInterface *font )
     {
         set_font( font );
         set_colour( COLOUR_WHITE );
@@ -86,7 +86,7 @@ namespace JUI
     /*
      * Get font interface.
      */
-    IFont* Text::get_font( void ) const
+    FontInterface* Text::get_font( void ) const
     {
         return font_;
     }
@@ -94,7 +94,7 @@ namespace JUI
     /*
      * Set font interface.
      */
-    void Text::set_font( IFont *font )
+    void Text::set_font( FontInterface *font )
     {
         font_ = font;
     }

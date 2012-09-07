@@ -20,59 +20,91 @@ namespace JUI
 
         // Null/zero lists and textures.
         list_ = 0;
-        textures_ = nullptr;
-        advances_ = nullptr;
     }
 
     /*
      * Font destructor.
      */
-    FreetypeFont::~FreetypeFont()
+    FreetypeFont::~FreetypeFont( void )
     {
-        unsigned int glyph_count = face_->num_glyphs;
-
         // Close the face.
         FT_Done_Face( face_ );
 
         // Delete textures.
-        if (textures_ != nullptr) {
-            glDeleteTextures( glyph_count, textures_ );
-            delete[] textures_;
-            textures_ = nullptr;
+        size_t textures_length = textures_.get_length();
+        if (textures_length != 0) {
+            glDeleteTextures( textures_length, textures_.get_buffer() );
+            textures_.clear();
         }
 
         // Delete list.
+        unsigned int glyph_count = face_->num_glyphs;
         if (list_ != 0) {
             glDeleteLists( list_, glyph_count );
         }
         
         // Delete advances.
-        if (advances_ != nullptr) {
-            delete[] advances_;
-            advances_ = nullptr;
-        }
+        advances_.clear();
     }
 
     /*
-     * Generate glyph textures.
+     * Initialize resources for font.
      */
-    void FreetypeFont::generate_glyphs()
+    bool FreetypeFont::initialize( void )
     {
+        // Generate renderable glyphs.
+        FreetypeFont::ReturnStatus error = generate_glyphs();
+        if (error != Success) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /*
+     * Release resources for font.
+     */
+    void FreetypeFont::release( void )
+    {
+        delete this;
+    }
+
+    /*
+     * Generate glyph textures and lists for rendering them.
+     */
+    FreetypeFont::ReturnStatus FreetypeFont::generate_glyphs( void )
+    {
+        // Generate textures for glyphs.
         unsigned int glyph_count = face_->num_glyphs;
+        if (!textures_.set_length( glyph_count )) {
+            return NoMemoryFailure;
+        }
 
-        // Create texture and display list.
-        textures_ = new GLuint[ glyph_count ];
-        glGenTextures( glyph_count, textures_ );
+        // Generate lists.
+        glGenTextures( glyph_count, textures_.get_buffer() );
         list_ = glGenLists( glyph_count );
-        advances_ = new FT_Pos[ glyph_count ];
+        if (list_ == 0) {
+            return GenerateListFailure;
+        }
 
-        create_display_lists();
+        // Generate list of advances for characters.
+        if (!advances_.set_length( glyph_count )) {
+            return NoMemoryFailure;
+        }
+
+        // Generate advances and lists for glyphs.
+        FreetypeFont::ReturnStatus error = create_display_lists();
+        if (error != Success) {
+            return error;
+        }
+
+        return Success;
     }
 
     /*
      * Create OpenGL display list of textures.
      */
-    void FreetypeFont::create_display_lists()
+    FreetypeFont::ReturnStatus FreetypeFont::create_display_lists( void )
     {
         // Generate display lists for all characters.
         FT_UInt index;
@@ -80,13 +112,13 @@ namespace JUI
             // Load the glyph for the character.
             FT_Error error = FT_Load_Glyph( face_, index, FT_LOAD_DEFAULT );
             if (error != 0) {
-                throw std::runtime_error( "Failed to load glyph." );
+                return LoadGlyphFailure;
             }
 
             // Render the glyph.
             error = FT_Render_Glyph( face_->glyph, FT_RENDER_MODE_NORMAL );
             if (error != 0) {
-                throw std::runtime_error( "Failed to render glyph." );
+                return RenderGlyphFailure;
             }
 
             // Get the texture size.
@@ -97,7 +129,11 @@ namespace JUI
             // Create buffer for pixels.
             const unsigned int SRC_BPP = 1;
             const unsigned int DEST_BPP = 2;
-            GLubyte* tex_buffer = new GLubyte[ DEST_BPP * width * height ]; 
+            unsigned int tex_buffer_size = DEST_BPP * width * height;
+            GLubyte* tex_buffer = (GLubyte*)malloc( tex_buffer_size );
+            if (tex_buffer == nullptr) {
+                return NoMemoryFailure;
+            }
             const GLsizei DEST_ROW_WIDTH = DEST_BPP * width;
             const GLsizei DEST_SRC_WIDTH = DEST_BPP * bitmap.width;
             const GLsizei ROW_REMAINDER = DEST_ROW_WIDTH - DEST_BPP * bitmap.width;
@@ -117,25 +153,26 @@ namespace JUI
             }
 
             // Set up texture params.
-            glBindTexture( GL_TEXTURE_2D, textures_[index] );
+            GLuint texture = textures_.get( index );
+            glBindTexture( GL_TEXTURE_2D, texture );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
             glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
             glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 
             // Store character advance.
-            advances_[index] = face_->glyph->advance.x >> 6;
+            advances_.set( index, face_->glyph->advance.x >> 6 );
 
             // Create texture from the buffer.
             glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 
                 width, height, 0,
                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE,
                 tex_buffer );
-            delete[] tex_buffer;
+            free( tex_buffer );
 
             // Create display list for this character.
             glNewList( list_ + index, GL_COMPILE );
-            glBindTexture( GL_TEXTURE_2D, textures_[index] );
+            glBindTexture( GL_TEXTURE_2D, texture );
             glPushMatrix();
 
             // Place the character properly.
@@ -167,6 +204,8 @@ namespace JUI
             glBindTexture( GL_TEXTURE_2D, 0 );
             glEndList();
         }
+
+        return Success;
     }
 
     /*
@@ -183,11 +222,10 @@ namespace JUI
     /*
      * Push draw position to new line.
      */
-    void FreetypeFont::new_line() const
+    void FreetypeFont::new_line( void ) const
     {
-        glTranslatef( 0.0f,
-            static_cast<float>(get_baseline_spacing()),
-            0.0f );
+        float baseline_spacing = static_cast<float>(get_baseline_spacing());
+        glTranslatef( 0.0f, baseline_spacing, 0.0f );
     }
 
     /*
@@ -197,7 +235,7 @@ namespace JUI
     {
         FT_UInt index = FT_Get_Char_Index( face_, c );
         if (index != 0) {
-            return advances_[index];
+            return advances_.get( index );
         }
 
         return 0;
@@ -385,7 +423,7 @@ namespace JUI
     /*
      * Get the height of a line.
      */
-    GLsizei FreetypeFont::get_line_height() const
+    GLsizei FreetypeFont::get_line_height( void ) const
     {
         return face_->size->metrics.ascender >> 6;
     }
@@ -393,7 +431,7 @@ namespace JUI
     /*
      * Get distance between lines.
      */
-    GLsizei FreetypeFont::get_baseline_spacing() const
+    GLsizei FreetypeFont::get_baseline_spacing( void ) const
     {
         return face_->size->metrics.height >> 6;
     }

@@ -2,7 +2,7 @@
 #define TEXT_HPP
 
 #include "jui/layout/component.hpp"
-#include "jui/gfx/ifont.hpp"
+#include "jui/gfx/font_interface.hpp"
 
 namespace JUI
 {
@@ -12,7 +12,7 @@ namespace JUI
 
     public:
 
-        __declspec(dllexport) Text( IFont *font );
+        __declspec(dllexport) Text( FontInterface *font );
         __declspec(dllexport) virtual ~Text( void );
 
         __declspec(dllexport) virtual void draw( Graphics2D* graphics );
@@ -28,12 +28,12 @@ namespace JUI
 
     private:
 
-        IFont*			get_font( void ) const;
-        void			set_font( IFont *font );
+        FontInterface*			get_font( void ) const;
+        void			set_font( FontInterface *font );
 
     protected:
 
-        IFont		*font_;
+        FontInterface		*font_;
         RenderableString* str_;
         GLuint		list_;
 

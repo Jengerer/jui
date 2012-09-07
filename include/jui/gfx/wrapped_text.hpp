@@ -11,7 +11,7 @@ namespace JUI
 
     public:
 
-        __declspec(dllexport) WrappedText( IFont *font, int text_width );
+        __declspec(dllexport) WrappedText( FontInterface *font, int text_width );
         __declspec(dllexport) virtual ~WrappedText( void );
 
         __declspec(dllexport) virtual void pack( void );

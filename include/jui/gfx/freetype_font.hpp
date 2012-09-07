@@ -1,9 +1,10 @@
 #ifndef FREETYPE_FONT_HPP
 #define FREETYPE_FONT_HPP
 
-#include "jui/gfx/ifont.hpp"
+#include "jui/gfx/font_interface.hpp"
 #include "jui/gfx/renderable_string.hpp"
 #include "jui/gfx/opengl_shared.hpp"
+#include <containers/vector.hpp>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -12,63 +13,51 @@
 namespace JUI
 {
 
-    class FreetypeFont : public IFont
+    class FreetypeFont : public FontInterface
     {
 
     public:
 
-        // Constructor.
+        // Return code for functions.
+        enum ReturnStatus
+        {
+            Success = 0,
+            LoadGlyphFailure,
+            RenderGlyphFailure,
+            NoMemoryFailure,
+            GenerateListFailure,
+        };
+
+    public:
+
         FreetypeFont( FT_Face face );
+        ~FreetypeFont( void );
+        virtual bool initialize( void );
+        virtual void release( void );
 
-        // Destructor.
-        ~FreetypeFont();
+        // Font initialization.
+        ReturnStatus generate_glyphs( void );
+        ReturnStatus create_display_lists( void );
 
-        // Generate font glyphs.
-        void generate_glyphs();
-
-        // Create glyph display lists.
-        void create_display_lists();
-
-        // Draw character.
-        void draw_char( unsigned long c ) const;
-
-        // Jump to next line.
-        void new_line() const;
-
-        // Get width of character.
+        // Font measurement functions.
         FT_Pos get_char_width( unsigned long c ) const;
-
-        // Get width of string.
         FT_Pos get_string_width( const RenderableString* text, size_t start, size_t end ) const;
+        GLsizei get_line_height( void ) const;
+        GLsizei get_baseline_spacing( void ) const;
 
-        // Draw measured renderable string.
-        void draw( RECT* rect, const RenderableString* text, size_t start, size_t end ) const;
-
-        // Draw aligned renderable string.
-        void draw_aligned( const RenderableString* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const;
-
-        // Prepare draw list for wrapped string.
-        void draw_wrapped( RECT* bounds, const RenderableString* text, TextHorizontalAlignType align_type ) const;
-
-        // Get height of line.
-        GLsizei get_line_height() const;
-
-        // Get height between line bases.
-        GLsizei get_baseline_spacing() const;
+        // Drawing functions for font interface.
+        virtual void draw_char( unsigned long c ) const;
+        virtual void new_line( void ) const;
+        virtual void draw( RECT* rect, const RenderableString* text, size_t start, size_t end ) const;
+        virtual void draw_aligned( const RenderableString* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const;
+        virtual void draw_wrapped( RECT* bounds, const RenderableString* text, TextHorizontalAlignType align_type ) const;
 
     private:
 
-        // Font face handle.
-        FT_Face		face_;
-
-        // Array of textures.
-        GLuint*		textures_;
-
-        // Display lists for characters.
-        GLuint		list_;
-
-        // Advances for characters.
-        FT_Pos*		advances_;
+        FT_Face face_;
+        GLuint  list_;
+        JUTIL::Vector<GLuint> textures_;
+        JUTIL::Vector<FT_Pos> advances_;
         
     };
 

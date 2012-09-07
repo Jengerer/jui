@@ -1,73 +1,110 @@
 #include "jui/layout/constrained_container.hpp"
+#include <memory/base_allocator.hpp>
 
 namespace JUI
 {
 
+    /*
+     * Default constrainted container constructor.
+     */
     ConstrainedContainer::ConstrainedContainer( float x, float y ) : Container( x, y )
     {
         // Constraint container.
     }
 
-    ConstrainedContainer::~ConstrainedContainer()
+    /*
+     * Constraint container destructor.
+     */
+    ConstrainedContainer::~ConstrainedContainer( void )
     {
         remove_all_constraints();
     }
 
+    /*
+     * Update children by constraints when moved.
+     */
     void ConstrainedContainer::set_position( float x, float y )
     {
         Component::set_position( x, y );
         apply_constraints();
     }
 
+    /*
+     * Remove a child and remove constraint if exists.
+     */
     void ConstrainedContainer::remove( Component* child )
     {
         Container::remove( child );
         remove_constraint( child );
     }
 
-    Constraint* ConstrainedContainer::set_constraint( Component* child, float localX, float localY )
+    /*
+     * Set constraint on child or update it if it exists.
+     */
+    Constraint* ConstrainedContainer::set_constraint( Component* child, float x, float y )
     {
         Constraint* constraint = nullptr;
-        auto i = constraints_.find( child );
-        if (i != constraints_.end()) {
-            constraint = i->second;
-            constraint->set_constraint( localX, localY );
+        // Get from map if exists.
+        if (constraints_.get( child, &constraint )) {
+            constraint->set_constraint( x, y );
+        }
+        else if (JUTIL::BaseAllocator::allocate( &constraint )) {
+            // Attempt to add otherwise.
+            constraint = new (constraint) Constraint( child, x, y );
+            if (!constraints_.insert( child, constraint )) {
+                JUTIL::BaseAllocator::destroy( constraint );
+                return nullptr;
+            }
         }
         else {
-            constraint = new Constraint( child, localX, localY );
-            constraints_[child] = constraint;
+            // Could not add.
+            return nullptr;
         }
 
+        // Apply and return.
         apply_constraint( constraint );
         return constraint;
     }
 
+    /*
+     * Remove constraint.
+     */
     void ConstrainedContainer::remove_constraint( Component* child )
     {
-        auto i = constraints_.find( child );
-        if (i != constraints_.end()) {
-            constraints_.erase( i );
-        }
+        constraints_.remove( child );
     }
 
+    /*
+     * Clear all constraints.
+     */
     void ConstrainedContainer::remove_all_constraints()
     {
-        for (auto i = constraints_.begin(); i != constraints_.end(); i = constraints_.erase( i )) {
-            delete i->second;
+        JUTIL::Map<Component*, Constraint*>::Iterator i;
+        for (i = constraints_.begin(); i.has_next(); i.next()) {
+            JUTIL::BaseAllocator::destroy( i.get_value() );
         }
+        constraints_.clear();
     }
 
+    /*
+     * Apply constraint to the targetted child.
+     */
     void ConstrainedContainer::apply_constraint( Constraint* constraint )
     {
         Component* component = constraint->get_component();
-        component->set_position( get_x() + constraint->get_constraint_x(),
-            get_y() + constraint->get_constraint_y() );
+        float new_x = get_x() + constraint->get_constraint_x();
+        float new_y = get_y() + constraint->get_constraint_y();
+        component->set_position( new_x, new_y );
     }
 
-    void ConstrainedContainer::apply_constraints()
+    /*
+     * Apply all constraints.
+     */
+    void ConstrainedContainer::apply_constraints( void )
     {
-        for (auto i = constraints_.begin(); i != constraints_.end(); ++i) {
-            apply_constraint( i->second );
+        JUTIL::Map<Component*, Constraint*>::Iterator i;
+        for (i = constraints_.begin(); i.has_next(); i.next()) {
+            apply_constraint( i.get_value() );
         }
     }
 

@@ -4,7 +4,7 @@
 namespace JUI
 {
 
-    class IKeyboardHandler
+    class KeyboardHandlerInterface
     {
 
     public:
