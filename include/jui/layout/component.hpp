@@ -2,12 +2,11 @@
 #define COMPONENT_HPP
 
 #include "jui/gfx/idrawable.hpp"
-#include "jui/layout/reserve_interface.hpp"
 
 namespace JUI
 {
 
-    class __declspec(dllexport) Component : public IDrawable, public ReserveInterface
+    class __declspec(dllexport) Component : public IDrawable
     {
 
     public:

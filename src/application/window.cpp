@@ -1,5 +1,6 @@
 #include "jui/application/window.hpp"
 #include "jui/application/application_controller.hpp"
+#include "jui/application/error_stack.hpp"
 
 namespace JUI
 {
@@ -77,11 +78,13 @@ namespace JUI
     {
         // Check for repeated creations.
         if (get_handle() != nullptr) {
+            ErrorStack::get_instance()->log( "Window: window already created." );
             return DuplicateWindowFailure;
         }
 
         // Register window class.
         if (!register_class()) {
+            ErrorStack::get_instance()->log( "Window: failed to register window class." );
             return RegisterClassFailure;
         }
 
@@ -99,6 +102,7 @@ namespace JUI
         // Adjust size for style.
         DWORD display_style = (is_fullscreen() || !has_border() ? WS_POPUP : WS_CAPTION | WS_SYSMENU);
         if (!AdjustWindowRect( &windowRect, display_style, false )) {
+            ErrorStack::get_instance()->log( "Window: failed to adjust window rectangle." );
             return AdjustSizeFailure;
         }
 
@@ -113,6 +117,7 @@ namespace JUI
             get_instance(),
             NULL );
         if (wnd == nullptr) {
+            ErrorStack::get_instance()->log( "Window: failed to create window." );
             return CreateWindowFailure;
         }
 

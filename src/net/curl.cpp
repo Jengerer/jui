@@ -1,3 +1,4 @@
+#include "jui/application/error_stack.hpp"
 #include "jui/net/curl.hpp"
 
 namespace JUI
@@ -8,7 +9,7 @@ namespace JUI
     /*
      * Constructor does nothing.
      */
-    Curl::Curl()
+    Curl::Curl( void )
     {
         // Nothing.
     }
@@ -16,7 +17,7 @@ namespace JUI
     /*
      * Clean operation and clean up interfaces.
      */
-    Curl::~Curl()
+    Curl::~Curl( void )
     {
         clean();
         curl_global_cleanup();
@@ -25,7 +26,7 @@ namespace JUI
     /*
      * Get an instance; create if necessary.
      */
-    Curl* Curl::get_instance()
+    Curl* Curl::get_instance( void )
     {
         // Initialize instance if not exists.
         if (instance_ == nullptr) {
@@ -39,7 +40,7 @@ namespace JUI
     /*
      * Delete instance if exists.
      */
-    void Curl::shut_down()
+    void Curl::shut_down( void )
     {
         if (instance_ != nullptr) {
             delete instance_;
@@ -50,18 +51,21 @@ namespace JUI
     /*
      * Initialize CURL interfaces.
      */
-    void Curl::initialize()
+    Curl::ReturnStatus Curl::initialize( void )
     {
+        // Initialize CURL.
         curl_ = curl_easy_init();
         if (curl_ == nullptr) {
-            throw std::runtime_error( "Failed to initialize cURL." );
+            return InitializeFailure;
         }
+
+        return Success;
     }
 
     /*
      * Clean up CURL operations.
      */
-    void Curl::clean()
+    void Curl::clean( void )
     {
         curl_easy_cleanup( curl_ );
     }
@@ -69,12 +73,14 @@ namespace JUI
     /*
      * Download file at given URL to destination.
      */
-    void Curl::download( const std::string& url, const std::string& destination )
+    bool Curl::download( const JUTIL::ConstantString& url, const JUTIL::ConstantString& destination )
     {
         // Set the URL.
-        CURLcode result = curl_easy_setopt( curl_, CURLOPT_URL, url.c_str() );
+        CURLcode result = curl_easy_setopt( curl_, CURLOPT_URL, url.get_string() );
         if (result != CURLE_OK) {
-            throw std::runtime_error( "Failed to set cURL operation." );
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Curl: failed to set operation." );
+            return false;
         }
 
         // Create the folder(s) if needed.
@@ -101,11 +107,13 @@ namespace JUI
         // Get it!
         result = curl_easy_perform( curl_ );
         if (result != CURLE_OK) {
-            throw std::runtime_error( "Failed to download '" + url + "'." );
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Curl: download failed for %s.", url.get_string() );
+            return false;
         }
 
         // Close the stream if it exists.
-        if ( download.file != nullptr ) {
+        if (download.file != nullptr) {
             fclose( download.file );
         }
     }
@@ -113,14 +121,14 @@ namespace JUI
     /*
      * Read the file at the given URL to string.
      */
-    std::string Curl::read( const std::string& url )
+    bool Curl::read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* builder )
     {
         // Create empty memory buffer struct.
         MemoryBuffer read;
         ZeroMemory( &read, sizeof( MemoryBuffer ) );
 
         // Specify url.
-        curl_easy_setopt( curl_, CURLOPT_URL, url.c_str() );
+        curl_easy_setopt( curl_, CURLOPT_URL, url.get_string() );
 
         // Send all data to this function.
         curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_callback );
@@ -134,18 +142,13 @@ namespace JUI
         // Get it!
         CURLcode result = curl_easy_perform( curl_ );
         if (result != CURLE_OK) {
-            throw std::runtime_error( "Failed to read contents of page." );
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Curl: read failed for %s.", url.get_string() );
         }
 
-        // Now get the string.
-        std::string output = read.memory;
-
-        // Free the memory.
-        if (read.memory != nullptr) {
-            free( read.memory );
-        }
-
-        return output;
+        // Set builder's buffer.
+        builder->set_string( read.memory, read.size );
+        return true;
     }
 
     /*

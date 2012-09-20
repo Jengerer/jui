@@ -30,6 +30,31 @@ namespace JUI
     }
 
     /*
+     * Add a child and allocate a constraint for it.
+     */
+    bool ConstrainedContainer::add( Component* child )
+    {
+        // Generic add.
+        if (!Container::add( child )) {
+            return false;
+        }
+
+        // Allocate a constraint.
+        Constraint* constraint;
+        if (!JUTIL::BaseAllocator::allocate( &constraint )) {
+            return false;
+        }
+        constraint = new (constraint) Constraint( child, 0.0f, 0.0f );
+
+        // Add constraint.
+        if (!constraints_.insert( child, constraint )) {
+            JUTIL::BaseAllocator::destroy( constraint );
+            return false;
+        }
+        return true;
+    }
+
+    /*
      * Remove a child and remove constraint if exists.
      */
     void ConstrainedContainer::remove( Component* child )
@@ -43,26 +68,12 @@ namespace JUI
      */
     Constraint* ConstrainedContainer::set_constraint( Component* child, float x, float y )
     {
+        // Get, apply, return.
         Constraint* constraint = nullptr;
-        // Get from map if exists.
         if (constraints_.get( child, &constraint )) {
             constraint->set_constraint( x, y );
+            apply_constraint( constraint );
         }
-        else if (JUTIL::BaseAllocator::allocate( &constraint )) {
-            // Attempt to add otherwise.
-            constraint = new (constraint) Constraint( child, x, y );
-            if (!constraints_.insert( child, constraint )) {
-                JUTIL::BaseAllocator::destroy( constraint );
-                return nullptr;
-            }
-        }
-        else {
-            // Could not add.
-            return nullptr;
-        }
-
-        // Apply and return.
-        apply_constraint( constraint );
         return constraint;
     }
 

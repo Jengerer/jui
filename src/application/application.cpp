@@ -1,4 +1,5 @@
 #include "jui/application/application.hpp"
+#include "jui/application/error_stack.hpp"
 #include <tlhelp32.h>
 
 namespace JUI
@@ -10,13 +11,9 @@ namespace JUI
     Application::Application( HINSTANCE instance )
     {
         // Create default window.
-        window_ = new Window( instance );
-        
-        // Create mouse.
-        mouse_ = new Mouse( window_ );
-
-        // Create graphics 2D.
-        graphics_ = new Graphics2D( window_ );
+        window_ = nullptr;
+        mouse_ = nullptr;
+        graphics_ = nullptr;
     }
 
     /*
@@ -36,12 +33,14 @@ namespace JUI
         window_->set_size( get_width(), get_height() );
         Window::ReturnStatus window_status = window_->create_window();
         if (window_status != Window::Success) {
+            ErrorStack::get_instance()->log( "Application: failed to create window." );
             return WindowCreateFailure;
         }
 
         // Initialize graphics.
         Graphics2D::ReturnStatus graphics_status = graphics_->initialize();
         if (graphics_status != Graphics2D::Success) {
+            ErrorStack::get_instance()->log( "Application: failed to initialize graphics." );
             return GraphicsInitializeFailure;
         }
 

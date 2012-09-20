@@ -113,7 +113,6 @@
     <ClInclude Include="include\jui\io\imouse_handler.hpp" />
     <ClInclude Include="include\jui\io\mouse.hpp" />
     <ClInclude Include="include\jui\io\keyboard.hpp" />
-    <ClInclude Include="include\jui\layout\reserve_interface.hpp" />
     <ClInclude Include="include\jui\layout\component.hpp" />
     <ClInclude Include="include\jui\layout\constrained_container.hpp" />
     <ClInclude Include="include\jui\layout\vertical_layout.hpp" />
@@ -125,12 +124,13 @@
     <ClInclude Include="include\jui\layout\layout.hpp" />
     <ClInclude Include="include\jui\net\curl.hpp" />
     <ClInclude Include="include\jui\net\file_downloader.hpp" />
-    <ClInclude Include="include\jui\net\idownloader.hpp" />
+    <ClInclude Include="include\jui\net\downloader_interface.hpp" />
     <ClInclude Include="include\jui\net\iresource_source.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp" />
     <ClCompile Include="src\application\application_controller.cpp" />
+    <ClCompile Include="src\application\error_stack.cpp" />
     <ClCompile Include="src\application\window.cpp" />
     <ClCompile Include="src\gfx\box.cpp" />
     <ClCompile Include="src\gfx\colour.cpp" />

@@ -1,10 +1,9 @@
 #ifndef CURL_HPP
 #define CURL_HPP
 
-#include <string>
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include "jui/net/idownloader.hpp"
+#include "jui/net/downloader_interface.hpp"
 
 /*
  * Curl implementation of downloader interface.
@@ -31,34 +30,43 @@ namespace JUI
     static size_t write( void *buffer, size_t size, size_t num_members, void* data );
     static size_t write_callback( void *buffer, size_t size, size_t num_members, void* data );
 
-    class Curl : public IDownloader
+    class Curl : public DownloaderInterface
     {
+
     public:
 
+        enum ReturnStatus
+        {
+            Success = 0,
+            InitializeFailure,
+            SetOperationFailure,
+            DownloadFailure,
+            ReadFailure,
+            OutOfMemoryFailure,
+        };
+
+    public:
+
+        // Public destructor for allocation.
+        virtual ~Curl( void );
+
         // Create/get singleton instance.
-        static Curl* get_instance();
+        static Curl* get_instance( void );
 
         // Shut down singleton.
-        static void shut_down();
+        static void shut_down( void );
 
         // Downloader interface functions.
-        virtual void download( const std::string& url, const std::string& destination );
-
-        // Read file to string.
-        virtual std::string read( const std::string& url );
+        virtual bool download( const JUTIL::ConstantString& string, const JUTIL::ConstantString& destination );
+        virtual bool read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output );
 
     private:
 
         // Private constructor.
         Curl( void );
 
-        // Private destructor.
-        virtual ~Curl( void );
-
         // Handling interfaces.
-        void initialize( void );
-
-        // Close interfaces.
+        ReturnStatus initialize( void );
         void close( void );
 
         // Clean interfaces.

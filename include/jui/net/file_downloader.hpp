@@ -1,9 +1,7 @@
 #ifndef FILE_DOWNLOADER_HPP
 #define FILE_DOWNLOADER_HPP
 
-#include <string>
-
-#include "jui/net/idownloader.hpp"
+#include "jui/net/downloader_interface.hpp"
 
 namespace JUI
 {
@@ -14,22 +12,22 @@ namespace JUI
     public:
 
         // Initialize and exit.
-        static __declspec(dllexport) FileDownloader* get_instance();
-        static __declspec(dllexport) void shut_down();
+        static __declspec(dllexport) FileDownloader* get_instance( void );
+        static __declspec(dllexport) void shut_down( void );
 
         // Get a file if it doesn't exist.
-        __declspec(dllexport) void check_and_get( const std::string& filename, const std::string& url );
+        __declspec(dllexport) bool check_and_get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url );
 
         // Get a file.
-        __declspec(dllexport) void get( const std::string& filename, const std::string& url );
+        __declspec(dllexport) bool get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url );
 
         // Read a file.
-        __declspec(dllexport) std::string read( const std::string& url );
+        __declspec(dllexport) bool read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output );
 
     private:
 
         // Private constructor.
-        FileDownloader();
+        FileDownloader( DownloaderInterface* downloader );
 
     private:
 
@@ -39,7 +37,7 @@ namespace JUI
     private:
 
         // Singleton member variable.
-        IDownloader* downloader_;
+        DownloaderInterface* downloader_;
 
     };
 

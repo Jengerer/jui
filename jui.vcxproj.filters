@@ -93,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="src\gfx\wrapped_text.cpp" />
     <ClCompile Include="src\application\application_controller.cpp" />
+    <ClCompile Include="src\application\error_stack.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\jui\application\application.hpp">
@@ -188,9 +191,6 @@
     <ClInclude Include="include\jui\io\mouse.hpp">
       <Filter>include\jui\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\jui\net\idownloader.hpp">
-      <Filter>include\jui\net</Filter>
-    </ClInclude>
     <ClInclude Include="include\jui\net\iresource_source.hpp">
       <Filter>include\jui\net</Filter>
     </ClInclude>
@@ -209,8 +209,8 @@
     <ClInclude Include="include\jui\gfx\font_interface.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
-    <ClInclude Include="include\jui\layout\reserve_interface.hpp">
-      <Filter>include\jui\layout</Filter>
+    <ClInclude Include="include\jui\net\downloader_interface.hpp">
+      <Filter>include\jui\net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,7 @@ namespace JUI
         virtual void set_position( float x, float y );
 
         // Container overrides.
+        virtual bool add( Component* child );
         virtual void remove( Component* child );
         
         // Constraint management.

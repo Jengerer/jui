@@ -1,7 +1,7 @@
 #ifndef ERROR_STACK_HPP
 #define ERROR_STACK_HPP
 
-#include <string/constant_string.hpp>
+#include <string/string.hpp>
 #include <containers/vector.hpp>
 
 namespace JUI
@@ -15,11 +15,27 @@ namespace JUI
     
     public:
 
+        // Public destructor allocator.
+        ~ErrorStack( void );
+
+        // Singleton instance management.
         static ErrorStack* get_instance( void );
         static void shut_down( void );
 
         // Error logging functions.
-        void log_error( const char* format, ... );
+        void log( const char* format, ... );
+        void clear( void );
+
+        // Stack retrieval.
+        const JUTIL::String* get_top_error( void ) const;
+
+    private:
+
+        ErrorStack( void );
+
+    private:
+
+        static ErrorStack* instance_;
 
     private:
 

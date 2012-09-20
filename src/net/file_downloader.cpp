@@ -1,6 +1,6 @@
 #include "jui/net/curl.hpp"
 #include "jui/net/file_downloader.hpp"
-#include <stdio.h>
+#include <memory\base_allocator.hpp>
 
 namespace JUI
 {
@@ -11,20 +11,28 @@ namespace JUI
     /*
      * Downloader constructor.
      */
-    FileDownloader::FileDownloader()
+    FileDownloader::FileDownloader( DownloaderInterface* downloader )
     {
-        // Get instance of CURL.
-        downloader_ = Curl::get_instance();
+        downloader_ = downloader;
     }
 
     /*
      * Create/get instance of singleton.
      */
-    FileDownloader* FileDownloader::get_instance()
+    FileDownloader* FileDownloader::get_instance( void )
     {
         // Get instance.
         if (instance_ == nullptr) {
-            instance_ = new FileDownloader();
+            // Get an instance of CURL.
+            JUI::Curl* curl = Curl::get_instance();
+            if (curl == nullptr) {
+                return nullptr;
+            }
+
+            // Create instance of downloader.
+            if (!JUTIL::BaseAllocator::allocate( &instance_ )) {
+                instance_ = new (instance_) FileDownloader( curl );
+            }
         }
 
         return instance_;
@@ -33,28 +41,25 @@ namespace JUI
     /*
      * Clean up downloader interface.
      */
-    void FileDownloader::shut_down()
+    void FileDownloader::shut_down( void )
     {
         // Delete instance.
-        if (instance_ != nullptr) {
-            delete instance_;
-            instance_ = nullptr;
-        }
+        JUTIL::BaseAllocator::safe_destroy( &instance_ );
     }
 
     /*
      * Check if a file exists; if it does not, get it from
      * the specified URL.
      */
-    void FileDownloader::check_and_get( const std::string& filename, const std::string& url )
+    bool FileDownloader::check_and_get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url )
     {
         // Check if file exists.
         FILE* file = nullptr;
-        errno_t error = fopen_s( &file, filename.c_str(), "r" );
+        errno_t error = fopen_s( &file, filename.get_string(), "r" );
 
         // Get file if failed to open.
         if (error != 0) {
-            get( filename, url );
+            return get( filename, url );
         }
         else {
             // File already exists.
@@ -65,17 +70,17 @@ namespace JUI
     /*
      * Get a file without checking if it's already there.
      */
-    void FileDownloader::get( const std::string& filename, const std::string& url )
+    bool FileDownloader::get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url )
     {
-        downloader_->download( url, filename );
+        return downloader_->download( url, filename );
     }
 
     /*
      * Read a file to string.
      */
-    std::string FileDownloader::read( const std::string& url )
+    bool FileDownloader::read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output )
     {
-        return downloader_->read( url );
+        return downloader_->read( url, output );
     }
 
 }

@@ -1,4 +1,5 @@
 #include "jui/application/application_controller.hpp"
+#include "jui/application/error_stack.hpp"
 
 namespace JUI
 {
@@ -11,15 +12,30 @@ namespace JUI
      */
     bool ApplicationController::initialize( Application* application )
     {
-        try {
-            // Set new handle.
-            set_application( application );
-
-            // Initialize application interfaces.
-            application->load_interfaces();
+        // Create error stack for application.
+        ErrorStack* error_stack = ErrorStack::get_instance();
+        if (error_stack == nullptr) {
+            MessageBox( nullptr,
+                        "Application controller: failed to create error stack.",
+                        "Application controller failure!",
+                        MB_ICONERROR | MB_OK );
         }
-        catch (const std::runtime_error& ex) {
-            MessageBox( NULL, ex.what(), "Application initialize failed!", MB_OK );
+
+        // Set application handle.
+        set_application( application );
+
+        // Initialize application interfaces.
+        Application::ReturnStatus result = application->load_interfaces();
+        if (result != Application::Success) {
+            JUTIL::ConstantString error( "Application controller: unlogged error." );
+            const JUTIL::String* top = error_stack->get_top_error();
+            if (top != nullptr) {
+                error = *top;
+            }
+            MessageBox( nullptr,
+                top->get_string(),
+                "Application controller: initialize failed.",
+                MB_ICONERROR | MB_OK );
             set_application( nullptr );
             return false;
         }
@@ -30,7 +46,7 @@ namespace JUI
     /*
      * Enter the main program loop.
      */
-    void ApplicationController::main_loop()
+    void ApplicationController::main_loop( void )
     {
         // Enter main program loop.
         MSG msg;
@@ -76,12 +92,7 @@ namespace JUI
      */
     void ApplicationController::set_application( Application* application )
     {
-        // Can't replace existing with non-null.
-        if (get_application() != nullptr && application != nullptr) {
-            throw new std::runtime_error( "Another application is already being managed." );
-        }
-
-        // Just set.
+        JUTIL::JUTILBase::debug_assert( application_ == nullptr );
         application_ = application;
     }
 
