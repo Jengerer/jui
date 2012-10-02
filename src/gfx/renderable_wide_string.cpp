@@ -3,14 +3,21 @@
 namespace JUI
 {
 
-    RenderableWideString::RenderableWideString( const wchar_t* wstr, size_t length ) : RenderableString( length )
+    /*
+     * Renderable string constructor from constant wide string reference.
+     */
+    RenderableWideString::RenderableWideString( const JUTIL::ConstantWideString& string ) : RenderableString( string.get_length() )
     {
-        wstr_ = wstr;
+        string_.set_string( &string );
     }
 
+    /*
+     * Renderable wide string character indexing.
+     */
     unsigned long RenderableWideString::char_code_at( size_t index ) const
     {
-        return static_cast<unsigned long>(wstr_[index]);
+        const wchar_t* string = string_.get_string();
+        return static_cast<unsigned long>(string[index]);
     }
 
 }

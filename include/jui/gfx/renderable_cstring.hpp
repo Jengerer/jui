@@ -2,24 +2,27 @@
 #define RENDERABLE_CSTRING_HPP
 
 #include "jui/gfx/renderable_string.hpp"
+#include <string/constant_string.hpp>
 
 namespace JUI
 {
 
+    /*
+     * Renderable string for a C-style string representation.
+     */
     class RenderableCString : public RenderableString
     {
 
     public:
 
-        RenderableCString( const char* str, size_t length );
+        RenderableCString( const JUTIL::ConstantString& string );
 
-        // Get character code.
-        unsigned long char_code_at( size_t index ) const;
+        // String index getter.
+        virtual unsigned long char_code_at( size_t index ) const;
 
     private:
 
-        const char* str_;
-        size_t length;
+        JUTIL::ConstantString string_;
 
     };
 

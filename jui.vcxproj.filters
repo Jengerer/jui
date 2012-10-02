@@ -91,9 +91,13 @@
     <ClCompile Include="src\io\keyboard.cpp">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\gfx\wrapped_text.cpp" />
-    <ClCompile Include="src\application\application_controller.cpp" />
     <ClCompile Include="src\application\error_stack.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gfx\wrapped_text.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\application_controller.cpp">
       <Filter>src\application</Filter>
     </ClCompile>
   </ItemGroup>

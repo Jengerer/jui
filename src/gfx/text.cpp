@@ -13,7 +13,6 @@ namespace JUI
         set_font( font );
         set_colour( COLOUR_WHITE );
         list_ = glGenLists( 1 );
-        str_ = nullptr;
     }
 
     /*
@@ -27,21 +26,21 @@ namespace JUI
     /*
      * Set new displayed text.
      */
-    void Text::set_text( const std::string& text )
+    void Text::set_text( const JUTIL::ConstantString& text )
     {
-        // Set renderable std::string and pack.
-        str_ = new RenderableCString( text.c_str(), text.length() );
-        pack();
+        // Set renderable string.
+        RenderableCString render_string( text );
+        pack( &render_string );
     }
 
     /*
      * Set new displayed wchar text.
      */
-    void Text::set_text( const wchar_t* text, size_t length )
+    void Text::set_text( const JUTIL::ConstantWideString& text )
     {
         // Set renderable wide std::string and pack.
-        str_ = new RenderableWideString( text, length );
-        pack();
+        RenderableWideString render_string( text );
+        pack( &render_string );
     }
 
     /*
@@ -102,27 +101,18 @@ namespace JUI
     /*
      * Pack text to size.
      */
-    void Text::pack( void )
+    void Text::pack( RenderableString* render_string )
     {
-        if (str_ != nullptr) {
-            // Pack on renderable string size.
-            RECT size;
+        // Pack on renderable string size.
+        RECT size;
 
-            // Draw to list.
-            glNewList( list_, GL_COMPILE );
-            font_->draw( &size, str_, 0, str_->length() );
-            glEndList();
+        // Draw to list.
+        glNewList( list_, GL_COMPILE );
+        font_->draw( &size, render_string, 0, render_string->get_length() );
+        glEndList();
 
-            // Set component size.
-            set_size( size.right, size.bottom );
-
-            // Remove temporary renderable string.
-            delete str_;
-            str_ = nullptr;
-        }
-        else {
-            set_size( 0, 0 );
-        }
+        // Set component size.
+        set_size( size.right, size.bottom );
     }
 
 }

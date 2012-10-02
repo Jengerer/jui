@@ -83,39 +83,59 @@ namespace JUI
             return false;
         }
 
-        // Create the folder(s) if needed.
-        size_t slash = destination.find( '/' );
-        while (slash != std::string::npos) {
-            // TODO: This can be cleaner, no need to remake substr.
-            std::string path = destination.substr( 0, slash );
-            if ( GetFileAttributes( path.c_str() ) == INVALID_FILE_ATTRIBUTES )
-                CreateDirectory( path.c_str(), 0 );
-
-            slash = destination.find( '/', slash + 1 );
+        // Copy destination to create path.
+        JUTIL::StringBuilder builder;
+        if (!builder.copy( destination.get_string(), destination.get_length() )) {
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Curl: failed to allocate for path name." );
+            return false;
         }
+        JUTIL::String destination_copy( &builder );
+        char* destination_string = destination_copy.get_string();
 
-        // Create the file.
-        Download download;
-        download.filename = destination.c_str();
-        download.file = nullptr;
+        // Create path if necessary.
+        size_t slash_index = destination_copy.find( '/' );
+        while (slash_index != JUTIL::String::INVALID_INDEX) {
+            // End the string at index.
+            destination_string[slash_index] = '\0';
+            if (GetFileAttributes( destination_string ) == INVALID_FILE_ATTRIBUTES) {
+                CreateDirectory( destination_string, 0 );
+            }
 
-        // Get the file ready for downloading.
-        curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &download );
-        curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write );
-        curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
+            // Undo and find next slash.
+            destination_string[slash_index] = '/';
+            slash_index = destination.find( '/', slash_index + 1 );
+        }
+        builder.clear();
 
-        // Get it!
-        result = curl_easy_perform( curl_ );
-        if (result != CURLE_OK) {
+        // Read contents of file.
+        if (!read( url, &builder )) {
             ErrorStack* error_stack = ErrorStack::get_instance();
             error_stack->log( "Curl: download failed for %s.", url.get_string() );
             return false;
         }
 
-        // Close the stream if it exists.
-        if (download.file != nullptr) {
-            fclose( download.file );
+        // Open file for writing.
+        FILE* file;
+        errno_t error = fopen_s( &file, destination.get_string(), "w" );
+        if (error != 0) {
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Curl: failed to open %s for download.", destination_string );
+            return false;
         }
+        
+        // Write to file.
+        size_t size = builder.get_length() + 1;
+        size_t written = fwrite( builder.get_string(), size, 1, file );
+        if (written != size) {
+            fclose( file );
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Curl: failed to write to %s for download.", destination_string );
+            return false;
+        }
+
+        fclose( file );
+        return true;
     }
 
     /*
@@ -124,22 +144,13 @@ namespace JUI
     bool Curl::read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* builder )
     {
         // Create empty memory buffer struct.
-        MemoryBuffer read;
-        ZeroMemory( &read, sizeof( MemoryBuffer ) );
+        JUTIL::ArrayBuilder<char> buffer;
 
-        // Specify url.
+        // Set up CURL operation.
         curl_easy_setopt( curl_, CURLOPT_URL, url.get_string() );
-
-        // Send all data to this function.
-        curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_callback );
-
-        // Send chuck struct.
-        curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &read );
-
-        // Fail if not found.
+        curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_buffer );
+        curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &buffer );
         curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
-
-        // Get it!
         CURLcode result = curl_easy_perform( curl_ );
         if (result != CURLE_OK) {
             ErrorStack* error_stack = ErrorStack::get_instance();
@@ -147,7 +158,8 @@ namespace JUI
         }
 
         // Set builder's buffer.
-        builder->set_string( read.memory, read.size );
+        builder->set_string( buffer.get_array(), buffer.get_size() );
+        buffer.release();
         return true;
     }
 
@@ -162,42 +174,23 @@ namespace JUI
     /*
      * Callback when ready to write.
      */
-    static size_t write_callback( void *buffer, size_t size, size_t num_members, void* data )
+    static size_t write_buffer( void *buffer, size_t size, size_t num_members, void* data )
     {
         // Get real buffer size.
-        size_t real_size = size*num_members;
-        struct MemoryBuffer *read = (struct MemoryBuffer*)data;
+        size_t real_size = size * num_members;
+        JUTIL::ArrayBuilder<char>* array_buffer = static_cast<JUTIL::ArrayBuilder<char>*>(data);
 
         // Get buffer of proper size.
-        read->memory = (char*)reallocate( read->memory, read->size + real_size + 1 );
-        if (read->memory != nullptr) {
-            // Write received data.
-            void* copy_memory = &read->memory[read->size];
-            memcpy( copy_memory, buffer, real_size );
-            read->size += real_size;
-            read->memory[read->size] = 0;
+        size_t old_size = array_buffer->get_size();
+        size_t new_size = old_size + real_size;
+        if (!array_buffer->set_size( new_size ))
+        {
+            return 0;
         }
 
+        char* write_start = array_buffer->get_array() + old_size;
+        memcpy( write_start, buffer, real_size );
         return real_size;
-    }
-
-    /*
-     * Call to write to buffer.
-     */
-    static size_t write( void *buffer, size_t size, size_t num_members, void* data )
-    {
-        struct Download *download = (struct Download*)data;
-
-        // Open file if none yet.
-        if ((download != nullptr) && (download->file == nullptr)) {
-            errno_t error = fopen_s( &download->file, download->filename, "wb" );
-            if (error != 0) {
-                throw std::runtime_error( "Failed to open file to download." );
-            }
-        }
-
-        // Write to file.
-        return fwrite( buffer, size, num_members, download->file );
     }
 
 }

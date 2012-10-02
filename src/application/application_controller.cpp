@@ -16,9 +16,9 @@ namespace JUI
         ErrorStack* error_stack = ErrorStack::get_instance();
         if (error_stack == nullptr) {
             MessageBox( nullptr,
-                        "Application controller: failed to create error stack.",
-                        "Application controller failure!",
-                        MB_ICONERROR | MB_OK );
+                "Application controller: failed to create error stack.",
+                "Application controller failure!",
+                MB_ICONERROR | MB_OK );
         }
 
         // Set application handle.
@@ -77,6 +77,9 @@ namespace JUI
         // Delete application.
         delete get_application();
         set_application( nullptr );
+
+        // Destroy error stack.
+        ErrorStack::shut_down();
     }
 
     /*
@@ -92,7 +95,7 @@ namespace JUI
      */
     void ApplicationController::set_application( Application* application )
     {
-        JUTIL::JUTILBase::debug_assert( application_ == nullptr );
+        JUTIL::JUTILBase::debug_assert( application == nullptr || application_ == nullptr );
         application_ = application;
     }
 

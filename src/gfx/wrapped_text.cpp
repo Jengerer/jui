@@ -4,55 +4,67 @@
 namespace JUI
 {
 
+    /*
+     * Wrapped text constructor.
+     */
     WrappedText::WrappedText( FontInterface *font, int text_width ) : Text( font )
     {
         set_text_formatting( 0 );
         set_text_width( text_width );
     }
 
+    /*
+     * Wrapped text destructor.
+     */
     WrappedText::~WrappedText( void )
     {
         // Wrapped text destroyed.
     }
 
-    void WrappedText::pack( void )
+    /*
+     * Pack and align wrapped text.
+     */
+    void WrappedText::pack( RenderableString* render_string )
     {	
-        if (str_ != nullptr) {
-            // Wrap renderable string.
-            RECT bounds = { 0, 0, get_text_width(), 0 };
+        // Wrap renderable string.
+        RECT bounds = { 0, 0, get_text_width(), 0 };
 
-            // Draw to list.
-            glNewList( list_, GL_COMPILE );
-            font_->draw_wrapped( &bounds, str_, TEXT_ALIGN_CENTER );
-            glEndList();
+        // Draw to list.
+        glNewList( list_, GL_COMPILE );
+        font_->draw_wrapped( &bounds, render_string, TEXT_ALIGN_CENTER );
+        glEndList();
 
-            // Set text size.
-            set_size( get_text_width(), bounds.bottom - bounds.top );
-
-            // Delete renderable string.
-            delete str_;
-            str_ = nullptr;
-        }
-        else {
-            set_size( 0, 0 );
-        }
+        // Set text size.
+        set_size( get_text_width(), bounds.bottom - bounds.top );
     }
 
+    /*
+     * Get wrap width of text.
+     */
     int WrappedText::get_text_width( void ) const
     {
-        return textWidth_;
+        return text_width_;
     }
 
+    /*
+     * Set wrap width of text.
+     */
     void WrappedText::set_text_width( int text_width )
     {
-        textWidth_ = text_width;
+        text_width_ = text_width;
     }
 
+    /*
+     * Get text formatting flags.
+     */
     DWORD WrappedText::get_text_formatting( void ) const
     {
         return formatting_;
     }
 
+    /*
+     * Set text formatting flags.
+     */
     void WrappedText::set_text_formatting( DWORD formatting )
     {
         formatting_ = formatting;

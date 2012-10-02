@@ -9,11 +9,11 @@ namespace JUI
      * Application constructor.
      */
     Application::Application( HINSTANCE instance )
+        : window_( instance ),
+        graphics_( &window_ ),
+        mouse_( &window_ )
     {
-        // Create default window.
-        window_ = nullptr;
-        mouse_ = nullptr;
-        graphics_ = nullptr;
+        // Nothing specific.
     }
 
     /*
@@ -30,15 +30,15 @@ namespace JUI
     Application::ReturnStatus Application::load_interfaces( void )
     {
         // Set window size and create.
-        window_->set_size( get_width(), get_height() );
-        Window::ReturnStatus window_status = window_->create_window();
+        window_.set_size( get_width(), get_height() );
+        Window::ReturnStatus window_status = window_.create_window();
         if (window_status != Window::Success) {
             ErrorStack::get_instance()->log( "Application: failed to create window." );
             return WindowCreateFailure;
         }
 
         // Initialize graphics.
-        Graphics2D::ReturnStatus graphics_status = graphics_->initialize();
+        Graphics2D::ReturnStatus graphics_status = graphics_.initialize();
         if (graphics_status != Graphics2D::Success) {
             ErrorStack::get_instance()->log( "Application: failed to initialize graphics." );
             return GraphicsInitializeFailure;
@@ -52,23 +52,7 @@ namespace JUI
      */
     void Application::close_interfaces( void )
     {
-        // Delete graphics.
-        if (graphics_ != nullptr) {
-            delete graphics_;
-            graphics_ = nullptr;
-        }
-
-        // Delete mouse.
-        if (mouse_ != nullptr) {
-            delete mouse_;
-            mouse_ = nullptr;
-        }
-
-        // Delete window.
-        if (window_ != nullptr) {
-            delete window_;
-            window_ = nullptr;
-        }
+        // Nothing specific.
     }
 
     /*
@@ -105,9 +89,9 @@ namespace JUI
     /*
      * Get the application's window.
      */
-    Window* Application::get_window( void ) const
+    Window* Application::get_window( void )
     {
-        return window_;
+        return &window_;
     }
 
     void Application::run( void )
@@ -121,9 +105,9 @@ namespace JUI
      */
     void Application::draw_frame( void )
     {
-        graphics_->clear_scene();
-        draw( graphics_ );
-        graphics_->swap_buffers();
+        graphics_.clear_scene();
+        draw( &graphics_ );
+        graphics_.swap_buffers();
     }
 
     /*
@@ -136,7 +120,7 @@ namespace JUI
 
         // Trigger click events on change state.
         bool mouse_pressed = (GetAsyncKeyState( VK_LBUTTON ) & 0x8000) != 0;
-        if (mouse_pressed != mouse_->is_pressed()) {
+        if (mouse_pressed != mouse_.is_pressed()) {
             if (mouse_pressed) {
                 trigger_mouse_clicked();
             }
@@ -152,8 +136,8 @@ namespace JUI
     void Application::trigger_mouse_moved( void )
     {
         // Update mouse regardless of focus.
-        mouse_->poll();
-        on_mouse_moved( mouse_ );
+        mouse_.poll();
+        on_mouse_moved( &mouse_ );
     }
 
     /*
@@ -161,8 +145,8 @@ namespace JUI
      */
     void Application::trigger_mouse_clicked( void )
     {
-        mouse_->set_pressed( true );
-        on_mouse_clicked( mouse_ );
+        mouse_.set_pressed( true );
+        on_mouse_clicked( &mouse_ );
     }
 
     /*
@@ -170,8 +154,8 @@ namespace JUI
      */
     void Application::trigger_mouse_released( void )
     {
-        mouse_->set_pressed( false );
-        on_mouse_released( mouse_ );
+        mouse_.set_pressed( false );
+        on_mouse_released( &mouse_ );
     }
 
     /*

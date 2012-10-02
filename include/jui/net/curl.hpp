@@ -11,24 +11,8 @@
 namespace JUI
 {
 
-    /* Struct for downloaded files. */
-    struct Download
-    {
-        const char* filename;
-        FILE* file;
-    };
-
-    /* Struct for reading files. */
-    struct MemoryBuffer
-    {
-        char* memory;
-        size_t size;
-    };
-
-    /* Helper functions for downloading/reading. */
-    static void *reallocate( void *buffer, size_t size );
-    static size_t write( void *buffer, size_t size, size_t num_members, void* data );
-    static size_t write_callback( void *buffer, size_t size, size_t num_members, void* data );
+    // Callbacks for reading and writing.
+    static size_t write_buffer( void *buffer, size_t size, size_t num_members, void* data );
 
     class Curl : public DownloaderInterface
     {

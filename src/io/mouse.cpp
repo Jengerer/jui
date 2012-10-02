@@ -9,7 +9,6 @@ namespace JUI
     Mouse::Mouse( Window* window )
     {
         set_window( window );
-        poll();
     }
 
     /*

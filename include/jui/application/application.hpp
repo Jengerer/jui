@@ -41,7 +41,7 @@ namespace JUI
 
         // Drawing functions.
         __declspec(dllexport) void			draw_frame( void );
-        __declspec(dllexport) Window*		get_window( void ) const;
+        __declspec(dllexport) Window*		get_window( void );
 
         // Main running functions.
         __declspec(dllexport) virtual void	run( void );
@@ -56,9 +56,9 @@ namespace JUI
 
     protected:
 
-        Graphics2D*		graphics_;
-        Window*			window_;
-        Mouse*			mouse_;
+        Graphics2D		graphics_;
+        Window			window_;
+        Mouse			mouse_;
         Keyboard		keyboard_;
 
     };

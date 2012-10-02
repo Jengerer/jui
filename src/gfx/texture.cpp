@@ -3,22 +3,33 @@
 namespace JUI
 {
 
-    Texture::Texture()
+    /*
+     * 2D texture constructor.
+     */
+    Texture::Texture( void )
     {
         set_texture( 0, 0, 0, 1.0f, 1.0f );
     }
 
+    /*
+     * 2D texture constructor from texture parameters.
+     */
     Texture::Texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu, GLfloat tv )
     {
         set_texture( texture, width, height, tu, tv );
     }
 
-    Texture::~Texture()
+    /*
+     * Texture destructor.
+     */
+    Texture::~Texture( void )
     {
         glDeleteTextures( 1, &texture_ );
-        texture_ = 0;
     }
 
+    /*
+     * Set new texture by texture parameters.
+     */
     void Texture::set_texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu, GLfloat tv )
     {
         texture_ = texture;
@@ -28,31 +39,49 @@ namespace JUI
         tv_ = tv;
     }
 
-    bool Texture::is_loaded() const
+    /*
+     * Returns whether the texture has been initialized.
+     */
+    bool Texture::is_loaded( void ) const
     {
         return texture_ != 0;
     }
 
-    GLuint Texture::get_texture() const
+    /*
+     * Gets OpenGL handle to texture.
+     */
+    GLuint Texture::get_texture( void ) const
     {
         return texture_;
     }
 
-    GLsizei Texture::get_width() const
+    /*
+     * Get texture width.
+     */
+    GLsizei Texture::get_width( void ) const
     {
         return width_;
     }
 
-    GLsizei Texture::get_height() const
+    /*
+     * Get texture height.
+     */
+    GLsizei Texture::get_height( void ) const
     {
         return height_;
     }
 
+    /*
+     * Get texture X coordinate.
+     */
     GLfloat Texture::get_tu() const
     {
         return tu_;
     }
 
+    /*
+     * Get texture Y coordinate.
+     */
     GLfloat Texture::get_tv() const
     {
         return tv_;

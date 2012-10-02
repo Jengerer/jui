@@ -347,7 +347,7 @@ namespace JUI
         // Set local temporary transformation.
         glPushMatrix();
 
-        size_t length = text->length();
+        size_t length = text->get_length();
         for (size_t i = 0; i < length; ++i) {
             FT_ULong ch = text->char_code_at( i );
             bool draw_line = false;

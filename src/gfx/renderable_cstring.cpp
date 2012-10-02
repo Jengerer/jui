@@ -3,14 +3,21 @@
 namespace JUI
 {
 
-    RenderableCString::RenderableCString( const char* str, size_t length ) : RenderableString( length )
+    /*
+     * Renderable C string by constant string constructor.
+     */
+    RenderableCString::RenderableCString( const JUTIL::ConstantString& string ) : RenderableString( string.get_length() )
     {
-        str_ = str;
+        string_.set_string( &string );
     }
 
+    /*
+     * Get character at string index.
+     */
     unsigned long RenderableCString::char_code_at( size_t index ) const
     {
-        return static_cast<unsigned long>(str_[index]);
+        const char* string = string_.get_string();
+        return static_cast<unsigned long>(string[index]);
     }
 
 }

@@ -3,6 +3,8 @@
 
 #include "jui/layout/component.hpp"
 #include "jui/gfx/font_interface.hpp"
+#include <string/constant_string.hpp>
+#include <string/constant_wide_string.hpp>
 
 namespace JUI
 {
@@ -17,25 +19,22 @@ namespace JUI
 
         __declspec(dllexport) virtual void draw( Graphics2D* graphics );
 
-        __declspec(dllexport) void set_text( const std::string& text );
-        __declspec(dllexport) void set_text( const wchar_t* text, size_t length );
+        __declspec(dllexport) void set_text( const JUTIL::ConstantString& string );
+        __declspec(dllexport) void set_text( const JUTIL::ConstantWideString& string );
         __declspec(dllexport) void set_colour( const Colour& colour );
         __declspec(dllexport) const Colour& get_colour( void ) const;
         __declspec(dllexport) virtual void set_alpha( int alpha );
 
-        // Drawing functions.
-        __declspec(dllexport) virtual void pack( void );
-
     private:
 
-        FontInterface*			get_font( void ) const;
-        void			set_font( FontInterface *font );
+        void pack( RenderableString* render_string );
+        FontInterface* get_font( void ) const;
+        void set_font( FontInterface *font );
 
     protected:
 
         FontInterface		*font_;
-        RenderableString* str_;
-        GLuint		list_;
+        GLuint		        list_;
 
     private:
 

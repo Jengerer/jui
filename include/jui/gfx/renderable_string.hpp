@@ -1,22 +1,23 @@
-#ifndef IRENDERABLE_STRING_HPP
-#define IRENDERABLE_STRING_HPP
+#ifndef RENDERABLE_STRING_HPP
+#define RENDERABLE_STRING_HPP
 
 namespace JUI
 {
 
+    /*
+     * Class for maintaining a generic renderable string.
+     */
     class RenderableString
     {
 
     public:
 
-        // Constructor.
+        RenderableString( void );
         RenderableString( size_t length );
 
-        // Get character code.
+        // String functions.
         virtual unsigned long char_code_at( size_t index ) const = 0;
-
-        // Get string length.
-        size_t length() const;
+        size_t get_length( void ) const;
 
     private:
 
@@ -26,4 +27,4 @@ namespace JUI
 
 }
 
-#endif // IRENDERABLE_STRING_HPP
+#endif // RENDERABLE_STRING_HPP
