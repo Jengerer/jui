@@ -5,7 +5,7 @@
 #include "jui/gfx/colour.hpp"
 #include "jui/gfx/file_texture.hpp"
 #include "jui/gfx/opengl_shared.hpp"
-#include "jui/net/iresource_source.hpp"
+#include "jui/net/resource_source_interface.hpp"
 
 #include <string/constant_string.hpp>
 #include <string/string_hasher.hpp>

@@ -6,7 +6,7 @@
 namespace JUI
 {
 
-    class IResourceSource
+    class ResourceSourceInterface
     {
 
     public:

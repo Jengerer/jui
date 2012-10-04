@@ -6,7 +6,7 @@ namespace JUI
     /*
      * Keyboard contructor.
      */
-    Keyboard::Keyboard()
+    Keyboard::Keyboard( void )
     {
         clear_states();
     }
@@ -30,7 +30,7 @@ namespace JUI
     /*
      * Resets all key states.
      */
-    void Keyboard::clear_states()
+    void Keyboard::clear_states( void )
     {
         for (size_t i = 0; i < KEY_COUNT; ++i) {
             states_[i] = false;

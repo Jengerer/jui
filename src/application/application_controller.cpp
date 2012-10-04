@@ -75,7 +75,7 @@ namespace JUI
     void ApplicationController::exit()
     {
         // Delete application.
-        delete get_application();
+        JUTIL::BaseAllocator::destroy( application_ );
         set_application( nullptr );
 
         // Destroy error stack.
@@ -85,7 +85,7 @@ namespace JUI
     /*
      * Get application handle.
      */
-    Application* ApplicationController::get_application()
+    Application* ApplicationController::get_application( void )
     {
         return application_;
     }

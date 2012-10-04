@@ -41,17 +41,17 @@
     <IncludePath>$(SDK_LIB_DIR)\jutil\include\;./include;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SDK_LIB_DIR)\jutil\lib\Debug;$(SDK_LIB_DIR)\libpng\projects\vstudio\Debug\;$(SDK_LIB_DIR)\libcurl\lib\Debug\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
-    <TargetName>jengerer_ui_debug</TargetName>
-    <OutDir>$(SolutionDir)\build\</OutDir>
+    <LibraryPath>$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Debug\;$(SDK_LIB_DIR)\libcurl\lib\Debug\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <TargetName>$(ProjectName)_debug</TargetName>
+    <OutDir>$(SolutionDir)\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SDK_LIB_DIR)\jutil\lib\Debug;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
-    <OutDir>$(SolutionDir)\build\</OutDir>
-    <TargetName>jengerer_ui</TargetName>
+    <LibraryPath>$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <OutDir>$(SolutionDir)\lib</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -65,7 +65,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jutil.lib;zlib.lib;libpng15.lib;freetype2410_D.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jutil_debug.lib;zlib.lib;libpng15.lib;freetype2410_D.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,10 +109,10 @@
     <ClInclude Include="include\jui\gfx\renderable_wide_string.hpp" />
     <ClInclude Include="include\jui\gfx\text.hpp" />
     <ClInclude Include="include\jui\gfx\texture.hpp" />
-    <ClInclude Include="include\jui\io\ikeyboard_handler.hpp" />
-    <ClInclude Include="include\jui\io\imouse_handler.hpp" />
+    <ClInclude Include="include\jui\io\keyboard_handler_interface.hpp" />
     <ClInclude Include="include\jui\io\mouse.hpp" />
     <ClInclude Include="include\jui\io\keyboard.hpp" />
+    <ClInclude Include="include\jui\io\mouse_handler_interface.hpp" />
     <ClInclude Include="include\jui\layout\component.hpp" />
     <ClInclude Include="include\jui\layout\constrained_container.hpp" />
     <ClInclude Include="include\jui\layout\vertical_layout.hpp" />
@@ -125,7 +125,7 @@
     <ClInclude Include="include\jui\net\curl.hpp" />
     <ClInclude Include="include\jui\net\file_downloader.hpp" />
     <ClInclude Include="include\jui\net\downloader_interface.hpp" />
-    <ClInclude Include="include\jui\net\iresource_source.hpp" />
+    <ClInclude Include="include\jui\net\resource_source_interface.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp" />

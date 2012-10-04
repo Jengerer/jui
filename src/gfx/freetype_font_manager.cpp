@@ -12,17 +12,20 @@ namespace JUI
      */
     FreetypeFontManager* FreetypeFontManager::get_instance( void )
     {
-        // Create instance.
+        // Create instance if missing.
         if (instance_ == nullptr) {
-            // Allocate instance without exception.
-            instance_ = (FreetypeFontManager*)malloc( sizeof(FreetypeFontManager) );
-            if (instance_ != nullptr) {
-                // Placement new and initialize.
-                instance_ = new (instance_) FreetypeFontManager();
-                if (!instance_->initialize()) {
-                    return nullptr;
-                }
+            // Allocate instance.
+            FreetypeFontManager* instance;
+            if (!JUTIL::BaseAllocator::allocate( &instance )) {
+                return nullptr;
             }
+
+            // Initialize manager.
+            instance = new (instance) FreetypeFontManager();
+            if (!instance->initialize()) {
+                return nullptr;
+            }
+            instance_ = instance;
         }
 
         return instance_;
@@ -31,7 +34,7 @@ namespace JUI
     /*
      * Shut down Freetype manager.
      */
-    void FreetypeFontManager::shut_down()
+    void FreetypeFontManager::shut_down( void )
     {
         if (instance_ != nullptr) {
             delete instance_;

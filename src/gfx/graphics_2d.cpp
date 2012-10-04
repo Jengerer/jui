@@ -1,4 +1,5 @@
 #include "jui/gfx/graphics_2d.hpp"
+#include "jui/application/error_stack.hpp"
 #include <png.h>
 
 namespace JUI
@@ -212,9 +213,15 @@ namespace JUI
         }
         
         // Not found, load and insert.
-        texture = new FileTexture( filename );
+        if (!JUTIL::BaseAllocator::allocate( &texture )) {
+            return NoMemoryForTextureFailure;
+        }
+        texture = new (texture) FileTexture( filename );
         ReturnStatus error = load_texture( texture );
         if (error != Success) {
+            ErrorStack* error_stack = ErrorStack::get_instance();
+            error_stack->log( "Failed to load texture %s.\n", filename.get_string() );
+            JUTIL::BaseAllocator::destroy( texture );
             return error;
         }
         textures_.insert( filename, texture );

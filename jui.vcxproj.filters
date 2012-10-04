@@ -195,15 +195,6 @@
     <ClInclude Include="include\jui\io\mouse.hpp">
       <Filter>include\jui\io</Filter>
     </ClInclude>
-    <ClInclude Include="include\jui\net\iresource_source.hpp">
-      <Filter>include\jui\net</Filter>
-    </ClInclude>
-    <ClInclude Include="include\jui\io\imouse_handler.hpp">
-      <Filter>include\jui\io</Filter>
-    </ClInclude>
-    <ClInclude Include="include\jui\io\ikeyboard_handler.hpp">
-      <Filter>include\jui\io</Filter>
-    </ClInclude>
     <ClInclude Include="include\jui\application\window.hpp">
       <Filter>include\jui\application</Filter>
     </ClInclude>
@@ -215,6 +206,15 @@
     </ClInclude>
     <ClInclude Include="include\jui\net\downloader_interface.hpp">
       <Filter>include\jui\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\net\resource_source_interface.hpp">
+      <Filter>include\jui\net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\io\keyboard_handler_interface.hpp">
+      <Filter>include\jui\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\io\mouse_handler_interface.hpp">
+      <Filter>include\jui\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

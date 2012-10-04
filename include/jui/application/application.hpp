@@ -3,8 +3,8 @@
 
 #include "jui/layout/container.hpp"
 #include "jui/gfx/graphics_2d.hpp"
-#include "jui/io/imouse_handler.hpp"
-#include "jui/io/ikeyboard_handler.hpp"
+#include "jui/io/mouse_handler_interface.hpp"
+#include "jui/io/keyboard_handler_interface.hpp"
 #include "jui/io/keyboard.hpp"
 #include "jui/io/mouse.hpp"
 #include "jui/application/window.hpp"

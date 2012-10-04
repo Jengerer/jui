@@ -22,7 +22,7 @@ namespace JUI
         __declspec(dllexport) bool get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url );
 
         // Read a file.
-        __declspec(dllexport) bool read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output );
+        __declspec(dllexport) bool read( const JUTIL::ConstantString& url, JUTIL::String* output );
 
     private:
 

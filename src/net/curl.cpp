@@ -164,14 +164,6 @@ namespace JUI
     }
 
     /*
-     * Helper function to allocate or reallocate to size.
-     */
-    static void *reallocate( void* buffer, size_t size )
-    {
-        return (buffer != nullptr ? realloc( buffer, size ) : malloc( size ));
-    }
-
-    /*
      * Callback when ready to write.
      */
     static size_t write_buffer( void *buffer, size_t size, size_t num_members, void* data )

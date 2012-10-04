@@ -2,7 +2,7 @@
 #define DOWNLOADER_INTERFACE_HPP
 
 #include <string/constant_string.hpp>
-#include <string/string_builder.hpp>
+#include <string/string.hpp>
 
 namespace JUI
 {
@@ -19,7 +19,7 @@ namespace JUI
         virtual bool download( const JUTIL::ConstantString& url, const JUTIL::ConstantString& destination ) = 0;
 
         // Read file to string builder.
-        virtual bool read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output ) = 0;
+        virtual bool read( const JUTIL::ConstantString& url, JUTIL::String* output ) = 0;
 
     };
 
