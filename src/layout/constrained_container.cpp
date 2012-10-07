@@ -29,8 +29,6 @@ namespace JUI
         apply_constraints();
     }
 
-#include <vector>
-
     /*
      * Add a child and allocate a constraint for it.
      */

@@ -6,7 +6,7 @@ namespace JUI
     /*
      * Box component constructor.
      */
-    Box::Box()
+    Box::Box( void )
     {
         colour_ = Colour( 255, 125, 0, 255 );
     }

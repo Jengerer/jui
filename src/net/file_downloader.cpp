@@ -1,6 +1,6 @@
 #include "jui/net/curl.hpp"
 #include "jui/net/file_downloader.hpp"
-#include <memory\base_allocator.hpp>
+#include <memory/base_allocator.hpp>
 
 namespace JUI
 {
@@ -78,7 +78,7 @@ namespace JUI
     /*
      * Read a file to string.
      */
-    bool FileDownloader::read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output )
+    bool FileDownloader::read( const JUTIL::ConstantString& url, JUTIL::String* output )
     {
         return downloader_->read( url, output );
     }

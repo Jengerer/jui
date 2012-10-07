@@ -50,18 +50,20 @@ namespace JUI
         va_list args;
         va_start( args, format );
         
-        // Allocate string.
+        // Build message.
         JUTIL::String* string;
         if (!JUTIL::BaseAllocator::allocate( &string )) {
             return;
         }
+		if (!string->write( format, args )) {
+			return;
+		}
 
-        // Build string.
-        JUTIL::StringBuilder builder;
-        if (!builder.write( format, args )) {
-            return;
-        }
-        string = new (string) JUTIL::String( &builder );
+		// Add to stack.
+		if (!errors_.push( string )) {
+			JUTIL::BaseAllocator::destroy( &string );
+			return;
+		}
         va_end( args );
     }
 

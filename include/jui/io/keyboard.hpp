@@ -7,7 +7,6 @@ namespace JUI
     // Number of key codes.
     const size_t KEY_COUNT = 255;
 
-
     class Keyboard
     {
 

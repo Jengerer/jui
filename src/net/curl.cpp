@@ -84,13 +84,12 @@ namespace JUI
         }
 
         // Copy destination to create path.
-        JUTIL::StringBuilder builder;
-        if (!builder.copy( destination.get_string(), destination.get_length() )) {
+        JUTIL::String destination_copy;
+        if (!destination_copy.copy( destination.get_string(), destination.get_length() )) {
             ErrorStack* error_stack = ErrorStack::get_instance();
             error_stack->log( "Curl: failed to allocate for path name." );
             return false;
         }
-        JUTIL::String destination_copy( &builder );
         char* destination_string = destination_copy.get_string();
 
         // Create path if necessary.
@@ -106,10 +105,11 @@ namespace JUI
             destination_string[slash_index] = '/';
             slash_index = destination.find( '/', slash_index + 1 );
         }
-        builder.clear();
+		destination_copy.clear();
 
         // Read contents of file.
-        if (!read( url, &builder )) {
+		JUTIL::String contents;
+        if (!read( url, &contents )) {
             ErrorStack* error_stack = ErrorStack::get_instance();
             error_stack->log( "Curl: download failed for %s.", url.get_string() );
             return false;
@@ -125,8 +125,8 @@ namespace JUI
         }
         
         // Write to file.
-        size_t size = builder.get_length() + 1;
-        size_t written = fwrite( builder.get_string(), size, 1, file );
+        size_t size = contents.get_length() + 1;
+        size_t written = fwrite( contents.get_string(), size, 1, file );
         if (written != size) {
             fclose( file );
             ErrorStack* error_stack = ErrorStack::get_instance();
@@ -141,7 +141,7 @@ namespace JUI
     /*
      * Read the file at the given URL to string.
      */
-    bool Curl::read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* builder )
+    bool Curl::read( const JUTIL::ConstantString& url, JUTIL::String* builder )
     {
         // Create empty memory buffer struct.
         JUTIL::ArrayBuilder<char> buffer;

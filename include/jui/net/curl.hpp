@@ -42,7 +42,7 @@ namespace JUI
 
         // Downloader interface functions.
         virtual bool download( const JUTIL::ConstantString& string, const JUTIL::ConstantString& destination );
-        virtual bool read( const JUTIL::ConstantString& url, JUTIL::StringBuilder* output );
+        virtual bool read( const JUTIL::ConstantString& url, JUTIL::String* output );
 
     private:
 
