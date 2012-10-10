@@ -1,5 +1,5 @@
 #include "jui/gfx/wrapped_text.hpp"
-#include "jui/gfx/renderable_cstring.hpp"
+#include "jui/gfx/renderable_string_interface.hpp"
 
 namespace JUI
 {
@@ -24,7 +24,7 @@ namespace JUI
     /*
      * Pack and align wrapped text.
      */
-    void WrappedText::pack( RenderableString* render_string )
+    void WrappedText::pack( RenderableStringInterface* render_string )
     {	
         // Wrap renderable string.
         RECT bounds = { 0, 0, get_text_width(), 0 };

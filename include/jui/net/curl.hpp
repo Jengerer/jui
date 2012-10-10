@@ -41,8 +41,8 @@ namespace JUI
         static void shut_down( void );
 
         // Downloader interface functions.
-        virtual bool download( const JUTIL::ConstantString& string, const JUTIL::ConstantString& destination );
-        virtual bool read( const JUTIL::ConstantString& url, JUTIL::String* output );
+        virtual bool download( const JUTIL::String* string, const JUTIL::String* destination );
+        virtual bool read( const JUTIL::String* url, JUTIL::DynamicString* output );
 
     private:
 

@@ -19,15 +19,15 @@ namespace JUI
 
         __declspec(dllexport) virtual void draw( Graphics2D* graphics );
 
-        __declspec(dllexport) void set_text( const JUTIL::ConstantString& string );
-        __declspec(dllexport) void set_text( const JUTIL::ConstantWideString& string );
-        __declspec(dllexport) void set_colour( const Colour& colour );
-        __declspec(dllexport) const Colour& get_colour( void ) const;
+        __declspec(dllexport) void set_text( const JUTIL::String* string );
+        __declspec(dllexport) void set_text( const JUTIL::WideString* string );
+        __declspec(dllexport) void set_colour( const Colour* colour );
+        __declspec(dllexport) const Colour* get_colour( void ) const;
         __declspec(dllexport) virtual void set_alpha( int alpha );
 
     private:
 
-        void pack( RenderableString* render_string );
+        void pack( RenderableStringInterface* render_string );
         FontInterface* get_font( void ) const;
         void set_font( FontInterface *font );
 

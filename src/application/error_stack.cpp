@@ -51,7 +51,7 @@ namespace JUI
         va_start( args, format );
         
         // Build message.
-        JUTIL::String* string;
+        JUTIL::DynamicString* string;
         if (!JUTIL::BaseAllocator::allocate( &string )) {
             return;
         }

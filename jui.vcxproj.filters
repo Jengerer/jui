@@ -61,15 +61,6 @@
     <ClCompile Include="src\gfx\opengl_shared.cpp">
       <Filter>src\gfx</Filter>
     </ClCompile>
-    <ClCompile Include="src\gfx\renderable_cstring.cpp">
-      <Filter>src\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gfx\renderable_string.cpp">
-      <Filter>src\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gfx\renderable_wide_string.cpp">
-      <Filter>src\gfx</Filter>
-    </ClCompile>
     <ClCompile Include="src\gfx\text.cpp">
       <Filter>src\gfx</Filter>
     </ClCompile>
@@ -156,15 +147,6 @@
     <ClInclude Include="include\jui\gfx\opengl_shared.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
-    <ClInclude Include="include\jui\gfx\renderable_wide_string.hpp">
-      <Filter>include\jui\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="include\jui\gfx\renderable_string.hpp">
-      <Filter>include\jui\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="include\jui\gfx\renderable_cstring.hpp">
-      <Filter>include\jui\gfx</Filter>
-    </ClInclude>
     <ClInclude Include="include\jui\gfx\text.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
@@ -215,6 +197,12 @@
     </ClInclude>
     <ClInclude Include="include\jui\io\mouse_handler_interface.hpp">
       <Filter>include\jui\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\base_renderable_string.hpp">
+      <Filter>include\jui\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\renderable_string_interface.hpp">
+      <Filter>include\jui\gfx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

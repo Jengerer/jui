@@ -24,7 +24,7 @@ namespace JUI
         // Get instance.
         if (instance_ == nullptr) {
             // Get an instance of CURL.
-            JUI::Curl* curl = Curl::get_instance();
+            Curl* curl = Curl::get_instance();
             if (curl == nullptr) {
                 return nullptr;
             }
@@ -51,11 +51,11 @@ namespace JUI
      * Check if a file exists; if it does not, get it from
      * the specified URL.
      */
-    bool FileDownloader::check_and_get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url )
+    bool FileDownloader::check_and_get( const JUTIL::String* filename, const JUTIL::String* url )
     {
         // Check if file exists.
         FILE* file = nullptr;
-        errno_t error = fopen_s( &file, filename.get_string(), "r" );
+        errno_t error = fopen_s( &file, filename->get_string(), "r" );
 
         // Get file if failed to open.
         if (error != 0) {
@@ -70,7 +70,7 @@ namespace JUI
     /*
      * Get a file without checking if it's already there.
      */
-    bool FileDownloader::get( const JUTIL::ConstantString& filename, const JUTIL::ConstantString& url )
+    bool FileDownloader::get( const JUTIL::String* filename, const JUTIL::String* url )
     {
         return downloader_->download( url, filename );
     }
@@ -78,7 +78,7 @@ namespace JUI
     /*
      * Read a file to string.
      */
-    bool FileDownloader::read( const JUTIL::ConstantString& url, JUTIL::String* output )
+    bool FileDownloader::read( const JUTIL::String* url, JUTIL::DynamicString* output )
     {
         return downloader_->read( url, output );
     }

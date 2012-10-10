@@ -1,5 +1,4 @@
-#include "jui/gfx/renderable_cstring.hpp"
-#include "jui/gfx/renderable_wide_string.hpp"
+#include "jui/gfx/base_renderable_string.hpp"
 #include "jui/gfx/text.hpp"
 
 namespace JUI
@@ -11,7 +10,7 @@ namespace JUI
     Text::Text( FontInterface *font )
     {
         set_font( font );
-        set_colour( COLOUR_WHITE );
+        set_colour( &COLOUR_WHITE );
         list_ = glGenLists( 1 );
     }
 
@@ -26,19 +25,19 @@ namespace JUI
     /*
      * Set new displayed text.
      */
-    void Text::set_text( const JUTIL::ConstantString& text )
+    void Text::set_text( const JUTIL::String* text )
     {
         // Set renderable string.
-        RenderableCString render_string( text );
+        RenderableString render_string( text );
         pack( &render_string );
     }
 
     /*
      * Set new displayed wchar text.
      */
-    void Text::set_text( const JUTIL::ConstantWideString& text )
+    void Text::set_text( const JUTIL::WideString* text )
     {
-        // Set renderable wide std::string and pack.
+        // Set renderable wide string and pack.
         RenderableWideString render_string( text );
         pack( &render_string );
     }
@@ -46,19 +45,19 @@ namespace JUI
     /*
      * Set text colour.
      */
-    void Text::set_colour( const Colour& colour )
+    void Text::set_colour( const Colour* colour )
     {
-        colour_.r = colour.r;
-        colour_.g = colour.g;
-        colour_.b = colour.b;
+        colour_.r = colour->r;
+        colour_.g = colour->g;
+        colour_.b = colour->b;
     }
 
     /*
      * Get text colour.
      */
-    const Colour& Text::get_colour( void ) const
+    const Colour* Text::get_colour( void ) const
     {
-        return colour_;
+        return &colour_;
     }
 
     /*
@@ -101,7 +100,7 @@ namespace JUI
     /*
      * Pack text to size.
      */
-    void Text::pack( RenderableString* render_string )
+    void Text::pack( RenderableStringInterface* render_string )
     {
         // Pack on renderable string size.
         RECT size;

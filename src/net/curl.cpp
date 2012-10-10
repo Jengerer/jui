@@ -73,10 +73,10 @@ namespace JUI
     /*
      * Download file at given URL to destination.
      */
-    bool Curl::download( const JUTIL::ConstantString& url, const JUTIL::ConstantString& destination )
+    bool Curl::download( const JUTIL::String* url, const JUTIL::String* destination )
     {
         // Set the URL.
-        CURLcode result = curl_easy_setopt( curl_, CURLOPT_URL, url.get_string() );
+        CURLcode result = curl_easy_setopt( curl_, CURLOPT_URL, url->get_string() );
         if (result != CURLE_OK) {
             ErrorStack* error_stack = ErrorStack::get_instance();
             error_stack->log( "Curl: failed to set operation." );
@@ -84,8 +84,8 @@ namespace JUI
         }
 
         // Copy destination to create path.
-        JUTIL::String destination_copy;
-        if (!destination_copy.copy( destination.get_string(), destination.get_length() )) {
+        JUTIL::DynamicString destination_copy;
+        if (!destination_copy.copy( destination->get_string(), destination->get_length() )) {
             ErrorStack* error_stack = ErrorStack::get_instance();
             error_stack->log( "Curl: failed to allocate for path name." );
             return false;
@@ -103,21 +103,21 @@ namespace JUI
 
             // Undo and find next slash.
             destination_string[slash_index] = '/';
-            slash_index = destination.find( '/', slash_index + 1 );
+            slash_index = destination->find( '/', slash_index + 1 );
         }
 		destination_copy.clear();
 
         // Read contents of file.
-		JUTIL::String contents;
+		JUTIL::DynamicString contents;
         if (!read( url, &contents )) {
             ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Curl: download failed for %s.", url.get_string() );
+            error_stack->log( "Curl: download failed for %s.", url->get_string() );
             return false;
         }
 
         // Open file for writing.
         FILE* file;
-        errno_t error = fopen_s( &file, destination.get_string(), "w" );
+        errno_t error = fopen_s( &file, destination->get_string(), "w" );
         if (error != 0) {
             ErrorStack* error_stack = ErrorStack::get_instance();
             error_stack->log( "Curl: failed to open %s for download.", destination_string );
@@ -141,24 +141,24 @@ namespace JUI
     /*
      * Read the file at the given URL to string.
      */
-    bool Curl::read( const JUTIL::ConstantString& url, JUTIL::String* builder )
+    bool Curl::read( const JUTIL::String* url, JUTIL::DynamicString* output )
     {
         // Create empty memory buffer struct.
         JUTIL::ArrayBuilder<char> buffer;
 
         // Set up CURL operation.
-        curl_easy_setopt( curl_, CURLOPT_URL, url.get_string() );
+        curl_easy_setopt( curl_, CURLOPT_URL, url->get_string() );
         curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_buffer );
         curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &buffer );
         curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
         CURLcode result = curl_easy_perform( curl_ );
         if (result != CURLE_OK) {
             ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Curl: read failed for %s.", url.get_string() );
+            error_stack->log( "Curl: read failed for %s.", url->get_string() );
         }
 
         // Set builder's buffer.
-        builder->set_string( buffer.get_array(), buffer.get_size() );
+        output->set_string( buffer.get_array(), buffer.get_size() );
         buffer.release();
         return true;
     }

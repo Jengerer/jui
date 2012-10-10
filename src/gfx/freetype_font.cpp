@@ -244,11 +244,12 @@ namespace JUI
     /*
      * Get width of a string.
      */
-    FT_Pos FreetypeFont::get_string_width( const RenderableString* text, size_t start, size_t end ) const
+    FT_Pos FreetypeFont::get_string_width( const RenderableStringInterface* text, size_t start, size_t end ) const
     {
         FT_Pos width = 0L;
         for (size_t i = start; i < end; ++i) {
-            width += get_char_width( text->char_code_at( i ) );
+            unsigned int character_code = text->get_character_code( i );
+            width += get_char_width( character_code );
         }
 
         return width;
@@ -257,7 +258,7 @@ namespace JUI
     /*
      * Generate a list for drawing a string.
      */
-    void FreetypeFont::draw( RECT* rect, const RenderableString* text, size_t start, size_t end ) const
+    void FreetypeFont::draw( RECT* rect, const RenderableStringInterface* text, size_t start, size_t end ) const
     {
         // Push matrix for line.
         glPushMatrix();
@@ -269,7 +270,7 @@ namespace JUI
 
         // Draw characters, split on new line.
         for (size_t i = start; i < end; ++i) {
-            FT_ULong c = text->char_code_at( i );
+            FT_ULong c = text->get_character_code( i );
             if (c == static_cast<FT_ULong>('\n')) {
                 // Update longest line.
                 if (current > longest) {
@@ -308,7 +309,7 @@ namespace JUI
     /*
      * Draw aligned text to the screen.
      */
-    void FreetypeFont::draw_aligned( const RenderableString* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const
+    void FreetypeFont::draw_aligned( const RenderableStringInterface* text, size_t start, size_t end, float width, TextHorizontalAlignType align_type ) const
     {
         // Measure text.
         float text_width = static_cast<float>(get_string_width( text, start, end ));
@@ -332,7 +333,7 @@ namespace JUI
     /*
      * Prepare drawing of wrapped string.
      */
-    void FreetypeFont::draw_wrapped( RECT* bounds, const RenderableString* text, TextHorizontalAlignType align_type ) const
+    void FreetypeFont::draw_wrapped( RECT* bounds, const RenderableStringInterface* text, TextHorizontalAlignType align_type ) const
     {
         // Constant bounds.
         const long LINE_WIDTH = bounds->right - bounds->left;
@@ -349,7 +350,7 @@ namespace JUI
 
         size_t length = text->get_length();
         for (size_t i = 0; i < length; ++i) {
-            FT_ULong ch = text->char_code_at( i );
+            FT_ULong ch = text->get_character_code( i );
             bool draw_line = false;
             bool include_breakpoint = true;
             
