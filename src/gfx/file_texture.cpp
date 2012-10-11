@@ -6,7 +6,7 @@ namespace JUI
     /*
      * File texture constructor.
      */
-    FileTexture::FileTexture( const JUTIL::ConstantString& filename )
+    FileTexture::FileTexture( const JUTIL::String* filename )
     {
         filename_ = filename;
     }
@@ -14,9 +14,9 @@ namespace JUI
     /*
      * Get filename.
      */
-    const JUTIL::ConstantString* FileTexture::get_filename( void ) const
+    const JUTIL::String* FileTexture::get_filename( void ) const
     {
-        return &filename_;
+        return filename_;
     }
 
 }

@@ -13,7 +13,7 @@ namespace JUI
     public:
 
 	    // Loading and handling fonts.
-	    static __declspec(dllexport) FontInterface* create_font( const JUTIL::ConstantString& file_name, unsigned int height );
+	    static __declspec(dllexport) FontInterface* create_font( const JUTIL::String* file_name, unsigned int height );
 	    static __declspec(dllexport) void destroy_font( FontInterface* font );
 	    static __declspec(dllexport) void shut_down( void );
 

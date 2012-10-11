@@ -203,7 +203,7 @@ namespace JUI
     /* 
      * Get texture by file name.
      */
-    Graphics2D::ReturnStatus Graphics2D::get_texture( const JUTIL::ConstantString& filename, FileTexture** output )
+    Graphics2D::ReturnStatus Graphics2D::get_texture( const JUTIL::String*filename, FileTexture** output )
     {
         // Check if exists in map.
         FileTexture* texture;
@@ -220,7 +220,7 @@ namespace JUI
         ReturnStatus error = load_texture( texture );
         if (error != Success) {
             ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Failed to load texture %s.\n", filename.get_string() );
+            error_stack->log( "Failed to load texture %s.\n", filename->get_string() );
             JUTIL::BaseAllocator::destroy( texture );
             return error;
         }
@@ -320,7 +320,7 @@ namespace JUI
     Graphics2D::ReturnStatus Graphics2D::load_texture( FileTexture* file_texture )
     {
         // Get filename and URL.
-        const JUTIL::ConstantString* filename = file_texture->get_filename();
+        const JUTIL::String* filename = file_texture->get_filename();
 
         // Output variables.
         png_structp	png_ptr;

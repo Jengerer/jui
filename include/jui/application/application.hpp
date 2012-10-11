@@ -24,6 +24,7 @@ namespace JUI
             Success = 0,
             WindowCreateFailure,
             GraphicsInitializeFailure,
+            PrecacheResourcesFailure,
         };
 
     public:
@@ -32,19 +33,19 @@ namespace JUI
         __declspec(dllexport) virtual ~Application( void );
 
         // Create interfaces.
-        __declspec(dllexport) virtual ReturnStatus	load_interfaces( void );
-        __declspec(dllexport) virtual void	close_interfaces( void );
-        __declspec(dllexport) void			exit_application( void );
+        __declspec(dllexport) virtual ReturnStatus initialize( void );
+        __declspec(dllexport) virtual void clean_up( void );
+        __declspec(dllexport) void exit_application( void );
 
         // Application singularity/dependency checks.
         static __declspec(dllexport) unsigned int get_process_count( const char* process_name );
 
         // Drawing functions.
-        __declspec(dllexport) void			draw_frame( void );
-        __declspec(dllexport) Window*		get_window( void );
+        __declspec(dllexport) void draw_frame( void );
+        __declspec(dllexport) Window* get_window( void );
 
         // Main running functions.
-        __declspec(dllexport) virtual void	run( void );
+        __declspec(dllexport) virtual void run( void );
 
         // Input event triggers.
         void			trigger_mouse_events( void );

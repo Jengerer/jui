@@ -8,6 +8,9 @@ namespace JUI
     // Singleton instance.
     ErrorStack* ErrorStack::instance_ = nullptr;
 
+    // Fallback error string.
+    const JUTIL::ConstantString DEFAULT_ERROR_MESSAGE = "Encountered unknown/unreported error! Jengerer stinks at this!";
+
     /*
      * Error stack destructor.
      */
@@ -83,12 +86,13 @@ namespace JUI
 
     /*
      * Get error on the top of the stack.
+     * Returns a fallback error message if none is found.
      */
     const JUTIL::String* ErrorStack::get_top_error( void ) const
     {
         // Check for empty stack.
         if (errors_.is_empty()) {
-            return nullptr;
+            return &DEFAULT_ERROR_MESSAGE;
         }
 
         size_t last_index = errors_.get_length() - 1;

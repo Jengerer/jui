@@ -15,7 +15,7 @@ namespace JUI
 {
 
     // Data structure control textures.
-    typedef JUTIL::HashMap<int, JUTIL::ConstantString, FileTexture*, JUTIL::StringHasher> TextureMap;
+    typedef JUTIL::HashMap<int, const JUTIL::String*, FileTexture*, JUTIL::StringHasher> TextureMap;
 
     class Graphics2D
     {
@@ -63,7 +63,7 @@ namespace JUI
         // Resource handling.
         __declspec(dllexport) Texture*		create_empty_texture( GLsizei width, GLsizei height, GLenum format );
         __declspec(dllexport) GLuint		create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
-        __declspec(dllexport) ReturnStatus	get_texture( const JUTIL::ConstantString& filename, FileTexture** output );
+        __declspec(dllexport) ReturnStatus	get_texture( const JUTIL::String* filename, FileTexture** output );
 
         // Drawing functions.
         __declspec(dllexport) void draw_pixel( GLfloat x, GLfloat y, const Colour& colour );

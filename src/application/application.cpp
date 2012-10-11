@@ -21,13 +21,13 @@ namespace JUI
      */
     Application::~Application( void )
     {
-        close_interfaces();
+        clean_up();
     }
 
     /*
      * Initialize application interfaces.
      */
-    Application::ReturnStatus Application::load_interfaces( void )
+    Application::ReturnStatus Application::initialize( void )
     {
         // Set window size and create.
         window_.set_size( get_width(), get_height() );
@@ -50,7 +50,7 @@ namespace JUI
     /*
      * Clean application interfaces.
      */
-    void Application::close_interfaces( void )
+    void Application::clean_up( void )
     {
         // Nothing specific.
     }

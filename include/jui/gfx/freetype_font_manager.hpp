@@ -23,7 +23,7 @@ namespace JUI
 	    static void shut_down( void );
 
 	    // Font creation and destruction.
-	    FontInterface* create_font( const JUTIL::ConstantString& filename, unsigned int height );
+	    FontInterface* create_font( const JUTIL::String* filename, unsigned int height );
 	    void destroy_font( FontInterface* font );
 
     private:

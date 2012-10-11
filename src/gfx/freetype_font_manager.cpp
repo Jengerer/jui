@@ -1,5 +1,6 @@
 #include "jui/gfx/freetype_font_manager.hpp"
 #include "jui/gfx/freetype_font.hpp"
+#include "jui/application/error_stack.hpp"
 
 namespace JUI
 {
@@ -46,14 +47,14 @@ namespace JUI
      * Create a font by filename and size.
      * Returns a font interface handle on success, nullptr otherwise.
      */
-    FontInterface* FreetypeFontManager::create_font( const JUTIL::ConstantString& filename, unsigned int height )
+    FontInterface* FreetypeFontManager::create_font( const JUTIL::String* filename, unsigned int height )
     {
         // Create font.
         FT_Face face;
-        FT_Error error = FT_New_Face( library_, filename.get_string(), 0, &face );
-
-        // Fault and reload on fail.
+        FT_Error error = FT_New_Face( library_, filename->get_string(), 0, &face );
+        JUI::ErrorStack* stack = JUI::ErrorStack::get_instance();
         if (error != FT_Err_Ok) {
+            stack->log( "Failed to create font from file: %s", filename->get_string() );
             return nullptr;
         }
 

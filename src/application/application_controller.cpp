@@ -25,7 +25,7 @@ namespace JUI
         set_application( application );
 
         // Initialize application interfaces.
-        Application::ReturnStatus result = application->load_interfaces();
+        Application::ReturnStatus result = application->initialize();
         if (result != Application::Success) {
             JUTIL::ConstantString error( "Application controller: unlogged error." );
             const JUTIL::String* top = error_stack->get_top_error();
