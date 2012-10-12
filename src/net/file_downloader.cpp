@@ -61,10 +61,10 @@ namespace JUI
         if (error != 0) {
             return get( filename, url );
         }
-        else {
-            // File already exists.
-            fclose( file );
-        }
+        
+        // File already exists.
+        fclose( file );
+        return true;
     }
 
     /*

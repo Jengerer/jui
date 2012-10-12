@@ -204,6 +204,9 @@
     <ClInclude Include="include\jui\gfx\renderable_string_interface.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
+    <ClInclude Include="include\jui\io\io_common.hpp">
+      <Filter>include\jui\io</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

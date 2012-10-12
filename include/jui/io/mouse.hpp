@@ -7,7 +7,7 @@
 namespace JUI
 {
 
-    enum EMouseEvent {
+    enum MouseEvent {
         MOUSE_EVENT_LEFT_CLICK,
         MOUSE_EVENT_LEFT_RELEASE,
         MOUSE_EVENT_RIGHT_CLICK,
@@ -15,7 +15,7 @@ namespace JUI
         MOUSE_EVENT_MOVE
     };
 
-    enum EMouseCursor {
+    enum MouseCursor {
         MOUSE_CURSOR_ARROW,
         MOUSE_CURSOR_FINGER,
         MOUSE_CURSOR_HAND

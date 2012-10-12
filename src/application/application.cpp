@@ -94,10 +94,15 @@ namespace JUI
         return &window_;
     }
 
-    void Application::run( void )
+    Application::ReturnStatus Application::run( void )
     {
         // Do nothing.
-        trigger_mouse_moved();
+        if (!trigger_mouse_moved()) {
+            return MouseHandlingFailure;
+        }
+
+        // No issues.
+        return Success;
     }
 
     /*
@@ -112,70 +117,112 @@ namespace JUI
 
     /*
      * Update's the mouse's position and state.
+     * Returns true if mouse handling successful, false otherwise.
      */
-    void Application::trigger_mouse_events( void )
+    bool Application::trigger_mouse_events( void )
     {
         // Update mouse position.
-        trigger_mouse_moved();
+        if (!trigger_mouse_moved()) {
+            return false;
+        }
 
         // Trigger click events on change state.
         bool mouse_pressed = (GetAsyncKeyState( VK_LBUTTON ) & 0x8000) != 0;
         if (mouse_pressed != mouse_.is_pressed()) {
             if (mouse_pressed) {
-                trigger_mouse_clicked();
+                // Mouse pressed, previously unpressed.
+                if (!trigger_mouse_clicked()) {
+                    return false;
+                }
             }
-            else {
-                trigger_mouse_released();
+            else if (!trigger_mouse_released()) {
+                return false;
             }
         }
+
+        // No issues.
+        return true;
     }
 
     /*
      * Updates the mouse position and triggers event.
+     * Returns true if mouse handling successful, false otherwise.
      */
-    void Application::trigger_mouse_moved( void )
+    bool Application::trigger_mouse_moved( void )
     {
         // Update mouse regardless of focus.
         mouse_.poll();
-        on_mouse_moved( &mouse_ );
+        IOResult result = on_mouse_moved( &mouse_ );
+        if (result == IO_RESULT_ERROR) {
+            return false;
+        }
+
+        // No issues.
+        return true;
     }
 
     /*
      * Triggers mouse click.
+     * Returns true if mouse handling successful, false otherwise.
      */
-    void Application::trigger_mouse_clicked( void )
+    bool Application::trigger_mouse_clicked( void )
     {
         mouse_.set_pressed( true );
-        on_mouse_clicked( &mouse_ );
+        IOResult result = on_mouse_clicked( &mouse_ );
+        if (result == IO_RESULT_ERROR) {
+            return false;
+        }
+
+        // No issues.
+        return false;
     }
 
     /*
      * Triggers mouse released.
+     * Returns true if mouse handling successful, false otherwise.
      */
-    void Application::trigger_mouse_released( void )
+    bool Application::trigger_mouse_released( void )
     {
         mouse_.set_pressed( false );
-        on_mouse_released( &mouse_ );
+        IOResult result = on_mouse_released( &mouse_ );
+        if (result == IO_RESULT_ERROR) {
+            return false;
+        }
+
+        // No issues.
+        return false;
     }
 
     /*
      * Update key pressed state and trigger event.
      */
-    void Application::trigger_key_pressed( int key )
+    bool Application::trigger_key_pressed( int key )
     {
         // Update state.
         keyboard_.set_key_state( key, true );
-        on_key_pressed( key );
+        IOResult result = on_key_pressed( key );
+        if (result == IO_RESULT_ERROR) {
+            return false;
+        }
+
+        // No issue.
+        return true;
     }
 
     /*
      * Update key released state and trigger event.
      */
-    void Application::trigger_key_released( int key )
+    bool Application::trigger_key_released( int key )
     {
         // Update state.
         keyboard_.set_key_state( key, false );
-        on_key_released( key );
+        IOResult result = on_key_released( key );
+        if (result == IO_RESULT_ERROR) {
+            return false;
+        }
+
+        // No issue.
+        return true;
     }
 
 }

@@ -22,9 +22,19 @@ namespace JUI
         enum ReturnStatus
         {
             Success = 0,
+
+            // Initialization/loading results.
             WindowCreateFailure,
             GraphicsInitializeFailure,
             PrecacheResourcesFailure,
+
+            // Input handling results.
+            MouseHandlingFailure,
+            KeyboardHandlingFailure,
+
+            // Generic running results.
+            NoMemoryFailure,
+            RunFailure,
         };
 
     public:
@@ -45,22 +55,22 @@ namespace JUI
         __declspec(dllexport) Window* get_window( void );
 
         // Main running functions.
-        __declspec(dllexport) virtual void run( void );
+        __declspec(dllexport) virtual ReturnStatus run( void );
 
         // Input event triggers.
-        void			trigger_mouse_events( void );
-        void			trigger_mouse_moved( void );
-        void			trigger_mouse_clicked( void );
-        void			trigger_mouse_released( void );
-        void			trigger_key_pressed( int key );
-        void			trigger_key_released( int key );
+        bool trigger_mouse_events( void );
+        bool trigger_mouse_moved( void );
+        bool trigger_mouse_clicked( void );
+        bool trigger_mouse_released( void );
+        bool trigger_key_pressed( int key );
+        bool trigger_key_released( int key );
 
     protected:
 
-        Graphics2D		graphics_;
-        Window			window_;
-        Mouse			mouse_;
-        Keyboard		keyboard_;
+        Graphics2D graphics_;
+        Window window_;
+        Mouse mouse_;
+        Keyboard keyboard_;
 
     };
 

@@ -19,6 +19,7 @@ namespace JUI
                 "Application controller: failed to create error stack.",
                 "Application controller failure!",
                 MB_ICONERROR | MB_OK );
+            return false;
         }
 
         // Set application handle.
@@ -27,14 +28,10 @@ namespace JUI
         // Initialize application interfaces.
         Application::ReturnStatus result = application->initialize();
         if (result != Application::Success) {
-            JUTIL::ConstantString error( "Application controller: unlogged error." );
             const JUTIL::String* top = error_stack->get_top_error();
-            if (top != nullptr) {
-                error = *top;
-            }
             MessageBox( nullptr,
                 top->get_string(),
-                "Application controller: initialize failed.",
+                "Failed to initialize application!",
                 MB_ICONERROR | MB_OK );
             set_application( nullptr );
             return false;

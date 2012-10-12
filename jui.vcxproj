@@ -125,6 +125,7 @@
     <ClInclude Include="include\jui\net\file_downloader.hpp" />
     <ClInclude Include="include\jui\net\downloader_interface.hpp" />
     <ClInclude Include="include\jui\net\resource_source_interface.hpp" />
+    <ClInclude Include="include\jui\io\io_common.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp" />
