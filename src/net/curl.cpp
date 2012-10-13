@@ -117,20 +117,20 @@ namespace JUI
 
         // Open file for writing.
         FILE* file;
-        errno_t error = fopen_s( &file, destination->get_string(), "w" );
+        errno_t error = fopen_s( &file, destination->get_string(), "wb" );
         if (error != 0) {
             ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Curl: failed to open %s for download.", destination_string );
+            error_stack->log( "Curl: failed to open %s for download.", destination->get_string() );
             return false;
         }
         
         // Write to file.
-        size_t size = contents.get_length() + 1;
+        size_t size = contents.get_length();
         size_t written = fwrite( contents.get_string(), size, 1, file );
-        if (written != size) {
+        if (written != 1) {
             fclose( file );
             ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Curl: failed to write to %s for download.", destination_string );
+            error_stack->log( "Curl: failed to write to %s for download.", destination->get_string() );
             return false;
         }
 

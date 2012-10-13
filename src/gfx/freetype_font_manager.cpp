@@ -54,7 +54,7 @@ namespace JUI
         FT_Error error = FT_New_Face( library_, filename->get_string(), 0, &face );
         JUI::ErrorStack* stack = JUI::ErrorStack::get_instance();
         if (error != FT_Err_Ok) {
-            stack->log( "Failed to create font from file: %s", filename->get_string() );
+            stack->log( "Failed to create font from file: %s!", filename->get_string() );
             return nullptr;
         }
 
@@ -79,8 +79,10 @@ namespace JUI
     void FreetypeFontManager::destroy_font( FontInterface* font )
     {
         // Find the font.
-        fonts_.remove( font );
-        font->release();
+		if (font != nullptr) {
+			fonts_.remove( font );
+			font->release();
+		}
     }
 
     /*

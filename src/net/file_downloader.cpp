@@ -31,8 +31,10 @@ namespace JUI
 
             // Create instance of downloader.
             if (!JUTIL::BaseAllocator::allocate( &instance_ )) {
-                instance_ = new (instance_) FileDownloader( curl );
+				Curl::shut_down();
+				return nullptr;
             }
+			instance_ = new (instance_) FileDownloader( curl );
         }
 
         return instance_;

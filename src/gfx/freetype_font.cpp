@@ -27,9 +27,6 @@ namespace JUI
      */
     FreetypeFont::~FreetypeFont( void )
     {
-        // Close the face.
-        FT_Done_Face( face_ );
-
         // Delete textures.
         size_t textures_length = textures_.get_length();
         if (textures_length != 0) {
@@ -45,6 +42,9 @@ namespace JUI
         
         // Delete advances.
         advances_.clear();
+
+		// Close the face.
+        FT_Done_Face( face_ );
     }
 
     /*

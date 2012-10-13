@@ -203,8 +203,11 @@ namespace JUI
     /* 
      * Get texture by file name.
      */
-    Graphics2D::ReturnStatus Graphics2D::get_texture( const JUTIL::String*filename, FileTexture** output )
+    Graphics2D::ReturnStatus Graphics2D::get_texture( const JUTIL::String* filename, FileTexture** output )
     {
+		// Stack for reporting.
+		JUI::ErrorStack* stack = JUI::ErrorStack::get_instance();
+
         // Check if exists in map.
         FileTexture* texture;
         if (textures_.get( filename, &texture )) {
@@ -214,6 +217,7 @@ namespace JUI
         
         // Not found, load and insert.
         if (!JUTIL::BaseAllocator::allocate( &texture )) {
+			stack->log( "Failed to allocate texture for %s!", filename->get_string() );
             return NoMemoryForTextureFailure;
         }
         texture = new (texture) FileTexture( filename );
@@ -224,7 +228,11 @@ namespace JUI
             JUTIL::BaseAllocator::destroy( texture );
             return error;
         }
-        textures_.insert( filename, texture );
+
+		// Add texture and return.
+        if (!textures_.insert( filename, texture )) {
+			
+		}
         *output = texture;
         return Success;
     }
@@ -362,15 +370,15 @@ namespace JUI
         png_uint_32 padded_width = OpenGLShared::next_power_of_2( width );
         png_uint_32 padded_height = OpenGLShared::next_power_of_2( height );
         unsigned int alloc_size = 4 * padded_width * padded_height;
-        GLubyte* output = (GLubyte*)malloc( alloc_size );
-        if (output == nullptr) {
+		JUTIL::ArrayBuilder<GLubyte> buffer;
+		if (!buffer.set_size( alloc_size )) {
             return NoMemoryForTextureFailure;
         }
 
         // Copy information.
         png_bytepp row_pointers = png_get_rows( png_ptr, info_ptr );
         for (png_uint_32 i = 0; i < height; ++i) {
-            void* startPtr = output + (4 * padded_width * i);
+            void* startPtr = buffer.get_array() + (4 * padded_width * i);
             memcpy( startPtr, row_pointers[i], 4 * width );	
         }
 
@@ -383,8 +391,7 @@ namespace JUI
         float tv = static_cast<float>(height) / static_cast<float>(padded_height);
         
         // Generate texture from data.
-        GLuint texture = create_texture( output, padded_width, padded_height, GL_RGBA );
-        delete[] output;
+        GLuint texture = create_texture( buffer.get_array(), padded_width, padded_height, GL_RGBA );
 
         // Set texture.
         file_texture->set_texture( texture, width, height, tu, tv );

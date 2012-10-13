@@ -58,6 +58,7 @@ namespace JUI
         if (!JUTIL::BaseAllocator::allocate( &string )) {
             return;
         }
+		string = new (string) JUTIL::DynamicString();
 		if (!string->write( format, args )) {
 			return;
 		}

@@ -13,7 +13,7 @@ namespace JUI
     public:
 
         ConstrainedContainer( float x = 0.0f, float y = 0.0f );
-        virtual ~ConstrainedContainer();
+        virtual ~ConstrainedContainer( void );
 
         // Component override.
         virtual void set_position( float x, float y );
