@@ -10,7 +10,7 @@ namespace JUI
     /*
      * Singleton class for managing error stack from components.
      */
-    class ErrorStack
+    class __declspec(dllexport) ErrorStack
     {
     
     public:

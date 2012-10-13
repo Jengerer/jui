@@ -4,93 +4,63 @@
 namespace JUI
 {
 
-    /*
-     * Create an instance of the split layout.
-     */
-    HorizontalSplitLayout* HorizontalSplitLayout::create( int width, int spacing )
-    {
-        // Allocate objects.
-        HorizontalSplitLayout* layout;
-        HorizontalLayout* left;
-        HorizontalLayout* right;
-        if (!JUTIL::BaseAllocator::allocate( &layout )) {
-            return nullptr;
-        }
-        else if (!JUTIL::BaseAllocator::allocate( &left )) {
-            JUTIL::BaseAllocator::destroy( layout );
-            return nullptr;
-        }
-        else if (!JUTIL::BaseAllocator::allocate( &right )) {
-            JUTIL::BaseAllocator::destroy( left );
-            JUTIL::BaseAllocator::destroy( layout );
-            return nullptr;
-        }
-
-        // Create left.
-        left = new (left) HorizontalLayout( spacing, ALIGN_TOP );
-        right = new (right) HorizontalLayout( spacing, ALIGN_TOP );
-
-        // Create layout.
-        layout = new (layout) HorizontalSplitLayout();
-        if (!layout->add( left )) {
-            JUTIL::BaseAllocator::destroy( left );
-            JUTIL::BaseAllocator::destroy( right );
-            JUTIL::BaseAllocator::destroy( layout );
-            return nullptr;
-        }
-        else if (!layout->add( right )) {
-            // Left will be destroyed with layout.
-            JUTIL::BaseAllocator::destroy( right );
-            JUTIL::BaseAllocator::destroy( layout );
-            return nullptr;
-        }
-        
-        // Initialize layout.
-        layout->set_size( width, 0 );
-        layout->left_ = left;
-        layout->right_ = right;
-        return layout;
-    }
-
-    /*
+	/*
      * Horizontal split layout constructor.
      */
-    HorizontalSplitLayout::HorizontalSplitLayout( void )
+    HorizontalSplitLayout::HorizontalSplitLayout( int width )
     {
-        // Nothing, done in create.
+        left_ = nullptr;
+		right_ = nullptr;
+
+		// Set width.
+		set_size( width, 0 );
     }
 
     /*
-     * Pack nested layouts and move to sides.
+     * Update size as maximum height.
      */
     void HorizontalSplitLayout::pack( void )
     {
-        // Pack left and right.
-        left_->pack();
-        right_->pack();
-        set_constraint( right_, static_cast<float>(get_width() - right_->get_width()), 0.0f );
+		// Position left and right.
+		set_constraint( left_, 0.0f, 0.0f );
+		int width = get_width();
+		int right_position = width - right_->get_width();
+		set_constraint( right_, static_cast<float>(right_position), 0.0f );
 
-        // Set height as maximum.
+		// Set height as maximum.
         int left_height = left_->get_height();
         int right_height = right_->get_height();
-        int max_height = left_height > right_height ? left_height : right_height;
-        set_size( get_width(), max_height );
+        int max_height = (left_height > right_height ? left_height : right_height);
+        set_size( width, max_height );
     }
 
     /*
-     * Add a component to the left child.
+     * Set left component.
+	 * Assumes object has final width set before setting.
      */
-    bool HorizontalSplitLayout::add_left( Component* component )
+    bool HorizontalSplitLayout::set_left( Component* component )
     {
-        return left_->add( component );
+		// Add component.
+		JUTIL::JUTILBase::debug_assert( left_ == nullptr );
+		if (!add( component )) {
+			return false;
+		}
+		left_ = component;
+		return true;
     }
 
     /*
-     * Add a component to the right child.
+     * Set right component.
      */
-    bool HorizontalSplitLayout::add_right( Component* component )
+    bool HorizontalSplitLayout::set_right( Component* component )
     {
-        return right_->add( component );
+		// Add component.
+		JUTIL::JUTILBase::debug_assert( right_ == nullptr );
+        if (!add( component )) {
+			return false;
+		}
+		right_ = component;
+		return true;
     }
 
 }
