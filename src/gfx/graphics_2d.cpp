@@ -443,7 +443,6 @@ namespace JUI
         glBegin( GL_TRIANGLE_FAN );
 
         // Top left corner.
-        set_colour( Colour( 255, 255, 255, 255 ) );
         draw_circle( radius, radius, radius, 1.5f * PI, 2.0f * PI, CORNER_SEGMENTS );
         draw_circle( width - radius, radius, radius, 0, 0.5f * PI, CORNER_SEGMENTS );
         draw_circle( width - radius, height - radius, radius, 0.5f * PI, PI, CORNER_SEGMENTS );

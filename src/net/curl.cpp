@@ -143,23 +143,26 @@ namespace JUI
      */
     bool Curl::read( const JUTIL::String* url, JUTIL::DynamicString* output )
     {
+        // Error stack for reporting.
+        ErrorStack* stack = ErrorStack::get_instance();
+
         // Create empty memory buffer struct.
-        JUTIL::ArrayBuilder<char> buffer;
+        JUTIL::DynamicString string;
 
         // Set up CURL operation.
         curl_easy_setopt( curl_, CURLOPT_URL, url->get_string() );
         curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_buffer );
-        curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &buffer );
+        curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &string );
         curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
         CURLcode result = curl_easy_perform( curl_ );
         if (result != CURLE_OK) {
-            ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Curl: read failed for %s.", url->get_string() );
+            stack->log( "Curl: read failed for %s.", url->get_string() );
+            return false;
         }
 
         // Set builder's buffer.
-        output->set_string( buffer.get_array(), buffer.get_size() );
-        buffer.release();
+        output->set_string( string.get_string(), string.get_length() );
+        string.release();
         return true;
     }
 
@@ -170,17 +173,17 @@ namespace JUI
     {
         // Get real buffer size.
         size_t real_size = size * num_members;
-        JUTIL::ArrayBuilder<char>* array_buffer = static_cast<JUTIL::ArrayBuilder<char>*>(data);
+        JUTIL::DynamicString* string = static_cast<JUTIL::DynamicString*>(data);
 
         // Get buffer of proper size.
-        size_t old_size = array_buffer->get_size();
-        size_t new_size = old_size + real_size;
-        if (!array_buffer->set_size( new_size ))
-        {
+        size_t old_length = string->get_length();
+        size_t new_length = old_length + real_size;
+        if (!string->set_length( new_length )) {
             return 0;
         }
 
-        char* write_start = array_buffer->get_array() + old_size;
+        // Write new string.
+        char* write_start = string->get_string() + old_length;
         memcpy( write_start, buffer, real_size );
         return real_size;
     }
