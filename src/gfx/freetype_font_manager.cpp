@@ -37,10 +37,7 @@ namespace JUI
      */
     void FreetypeFontManager::shut_down( void )
     {
-        if (instance_ != nullptr) {
-            delete instance_;
-            instance_ = nullptr;
-        }
+        JUTIL::BaseAllocator::safe_destroy( &instance_ );
     }
 
     /*
@@ -62,15 +59,27 @@ namespace JUI
         FT_Set_Char_Size( face, 0, height << 6, 96, 96 );
 
         // Create font.
-        FontInterface* font = new FreetypeFont( face );
-        fonts_.push( font );
-        if (!font->initialize()) {
+        FreetypeFont* font;
+        if (!JUTIL::BaseAllocator::allocate( &font )) {
+            stack->log( "Failed to allocate font." );
+            return nullptr;
+        }
+        font = new (font) FreetypeFont( face );
+
+        // Add and initialize font.
+        FontInterface* font_interface = static_cast<FontInterface*>(font);
+        if (!fonts_.push( font_interface )) {
+            JUTIL::BaseAllocator::destroy( font );
+            stack->log( "Failed to add font to interface." );
+            return nullptr;
+        }
+        if (!font_interface->initialize()) {
             return nullptr;
         }
 
         // Return face.
         FT_Done_Face( face );
-        return font;
+        return font_interface;
     }
 
     /*

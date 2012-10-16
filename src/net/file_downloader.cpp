@@ -21,7 +21,7 @@ namespace JUI
      */
     FileDownloader* FileDownloader::get_instance( void )
     {
-        // Get instance.
+        // Get instance.t
         if (instance_ == nullptr) {
             // Get an instance of CURL.
             Curl* curl = Curl::get_instance();
@@ -47,10 +47,13 @@ namespace JUI
     {
         // Delete instance.
         JUTIL::BaseAllocator::safe_destroy( &instance_ );
+
+        // Shut down Curl.
+        Curl::shut_down();
     }
 
     /*
-     * Check if a file exists; if it does not, get it from
+     * Check if a file exists; if it does not, get it fromd
      * the specified URL.
      */
     bool FileDownloader::check_and_get( const JUTIL::String* filename, const JUTIL::String* url )

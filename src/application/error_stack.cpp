@@ -16,7 +16,7 @@ namespace JUI
      */
     ErrorStack::~ErrorStack( void )
     {
-        // Nothing.
+        clear();
     }
 
     /*

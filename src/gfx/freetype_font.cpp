@@ -66,7 +66,7 @@ namespace JUI
      */
     void FreetypeFont::release( void )
     {
-        delete this;
+        JUTIL::BaseAllocator::destroy( this );
     }
 
     /*

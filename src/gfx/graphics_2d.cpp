@@ -114,7 +114,8 @@ namespace JUI
     {
         // Empty texture map.
         for (auto i = textures_.begin(); i.has_next(); i.next()) {
-            delete i.get_value();
+            JUI::FileTexture* file_texture = i.get_value();
+            JUTIL::BaseAllocator::destroy( file_texture );
         }
         textures_.clear();
 
@@ -280,6 +281,9 @@ namespace JUI
      */
     Texture* Graphics2D::create_empty_texture( GLsizei width, GLsizei height, GLenum format )
     {
+        // Stack for error logging.
+        JUI::ErrorStack* stack = JUI::ErrorStack::get_instance();
+
         // Adjust size to be powers of 2.
         GLsizei real_width = OpenGLShared::next_power_of_2( width );
         GLsizei real_height = OpenGLShared::next_power_of_2( height );
@@ -302,23 +306,27 @@ namespace JUI
         }
 
         // Allocate and zero a buffer.
+        JUTIL::ArrayBuilder<GLubyte> data;
         GLuint size = real_width * real_height * components;
-        GLubyte* data = new GLubyte[size];
-        if (data == nullptr) {
+        if (!data.set_size( size )) {
             return nullptr;
         }
-        ZeroMemory( data, size );
+        ZeroMemory( data.get_array(), size );
 
         // Calculate texture coordinates.
         float tu = static_cast<float>(width) / static_cast<float>(real_width);
         float tv = static_cast<float>(height) / static_cast<float>(real_height);
 
         // Create GL texture.
-        GLuint texture = create_texture( data, real_width, real_height, format );
-        delete[] data;
+        GLuint texture = create_texture( data.get_array(), real_width, real_height, format );
 
         // Set texture and return.
-        Texture* result = new Texture( texture, width, height, tu, tv );
+        Texture* result;
+        if (!JUTIL::BaseAllocator::allocate( &result )) {
+            stack->log( "Failed to allocate texture object." );
+            return false;
+        }
+        result = new (result) Texture( texture, width, height, tu, tv );
         return result;
     }
 

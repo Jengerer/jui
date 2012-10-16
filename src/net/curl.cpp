@@ -28,10 +28,20 @@ namespace JUI
      */
     Curl* Curl::get_instance( void )
     {
+        // Stack for logging.
+        JUI::ErrorStack* stack = JUI::ErrorStack::get_instance();
+
         // Initialize instance if not exists.
         if (instance_ == nullptr) {
-            instance_ = new Curl();
-            instance_->initialize();
+            if (!JUTIL::BaseAllocator::allocate( &instance_ )) {
+                stack->log( "Failed to allocate Curl instance." );
+                return nullptr;
+            }
+            instance_ = new (instance_) Curl();
+            JUI::Curl::ReturnStatus status = instance_->initialize();
+            if (status != Success) {
+                return nullptr;
+            }
         }
 
         return instance_;
@@ -42,10 +52,7 @@ namespace JUI
      */
     void Curl::shut_down( void )
     {
-        if (instance_ != nullptr) {
-            delete instance_;
-            instance_ = nullptr;
-        }
+        JUTIL::BaseAllocator::safe_destroy( &instance_ );
     }
 
     /*
@@ -53,9 +60,13 @@ namespace JUI
      */
     Curl::ReturnStatus Curl::initialize( void )
     {
+        // Error stack for logging.
+        JUI::ErrorStack* stack = JUI::ErrorStack::get_instance();
+
         // Initialize CURL.
         curl_ = curl_easy_init();
         if (curl_ == nullptr) {
+            stack->log( "Failed to initialize Curl." );
             return InitializeFailure;
         }
 

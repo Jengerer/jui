@@ -1,44 +1,13 @@
 #include "jui/application/application_controller.hpp"
 #include "jui/application/error_stack.hpp"
 
+const JUTIL::ConstantString DEFAULT_LEAKS_OUTPUT_FILE = "memory_leaks.txt";
+
 namespace JUI
 {
 
     // Define static member.
     Application* ApplicationController::application_ = nullptr;
-
-    /*
-     * Initialize application to be managed.
-     */
-    bool ApplicationController::initialize( Application* application )
-    {
-        // Create error stack for application.
-        ErrorStack* error_stack = ErrorStack::get_instance();
-        if (error_stack == nullptr) {
-            MessageBox( nullptr,
-                "Application controller: failed to create error stack.",
-                "Application controller failure!",
-                MB_ICONERROR | MB_OK );
-            return false;
-        }
-
-        // Set application handle.
-        set_application( application );
-
-        // Initialize application interfaces.
-        Application::ReturnStatus result = application->initialize();
-        if (result != Application::Success) {
-            const JUTIL::String* top = error_stack->get_top_error();
-            MessageBox( nullptr,
-                top->get_string(),
-                "Failed to initialize application!",
-                MB_ICONERROR | MB_OK );
-            set_application( nullptr );
-            return false;
-        }
-
-        return true;
-    }
 
     /*
      * Enter the main program loop.
@@ -71,11 +40,19 @@ namespace JUI
      */
     void ApplicationController::exit()
     {
-        // Stop handling application.
+        // Kill application.
+        JUTIL::BaseAllocator::destroy( application_ );
         set_application( nullptr );
 
         // Destroy error stack.
         ErrorStack::shut_down();
+
+        // Write leaks to file.
+        JUTIL::AllocationManager* allocation_manager = JUTIL::AllocationManager::get_instance();
+        if (allocation_manager != nullptr) {
+            allocation_manager->dump_leaks( DEFAULT_LEAKS_OUTPUT_FILE.get_string() );
+            JUTIL::AllocationManager::shut_down();
+        }
     }
 
     /*

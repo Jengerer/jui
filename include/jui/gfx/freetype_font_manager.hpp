@@ -18,6 +18,9 @@ namespace JUI
 
     public:
 
+        // Public destructor for base allocator.
+        ~FreetypeFontManager( void );
+
 	    // Singleton instance manager.
 	    static FreetypeFontManager* get_instance( void );
 	    static void shut_down( void );
@@ -30,7 +33,6 @@ namespace JUI
 
 	    // Private constructor/destructor.
 	    FreetypeFontManager( void );
-	    ~FreetypeFontManager( void );
 
 	    // Interface initializer.
 	    bool initialize( void );
