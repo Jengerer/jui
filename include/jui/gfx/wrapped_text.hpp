@@ -6,21 +6,24 @@
 namespace JUI
 {
 
-    class WrappedText : public Text
+    class __declspec(dllexport) WrappedText : public Text
     {
 
     public:
 
-        __declspec(dllexport) WrappedText( FontInterface *font, int text_width );
-        __declspec(dllexport) virtual ~WrappedText( void );
+        WrappedText( FontInterface *font, int text_width );
+        virtual ~WrappedText( void );
 
-        __declspec(dllexport) virtual void pack( RenderableStringInterface* render_string );
+        // Text packing function.
+        virtual void pack( RenderableStringInterface* render_string );
 
-        __declspec(dllexport) int get_text_width( void ) const;
-        __declspec(dllexport) void set_text_width( int text_width );
+        // Text width management.
+        int get_text_width( void ) const;
+        void set_text_width( int text_width );
 
-        __declspec(dllexport) DWORD	get_text_formatting( void ) const;
-        __declspec(dllexport) void set_text_formatting( DWORD formatting );
+        // Text formatting parameters.
+        DWORD get_text_formatting( void ) const;
+        void set_text_formatting( DWORD formatting );
 
     private:
 
