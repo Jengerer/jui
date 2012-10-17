@@ -45,19 +45,19 @@ namespace JUI
             }
 
             // Set position aligned horizontally.
-            float x;
+            int x;
             switch (get_align_type()) {
             case ALIGN_LEFT:
-                x = 0.0f;
+                x = 0;
                 break;
             case ALIGN_CENTER:
-                x = static_cast<float>(max_width - component->get_width()) / 2.0f;
+                x = (max_width - component->get_width()) / 2;
                 break;
             case ALIGN_RIGHT:
-                x = static_cast<float>(max_width - component->get_width());
+                x = max_width - component->get_width();
                 break;
             }
-            set_constraint( component, x, static_cast<float>(height) );
+            set_constraint( component, x, height );
 
             // Push height by component height.
             height += component->get_height();

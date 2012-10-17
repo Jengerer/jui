@@ -13,7 +13,8 @@ namespace JUI
     public:
 
         // Container constructor.
-        Container( float x = 0.0f, float y = 0.0f );
+        Container( void );
+        Container( int x, int y );
 
         // Container destructor.
         virtual ~Container( void );
@@ -27,7 +28,7 @@ namespace JUI
         virtual void set_alpha( int alpha );
 
         // Local/global child position handling.
-        void clamp_child( Component *child, float padding = 0.0f ) const;
+        void clamp_child( Component *child, int padding = 0.0f ) const;
         virtual bool is_visible( Component* child ) const;
         virtual bool is_within_bounds( Component* child ) const;
 

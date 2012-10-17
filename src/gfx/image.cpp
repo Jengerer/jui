@@ -3,50 +3,75 @@
 namespace JUI
 {
 
-    Image::Image( const Texture* texture, float localX, float localY ): Component( localX, localY )
+    /*
+     * Image constructor from texture.
+     */
+    Image::Image( const Texture* texture )
     {
         set_texture( texture );
-        set_tint( COLOUR_WHITE );
+        set_tint( &COLOUR_WHITE );
     }
 
+    /*
+     * Image constructor from texture and default position.
+     */
+    Image::Image( const Texture* texture, int x, int y ): Component( x, y )
+    {
+        set_texture( texture );
+        set_tint( &COLOUR_WHITE );
+    }
+
+    /*
+     * Image drawing function.
+     */
     void Image::draw( Graphics2D* graphics )
     {
         // Draw texture.
         if (texture_ != nullptr) {
             graphics->set_colour( tint_ );
-            graphics->draw_texture(
-                texture_,
-                get_x(), get_y(),
-                get_width(), get_height() );
+
+            // Draw texture.
+            int x = get_x();
+            int y = get_y();
+            int width = get_width();
+            int height = get_height();
+            graphics->draw_texture( texture_, x, y, width, height );
         }
     }
 
+    /*
+     * Set alpha for this image.
+     */
     void Image::set_alpha( int alpha )
     {
         Component::set_alpha( alpha );
         tint_.a = get_alpha();
     }
 
-    void Image::set_tint( const Colour& tint )
+    /*
+     * Set tint for this image.
+     */
+    void Image::set_tint( const Colour* tint )
     {
-        tint_.r = tint.r;
-        tint_.g = tint.g;
-        tint_.b = tint.b;
+        tint_.r = tint->r;
+        tint_.g = tint->g;
+        tint_.b = tint->b;
     }
 
-    const Colour& Image::get_tint( void ) const
+    /*
+     * Get the tint for this image.
+     */
+    const Colour* Image::get_tint( void ) const
     {
-        return tint_;
+        return &tint_;
     }
 
+    /*
+     * Set texture to draw as component.
+     */
     void Image::set_texture( const Texture *texture )
     {
         texture_ = texture;
-    }
-
-    const Texture* Image::get_texture( void ) const
-    {
-        return texture_;
     }
 
 }

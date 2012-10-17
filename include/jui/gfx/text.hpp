@@ -9,25 +9,25 @@
 namespace JUI
 {
 
-    class Text : public Component
+    class __declspec(dllexport) Text : public Component
     {
 
     public:
 
-        __declspec(dllexport) Text( FontInterface *font );
-        __declspec(dllexport) virtual ~Text( void );
+        Text( FontInterface *font );
+        virtual ~Text( void );
 
-        __declspec(dllexport) virtual void draw( Graphics2D* graphics );
+        virtual void draw( Graphics2D* graphics );
 
-        __declspec(dllexport) void set_text( const JUTIL::String* string );
-        __declspec(dllexport) void set_text( const JUTIL::WideString* string );
-        __declspec(dllexport) void set_colour( const Colour* colour );
-        __declspec(dllexport) const Colour* get_colour( void ) const;
-        __declspec(dllexport) virtual void set_alpha( int alpha );
+        void set_text( const JUTIL::String* string );
+        void set_text( const JUTIL::WideString* string );
+        void set_colour( const Colour* colour );
+        const Colour* get_colour( void ) const;
+        virtual void set_alpha( int alpha );
 
     private:
 
-        void pack( RenderableStringInterface* render_string );
+        virtual void pack( RenderableStringInterface* render_string );
         FontInterface* get_font( void ) const;
         void set_font( FontInterface *font );
 

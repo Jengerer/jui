@@ -355,10 +355,11 @@ namespace JUI
             bool include_breakpoint = true;
             
             if (ch == NEW_LINE) {
-                // It has fit so far, draw until here.
+                // It has fit so far, draw until previous character.
                 break_point = i;
                 draw_line = true;
                 width_since_break = 0;
+                include_breakpoint = false;
             }
             else {
                 // Move forward by character width.

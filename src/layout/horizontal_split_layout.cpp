@@ -22,10 +22,10 @@ namespace JUI
     void HorizontalSplitLayout::pack( void )
     {
 		// Position left and right.
-		set_constraint( left_, 0.0f, 0.0f );
+		set_constraint( left_, 0, 0 );
 		int width = get_width();
 		int right_position = width - right_->get_width();
-		set_constraint( right_, static_cast<float>(right_position), 0.0f );
+		set_constraint( right_, right_position, 0 );
 
 		// Set height as maximum.
         int left_height = left_->get_height();

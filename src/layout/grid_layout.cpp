@@ -36,16 +36,19 @@ namespace JUI
         int total_height = grid_height * (component_height + spacing) - spacing;
         set_size( total_width, total_height );
 
-        size_t index = 0;
-        float x, y;
+        // Constants for multiplying.
+        const int TOTAL_X_SPACING = component_width + spacing;
+        const int TOTAL_Y_SPACING = component_height + spacing;
+
+        // Position all elements.
+        int x;
+        int y;
         size_t i;
         for (i = 0; i < num_components; ++i) {
             Component* current = components_.get( i );
-            x = static_cast<float>((index % grid_width_) * (component_width + spacing));
-            y = static_cast<float>((index / grid_width_) * (component_height + spacing));
+            x = (i % grid_width_) * TOTAL_X_SPACING;
+            y = (i / grid_width_) * TOTAL_Y_SPACING;
             set_constraint( current, x, y );
-
-            ++index;
         }
     }
 

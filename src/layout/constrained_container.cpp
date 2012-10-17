@@ -7,7 +7,15 @@ namespace JUI
     /*
      * Default constrainted container constructor.
      */
-    ConstrainedContainer::ConstrainedContainer( float x, float y ) : Container( x, y )
+    ConstrainedContainer::ConstrainedContainer( void )
+    {
+        // Constraint container.
+    }
+
+    /*
+     * Constrainted container constructor by default position.
+     */
+    ConstrainedContainer::ConstrainedContainer( int x, int y ) : Container( x, y )
     {
         // Constraint container.
     }
@@ -23,7 +31,7 @@ namespace JUI
     /*
      * Update children by constraints when moved.
      */
-    void ConstrainedContainer::set_position( float x, float y )
+    void ConstrainedContainer::set_position( int x, int y )
     {
         Component::set_position( x, y );
         apply_constraints();
@@ -44,7 +52,7 @@ namespace JUI
         if (!JUTIL::BaseAllocator::allocate( &constraint )) {
             return false;
         }
-        constraint = new (constraint) Constraint( child, 0.0f, 0.0f );
+        constraint = new (constraint) Constraint( child, 0, 0 );
 
         // Add constraint.
         if (!constraints_.insert( child, constraint )) {
@@ -66,7 +74,7 @@ namespace JUI
     /*
      * Set constraint on child or update it if it exists.
      */
-    Constraint* ConstrainedContainer::set_constraint( Component* child, float x, float y )
+    Constraint* ConstrainedContainer::set_constraint( Component* child, int x, int y )
     {
         // Get, apply, return.
         Constraint* constraint = nullptr;
@@ -103,8 +111,8 @@ namespace JUI
     void ConstrainedContainer::apply_constraint( Constraint* constraint )
     {
         Component* component = constraint->get_component();
-        float new_x = get_x() + constraint->get_constraint_x();
-        float new_y = get_y() + constraint->get_constraint_y();
+        int new_x = get_x() + constraint->get_x();
+        int new_y = get_y() + constraint->get_y();
         component->set_position( new_x, new_y );
     }
 

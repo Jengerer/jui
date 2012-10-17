@@ -11,12 +11,12 @@ namespace JUI
     const GLubyte COMPONENT_MAX = 255;
 
     // Colour struct.
-    class Colour
+    class __declspec(dllexport) Colour
     {
 
     public:
 
-        __declspec(dllexport) Colour( GLubyte r = COMPONENT_MAX, 
+        Colour( GLubyte r = COMPONENT_MAX, 
             GLubyte g = COMPONENT_MAX,
             GLubyte b = COMPONENT_MAX, 
             GLubyte a = COMPONENT_MAX );

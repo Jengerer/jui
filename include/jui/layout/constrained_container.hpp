@@ -12,18 +12,19 @@ namespace JUI
     {
     public:
 
-        ConstrainedContainer( float x = 0.0f, float y = 0.0f );
+        ConstrainedContainer( void );
+        ConstrainedContainer( int x, int y );
         virtual ~ConstrainedContainer( void );
 
         // Component override.
-        virtual void set_position( float x, float y );
+        virtual void set_position( int x, int y );
 
         // Container overrides.
         virtual bool add( Component* child );
         virtual void remove( Component* child );
         
         // Constraint management.
-        Constraint* set_constraint( Component* child, float x, float y );
+        Constraint* set_constraint( Component* child, int x, int y );
         void remove_constraint( Component* child );
         void remove_all_constraints( void );
         void apply_constraint( Constraint* constraint );

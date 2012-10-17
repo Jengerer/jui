@@ -3,31 +3,46 @@
 namespace JUI
 {
 
-    Constraint::Constraint( Component* component, float localX, float localY )
+    /*
+     * Constraint constructor by component and offset.
+     */
+    Constraint::Constraint( Component* component, int x, int y )
     {
         component_ = component;
-        set_constraint( localX, localY );
+        set_constraint( x, y );
     }
 
-    void Constraint::set_constraint( float localX, float localY )
+    /*
+     * Set constraint offsets for component.
+     */
+    void Constraint::set_constraint( int x, int y )
     {
-        localX_ = localX;
-        localY_ = localY;
+        x_ = x;
+        y_ = y;
     }
 
-    Component* Constraint::get_component() const
+    /*
+     * Get the component this constraint is modifying.
+     */
+    Component* Constraint::get_component( void ) const
     {
         return component_;
     }
 
-    float Constraint::get_constraint_x() const
+    /*
+     * Get the constraint X offset.
+     */
+    int Constraint::get_x( void ) const
     {
-        return localX_;
+        return x_;
     }
 
-    float Constraint::get_constraint_y() const
+    /*
+     * Get the constraint Y offset.
+     */
+    int Constraint::get_y( void ) const
     {
-        return localY_;
+        return y_;
     }
 
 }

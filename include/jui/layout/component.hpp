@@ -11,18 +11,16 @@ namespace JUI
 
     public:
 
-        Component( float x = 0.0f, float y = 0.0f );
+        Component( void );
+        Component( int x, int y );
         virtual ~Component( void );
 
-        // Default reservation function.
-        virtual bool    reserve( void );
-
         // Position functions.
-        virtual void	set_position( float x, float y );
+        virtual void set_position( int x, int y );
         
         // Position getters.
-        virtual float	get_x() const;
-        virtual float	get_y() const;
+        virtual int get_x( void ) const;
+        virtual int get_y( void ) const;
 
         // Visibility functions.
         virtual void set_alpha( int alpha ); // Using int to handle underflow.
@@ -35,8 +33,8 @@ namespace JUI
 
     private:
 
-        float x_;
-        float y_;
+        int x_;
+        int y_;
         int width_;
         int height_;
         GLubyte alpha_;

@@ -11,23 +11,23 @@ namespace JUI
     public:
 
         // Constructor.
-        __declspec(dllexport) Constraint( Component* component, float localX, float localY );
+        __declspec(dllexport) Constraint( Component* component, int x, int y );
         
         // Add/modify constraint.
-        __declspec(dllexport) void set_constraint( float localX, float localY );
+        __declspec(dllexport) void set_constraint( int x, int y );
 
         // Get constraint target.
-        __declspec(dllexport) Component* get_component() const;
+        __declspec(dllexport) Component* get_component( void ) const;
 
         // Constraint getters.
-        __declspec(dllexport) float get_constraint_x() const;
-        __declspec(dllexport) float get_constraint_y() const;
+        __declspec(dllexport) int get_x( void ) const;
+        __declspec(dllexport) int get_y( void ) const;
 
     private:
 
         Component* component_;
-        float localX_;
-        float localY_;
+        int x_;
+        int y_;
 
     };
 

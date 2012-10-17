@@ -6,7 +6,17 @@ namespace JUI
     /*
      * Component constructor.
      */
-    Component::Component( float x, float y )
+    Component::Component( void )
+    {
+        set_position( 0, 0 );
+        set_size( 0, 0 );
+        set_alpha( 255 );
+    }
+
+    /*
+     * Component constructor.
+     */
+    Component::Component( int x, int y )
     {
         set_position( x, y );
         set_size( 0, 0 );
@@ -22,17 +32,9 @@ namespace JUI
     }
 
     /*
-     * Default empty reservation for component.
-     */
-    bool Component::reserve( void )
-    {
-        return true;
-    }
-
-    /*
      * Set component position.
      */
-    void Component::set_position( float x, float y )
+    void Component::set_position( int x, int y )
     {
         x_ = x;
         y_ = y;
@@ -66,7 +68,7 @@ namespace JUI
     /*
      * Get component X position.
      */
-    float Component::get_x( void ) const
+    int Component::get_x( void ) const
     {
         return x_;
     }
@@ -74,7 +76,7 @@ namespace JUI
     /*
      * Get component Y position.
      */
-    float Component::get_y( void ) const
+    int Component::get_y( void ) const
     {
         return y_;
     }

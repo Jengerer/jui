@@ -28,7 +28,7 @@ namespace JUI
         }
 
         // Now pack.
-        float width = 0.0f;
+        int width = 0;
         for (i = 0; i < length; ++i) {
             Component* component = components_.get( i );
 
@@ -38,26 +38,26 @@ namespace JUI
             }
 
             // Set position aligned vertically.
-            float y;
+            int y;
             switch (get_align_type()) {
             case ALIGN_TOP:
-                y = 0.0f;
+                y = 0;
                 break;
             case ALIGN_MIDDLE:
-                y = static_cast<float>(max_height - component->get_height()) / 2.0f;
+                y = (max_height - component->get_height()) / 2;
                 break;
             case ALIGN_BOTTOM:
-                y += static_cast<float>(max_height - component->get_height());
+                y = max_height - component->get_height();
                 break;
             }
             set_constraint( component, width, y );
 
             // Push width by component width.
-            width += static_cast<float>(component->get_width());
+            width += component->get_width();
         }
 
         // Update size.
-        set_size( static_cast<int>(width), max_height );
+        set_size( width, max_height );
     }
 
     void HorizontalLayout::SetMinimumHeight( int minimumHeight )

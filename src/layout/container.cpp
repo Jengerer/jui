@@ -7,7 +7,15 @@ namespace JUI
     /*
      * Container constructor.
      */
-    Container::Container( float localX, float localY ) : Component( localX, localY )
+    Container::Container( void )
+    {
+        // Container created.
+    }
+
+    /*
+     * Container constructor.
+     */
+    Container::Container( int x, int y ) : Component( x, y )
     {
         // Container created.
     }
@@ -78,10 +86,10 @@ namespace JUI
      */
     bool Container::is_within_bounds( Component *component ) const
     {
-        float child_x = component->get_x();
-        float child_y = component->get_y();
-        float parent_x = get_x();
-        float parent_y = get_y();
+        int child_x = component->get_x();
+        int child_y = component->get_y();
+        int parent_x = get_x();
+        int parent_y = get_y();
         return (child_x > parent_x - component->get_width()) && 
             (child_x < parent_x + get_width()) && 
             (child_y > parent_y - component->get_height()) && 
@@ -101,25 +109,25 @@ namespace JUI
      * Makes sure the child's top-left is at least (padding, padding) and
      * child's bottom-right is at most (width - padding, width - padding).
      */
-    void Container::clamp_child( Component *component, float padding ) const
+    void Container::clamp_child( Component *component, int padding ) const
     {
-        float child_x = component->get_x();
-        float child_y = component->get_y();
-        float parent_x = get_x();
-        float parent_y = get_y();
+        int child_x = component->get_x();
+        int child_y = component->get_y();
+        int parent_x = get_x();
+        int parent_y = get_y();
         
         // Generate bounds.
-        float left_bound = parent_x + padding;
-        float top_bound = parent_y + padding;
+        int left_bound = parent_x + padding;
+        int top_bound = parent_y + padding;
 
         // Clamp X position.
         if (child_x < left_bound) {
             child_x = left_bound;
         }
         else {
-            float rightBound = parent_x + get_width() - component->get_width() - padding;
-            if (child_x > rightBound) {
-                child_x = rightBound;
+            int right_bound = parent_x + get_width() - component->get_width() - padding;
+            if (child_x > right_bound) {
+                child_x = right_bound;
             }
         }
 
@@ -128,9 +136,9 @@ namespace JUI
             child_y = top_bound;
         }
         else {
-            float bottomBound = parent_y + get_height() - component->get_height() - padding;
-            if (child_y > bottomBound) {
-                child_y = bottomBound;
+            int bottom_bound = parent_y + get_height() - component->get_height() - padding;
+            if (child_y > bottom_bound) {
+                child_y = bottom_bound;
             }
         }
 

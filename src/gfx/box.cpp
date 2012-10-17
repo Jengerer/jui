@@ -17,7 +17,13 @@ namespace JUI
     void Box::draw( Graphics2D* graphics )
     {
         graphics->set_colour( colour_ );
-        graphics->draw_rectangle( get_x(), get_y(), static_cast<float>(get_width()), static_cast<float>(get_height()) );
+
+        // Draw rectangle over bounds.
+        int x = get_x();
+        int y = get_y();
+        int width = get_width();
+        int height = get_height();
+        graphics->draw_rectangle( x, y, width, height );
     }
 
 }

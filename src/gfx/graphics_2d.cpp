@@ -156,7 +156,7 @@ namespace JUI
     /*
      * Set rendering scene.
      */
-    void Graphics2D::setup_scene()
+    void Graphics2D::setup_scene( void )
     {
         // Set background colour.
         glClearColor( 0.16f, 0.15f, 0.145f, 1.0f );
@@ -224,15 +224,16 @@ namespace JUI
         texture = new (texture) FileTexture( filename );
         ReturnStatus error = load_texture( texture );
         if (error != Success) {
-            ErrorStack* error_stack = ErrorStack::get_instance();
-            error_stack->log( "Failed to load texture %s.\n", filename->get_string() );
             JUTIL::BaseAllocator::destroy( texture );
+            stack->log( "Failed to load texture %s.\n", filename->get_string() );
             return error;
         }
 
 		// Add texture and return.
         if (!textures_.insert( filename, texture )) {
-			
+            JUTIL::BaseAllocator::destroy( texture );
+            stack->log( "Failed to add texture to texture map." );
+            return error;
 		}
         *output = texture;
         return Success;
@@ -241,7 +242,7 @@ namespace JUI
     /*
      * Clear scene.
      */
-    void Graphics2D::clear_scene()
+    void Graphics2D::clear_scene( void )
     {
         glClear( GL_COLOR_BUFFER_BIT );
     }
@@ -249,7 +250,7 @@ namespace JUI
     /*
      * Swap back buffers.
      */
-    void Graphics2D::swap_buffers()
+    void Graphics2D::swap_buffers( void )
     {
         SwapBuffers( dc_ );
     }
@@ -409,36 +410,36 @@ namespace JUI
     /*
      * Draw single pixel.
      */
-    void Graphics2D::draw_pixel( GLfloat x, GLfloat y, const Colour& colour )
+    void Graphics2D::draw_pixel( int x, int y, const Colour& colour )
     {
         // Draw single pixel.
         glBegin( GL_POINTS );
         set_colour( colour );
-        this->draw_vertex( x, y );
+        draw_vertex( x, y );
         glEnd();
     }
 
     /*
      * Draw rectangle.
      */
-    void Graphics2D::draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height )
+    void Graphics2D::draw_rectangle( int x, int y, int width, int height )
     {
-        GLfloat x2 = x + width;
-        GLfloat y2 = y + height;
+        int x2 = x + width;
+        int y2 = y + height;
 
         // Draw it.
         glBegin( GL_QUADS );
-        glVertex2f( x, y );
-        glVertex2f( x2, y );
-        glVertex2f( x2, y2 );
-        glVertex2f( x, y2 );
+        draw_vertex( x, y );
+        draw_vertex( x2, y );
+        draw_vertex( x2, y2 );
+        draw_vertex( x, y2 );
         glEnd();
     }
 
     /*
      * Draw rounded rectangle.
      */
-    void Graphics2D::draw_rounded_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat radius )
+    void Graphics2D::draw_rounded_rectangle( int x, int y, int width, int height, int radius )
     {
         // Segmentation constants.
         const float PI = 3.14159f;
@@ -448,9 +449,9 @@ namespace JUI
         // Start triangle strip.
         push_matrix();
         translate( x, y );
-        glBegin( GL_TRIANGLE_FAN );
 
-        // Top left corner.
+        // Draw circles quarters.
+        begin( GL_TRIANGLE_FAN );
         draw_circle( radius, radius, radius, 1.5f * PI, 2.0f * PI, CORNER_SEGMENTS );
         draw_circle( width - radius, radius, radius, 0, 0.5f * PI, CORNER_SEGMENTS );
         draw_circle( width - radius, height - radius, radius, 0.5f * PI, PI, CORNER_SEGMENTS );
@@ -462,19 +463,25 @@ namespace JUI
     /*
      * Sets vertices for a circle given a start and end radius.
      */
-    void Graphics2D::draw_circle( GLfloat x, GLfloat y, GLfloat radius, GLfloat start_angle, GLfloat end_angle, unsigned int step_count ) const
+    void Graphics2D::draw_circle( int x, int y, int radius, GLfloat start_angle, GLfloat end_angle, unsigned int step_count ) const
     {
         // Draw all steps.
         for (unsigned int i = 0; i < step_count; i++) {
             float current_angle = start_angle + (end_angle - start_angle) * static_cast<float>(i) / static_cast<float>(step_count-1);
-            draw_vertex( x + radius * sin( current_angle ), y - radius * cos( current_angle ) );
+
+            // Draw vertex at position.
+            float offset_x = static_cast<float>(radius) * sin( current_angle );
+            float offset_y = -static_cast<float>(radius) * cos( current_angle );
+            int vx = x + static_cast<int>(offset_x);
+            int vy = y + static_cast<int>(offset_y);
+            draw_vertex( vx, vy );
         }
     }
 
     /*
      * Draw texture to buffer.
      */
-    void Graphics2D::draw_texture( const Texture* texture, GLfloat x, GLfloat y )
+    void Graphics2D::draw_texture( const Texture* texture, int x, int y )
     {
         draw_texture( texture, x, y, texture->get_width(), texture->get_height() );
     }
@@ -482,11 +489,11 @@ namespace JUI
     /*
      * Draw texture to buffer with size.
      */
-    void Graphics2D::draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height )
+    void Graphics2D::draw_texture( const Texture* texture, int x, int y, int width, int height )
     {
         // Set up end texture.
-        GLfloat x2 = x + width;
-        GLfloat y2 = y + height;
+        int x2 = x + width;
+        int y2 = y + height;
 
         // Set texture.
         glBindTexture( GL_TEXTURE_2D, texture->get_texture() );
@@ -496,11 +503,25 @@ namespace JUI
         GLfloat tv = texture->get_tv();
 
         // Draw quad.
-        glBegin( GL_QUADS );
-            glTexCoord2f( 0.0f, 0.0f ); glVertex2f( x, y );
-            glTexCoord2f( tu, 0.0f ); glVertex2f( x2, y );
-            glTexCoord2f( tu, tv );	glVertex2f( x2, y2 );
-            glTexCoord2f( 0.0f, tv ); glVertex2f( x, y2 );
+        begin( GL_QUADS );
+
+        // Top left.
+        glTexCoord2f( 0.0f, 0.0f );
+        draw_vertex( x, y );
+
+        // Top right.
+        glTexCoord2f( tu, 0.0f );
+        draw_vertex( x2, y );
+
+        // Bottom right.
+        glTexCoord2f( tu, tv );
+        draw_vertex( x2, y2 );
+
+        // Bottom left.
+        glTexCoord2f( 0.0f, tv );
+        draw_vertex( x, y2 );
+
+        // End quad.
         glEnd();
 
         // Unbind texture.
@@ -510,12 +531,15 @@ namespace JUI
     /*
      * Run a display list.
      */
-    void Graphics2D::draw_display_list( GLuint list, GLfloat x, GLfloat y )
+    void Graphics2D::draw_display_list( GLuint list, int x, int y )
     {
-        glPushMatrix();
-        glTranslatef( x, y, 0.0f );
+        // Draw at location.
+        push_matrix();
+        float fx = static_cast<float>(x);
+        float fy = static_cast<float>(y);
+        translate( x, y );
         glCallList( list );
-        glPopMatrix();
+        pop_matrix();
     }
 
     /*
@@ -529,15 +553,15 @@ namespace JUI
     /*
      * Add next vertex.
      */
-    void Graphics2D::draw_vertex( float x, float y ) const
+    void Graphics2D::draw_vertex( int x, int y ) const
     {
-        glVertex2f( x, y );
+        glVertex2i( x, y );
     }
 
     /*
      * Finish drawing.
      */
-    void Graphics2D::end() const
+    void Graphics2D::end( void ) const
     {
         glEnd();
     }
@@ -545,15 +569,17 @@ namespace JUI
     /*
      * Set translation state.
      */
-    void Graphics2D::translate( float x, float y ) const
+    void Graphics2D::translate( int x, int y ) const
     {
-        glTranslatef( x, y, 0.0f );
+        float fx = static_cast<float>(x);
+        float fy = static_cast<float>(y);
+        glTranslatef( fx, fy, 0.0f );
     }
 
     /*
      * Pushes a matrix onto the stack.
      */
-    void Graphics2D::push_matrix() const
+    void Graphics2D::push_matrix( void ) const
     {
         glPushMatrix();
     }
@@ -561,7 +587,7 @@ namespace JUI
     /*
      * Pops the matrix from the stack.
      */
-    void Graphics2D::pop_matrix() const
+    void Graphics2D::pop_matrix( void ) const
     {
         glPopMatrix();
     }
@@ -569,7 +595,7 @@ namespace JUI
     /*
      * Get main render context.
      */
-    HGLRC Graphics2D::get_render_context() const
+    HGLRC Graphics2D::get_render_context( void ) const
     {
         return rc_;
     }
@@ -577,7 +603,7 @@ namespace JUI
     /*
      * Get loading context.
      */
-    HGLRC Graphics2D::get_loading_context() const
+    HGLRC Graphics2D::get_loading_context( void ) const
     {
         return loading_rc_;
     }
@@ -593,7 +619,7 @@ namespace JUI
     /*
      * Unset the thread's rendering context.
      */
-    bool Graphics2D::unset_render_context()
+    bool Graphics2D::unset_render_context( void )
     {
         return wglMakeCurrent( nullptr, nullptr ) != 0;
     }
@@ -627,14 +653,14 @@ namespace JUI
         // Flip rendering for texture order.
         glMatrixMode( GL_PROJECTION );
         glScalef( 1.0f, -1.0f, 1.0f );
-        glTranslatef( 0.0f, static_cast<GLfloat>(-texture->get_height()),0.0f );
+        translate( 0, -texture->get_height() );
         glMatrixMode( GL_MODELVIEW );
     }
 
     /*
      * Reset the render target.
      */
-    void Graphics2D::reset_render_target()
+    void Graphics2D::reset_render_target( void )
     {
         // Unbind texture/buffer.
         glFramebufferTexture2DEXT( GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, 0, 0 );

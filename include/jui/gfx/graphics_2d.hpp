@@ -17,7 +17,10 @@ namespace JUI
     // Data structure control textures.
     typedef JUTIL::HashMap<int, const JUTIL::String*, FileTexture*, JUTIL::StringHasher> TextureMap;
 
-    class Graphics2D
+    /*
+     * Class for managing a 2D rendering surfaces.
+     */
+    class __declspec(dllexport) Graphics2D
     {
 
     public:
@@ -45,64 +48,64 @@ namespace JUI
 
     public:
 
-        __declspec(dllexport) Graphics2D( Window* window );
-        __declspec(dllexport) ~Graphics2D( void );
+        Graphics2D( Window* window );
+        ~Graphics2D( void );
 
         // Loading/closing interfaces.
-        __declspec(dllexport) ReturnStatus initialize( void );
+        ReturnStatus initialize( void );
         ReturnStatus clean_up( void );
 
         // Scene initialization.
-        void setup_scene();
+        void setup_scene( void );
         void resize_scene( GLsizei width, GLsizei height );
 
         // Buffer handling.
-        __declspec(dllexport) void clear_scene();
-        __declspec(dllexport) void swap_buffers();
+        void clear_scene( void );
+        void swap_buffers( void );
 
         // Resource handling.
-        __declspec(dllexport) Texture*		create_empty_texture( GLsizei width, GLsizei height, GLenum format );
-        __declspec(dllexport) GLuint		create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
-        __declspec(dllexport) ReturnStatus	get_texture( const JUTIL::String* filename, FileTexture** output );
+        Texture* create_empty_texture( GLsizei width, GLsizei height, GLenum format );
+        GLuint create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
+        ReturnStatus get_texture( const JUTIL::String* filename, FileTexture** output );
 
         // Drawing functions.
-        __declspec(dllexport) void draw_pixel( GLfloat x, GLfloat y, const Colour& colour );
-        __declspec(dllexport) void draw_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height );
-        __declspec(dllexport) void draw_rounded_rectangle( GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat radius );
-        __declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y );
-        __declspec(dllexport) void draw_texture( const Texture* texture, GLfloat x, GLfloat y, GLsizei width, GLsizei height );
-        __declspec(dllexport) void draw_display_list( GLuint list, GLfloat x, GLfloat y );
+        void draw_pixel( int x, int y, const Colour& colour );
+        void draw_rectangle( int x, int y, int width, int height );
+        void draw_rounded_rectangle( int x, int y, int width, int height, int radius );
+        void draw_texture( const Texture* texture, int x, int y );
+        void draw_texture( const Texture* texture, int x, int y, int width, int height );
+        void draw_display_list( GLuint list, int x, int y );
 
         // Line loop functions.
-        __declspec(dllexport) void begin( GLenum mode ) const;
-        __declspec(dllexport) void draw_vertex( float x, float y ) const;
-        __declspec(dllexport) void end() const;
+        void begin( GLenum mode ) const;
+        void draw_vertex( int x, int y ) const;
+        void end( void ) const;
 
         // Drawing state functions.
-        __declspec(dllexport) void translate( float x, float y ) const;
+        void translate( int x, int y ) const;
 
         // Drawing matrix handling.
-        __declspec(dllexport) void push_matrix() const;
-        __declspec(dllexport) void pop_matrix() const;
+        void push_matrix( void ) const;
+        void pop_matrix( void ) const;
 
         // Setting render context.
-        __declspec(dllexport) HGLRC get_render_context() const;
-        __declspec(dllexport) HGLRC get_loading_context() const;
-        __declspec(dllexport) bool set_render_context( HGLRC context );
-        __declspec(dllexport) bool unset_render_context();
+        HGLRC get_render_context( void ) const;
+        HGLRC get_loading_context( void ) const;
+        bool set_render_context( HGLRC context );
+        bool unset_render_context( void );
 
         // Render mode handling.
-        __declspec(dllexport) void set_blend_state( GLenum src_blend, GLenum dest_blend );
-        __declspec(dllexport) void set_colour( const Colour& colour );
+        void set_blend_state( GLenum src_blend, GLenum dest_blend );
+        void set_colour( const Colour& colour );
 
         // Framebuffer handling.
-        __declspec(dllexport) void render_to_texture( const Texture* texture );
-        __declspec(dllexport) void reset_render_target();
+        void render_to_texture( const Texture* texture );
+        void reset_render_target( void );
 
     private:
 
         // Helper for rounded rectangles.
-        void draw_circle( GLfloat x, GLfloat y, GLfloat radius, GLfloat start_angle, GLfloat step, unsigned int step_count ) const;
+        void draw_circle( int x, int y, int radius, GLfloat start_angle, GLfloat step, unsigned int step_count ) const;
 
         // Resource handling.
         ReturnStatus load_texture( FileTexture* texture );
