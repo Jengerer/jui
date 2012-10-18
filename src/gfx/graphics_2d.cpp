@@ -174,11 +174,6 @@ namespace JUI
 
         // Enable vertical-sync.
         wglSwapIntervalEXT( 1 );
-
-        // Flat shading.
-        glEnable( GL_POLYGON_SMOOTH );
-        glEnable( GL_LINE_SMOOTH );
-        glShadeModel( GL_SMOOTH );
         
         // Size scene to window.
         resize_scene( window_->get_width(), window_->get_height() );
@@ -450,13 +445,25 @@ namespace JUI
         push_matrix();
         translate( x, y );
 
-        // Draw circles quarters.
-        begin( GL_TRIANGLE_FAN );
-        draw_circle( radius, radius, radius, 1.5f * PI, 2.0f * PI, CORNER_SEGMENTS );
-        draw_circle( width - radius, radius, radius, 0, 0.5f * PI, CORNER_SEGMENTS );
-        draw_circle( width - radius, height - radius, radius, 0.5f * PI, PI, CORNER_SEGMENTS );
-        draw_circle( radius, height - radius, radius, PI, 1.5f * PI, CORNER_SEGMENTS );
+        // Draw rounded corners.
+        begin( GL_LINES );
+        int iy;
+        for (iy = radius - 1; iy >= 0; --iy) {
+            float fx = sqrt( static_cast<float>(radius*radius - iy*iy) );
+            int ix = static_cast<int>(fx + 0.5f);
+
+            // Top.
+            draw_vertex( radius - ix, radius - iy );
+            draw_vertex( width - radius + ix, radius - iy );
+
+            // Bottom.
+            draw_vertex( radius - ix, height - radius + iy );
+            draw_vertex( width - radius + ix, height - radius + iy );
+        }
+
+        // Draw box.
         end();
+        draw_rectangle( 0, radius, width, height - (2 * radius) - 1 );
         pop_matrix();
     }
 

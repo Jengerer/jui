@@ -130,8 +130,8 @@ namespace JUI
             const unsigned int SRC_BPP = 1;
             const unsigned int DEST_BPP = 2;
             unsigned int tex_buffer_size = DEST_BPP * width * height;
-            GLubyte* tex_buffer = (GLubyte*)malloc( tex_buffer_size );
-            if (tex_buffer == nullptr) {
+            JUTIL::ArrayBuilder<GLubyte> tex_buffer;
+            if (!tex_buffer.set_size( tex_buffer_size )) {
                 return NoMemoryFailure;
             }
             const GLsizei DEST_ROW_WIDTH = DEST_BPP * width;
@@ -139,13 +139,14 @@ namespace JUI
             const GLsizei ROW_REMAINDER = DEST_ROW_WIDTH - DEST_BPP * bitmap.width;
 
             // Fill in alpha and colour.
+            GLubyte* raw_buffer = tex_buffer.get_array();
             for (GLsizei y = 0; y < bitmap.rows; ++y) {
-                GLubyte* row_start = tex_buffer + y * DEST_ROW_WIDTH;
+                GLubyte* row_start = &raw_buffer[y * DEST_ROW_WIDTH];
                 for (GLsizei x = 0; x < bitmap.width; ++x) {
                     unsigned int src_index = SRC_BPP * (x + bitmap.width * y);
                     unsigned int dest_index = DEST_BPP * (x + y * width);
-                    tex_buffer[ dest_index ] = 0xff;
-                    tex_buffer[ dest_index + 1 ]  = bitmap.buffer[ src_index ];
+                    raw_buffer[ dest_index ] = 0xff;
+                    raw_buffer[ dest_index + 1 ]  = bitmap.buffer[ src_index ];
                 }
 
                 // Zero the rest.
@@ -157,8 +158,8 @@ namespace JUI
             glBindTexture( GL_TEXTURE_2D, texture );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 
             // Store character advance.
             advances_.set( index, face_->glyph->advance.x >> 6 );
@@ -167,8 +168,7 @@ namespace JUI
             glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 
                 width, height, 0,
                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE,
-                tex_buffer );
-            free( tex_buffer );
+                tex_buffer.get_array() );
 
             // Create display list for this character.
             glNewList( list_ + index, GL_COMPILE );
