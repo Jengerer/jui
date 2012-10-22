@@ -60,8 +60,10 @@ namespace JUI
         for (i = 0; i < length; ++i) {
             Component* child = components_.get( i );
 
-            // TASK: make visibility optional; not all components have fixed width/height.
-            child->draw( graphics );
+			// Don't draw if not visible.
+            if (is_visible( child )) {
+				child->draw( graphics );
+			}
         }
     }
 
@@ -101,7 +103,7 @@ namespace JUI
      */
     bool Container::is_visible( Component *component ) const
     {
-        return is_within_bounds( component );
+        return (component->get_alpha() != 0) && is_within_bounds( component );
     }
 
     /*
