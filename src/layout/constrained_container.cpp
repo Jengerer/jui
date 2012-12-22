@@ -90,7 +90,11 @@ namespace JUI
      */
     void ConstrainedContainer::remove_constraint( Component* child )
     {
-        constraints_.remove( child );
+		Constraint* constraint;
+		if (constraints_.get( child, &constraint )) {
+			JUTIL::BaseAllocator::destroy( constraint );
+			constraints_.remove( child );
+		}
     }
 
     /*

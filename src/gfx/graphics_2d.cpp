@@ -189,7 +189,7 @@ namespace JUI
         // Set up orthographic projection.
         glMatrixMode( GL_PROJECTION );
         glLoadIdentity();
-        gluOrtho2D( 0.0f, width, height, 0.0f );
+        gluOrtho2D( -0.375f, width - 0.375f, height - 0.375f, -0.375f );
 
         // Set default model view.
         glMatrixMode( GL_MODELVIEW );
@@ -448,22 +448,26 @@ namespace JUI
         // Draw rounded corners.
         begin( GL_LINES );
         int iy;
-        for (iy = radius - 1; iy >= 0; --iy) {
+        for (iy = 0; iy < radius; ++iy) {
             float fx = sqrt( static_cast<float>(radius*radius - iy*iy) );
             int ix = static_cast<int>(fx + 0.5f);
 
+			// Get Y values.
+			int top_y = (radius - 1) - iy;
+			int bottom_y = (height - radius + iy);
+
             // Top.
-            draw_vertex( radius - ix, radius - iy );
-            draw_vertex( width - radius + ix, radius - iy );
+            draw_vertex( radius - ix, top_y );
+            draw_vertex( width - radius + ix, top_y );
 
             // Bottom.
-            draw_vertex( radius - ix, height - radius + iy );
-            draw_vertex( width - radius + ix, height - radius + iy );
+            draw_vertex( radius - ix, bottom_y );
+            draw_vertex( width - radius + ix, bottom_y );
         }
 
         // Draw box.
         end();
-        draw_rectangle( 0, radius, width, height - (2 * radius) - 1 );
+        draw_rectangle( 0, radius, width, height - (2 * radius) );
         pop_matrix();
     }
 
