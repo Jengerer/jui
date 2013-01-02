@@ -648,7 +648,7 @@ namespace JUI
      */
     void Graphics2D::set_colour( const Colour& colour )
     {
-        glColor4ub( colour.r, colour.g, colour.b, colour.a );
+        glColor4ub( colour.get_red(), colour.get_green(), colour.get_blue(), colour.get_alpha() );
     }
 
     /*

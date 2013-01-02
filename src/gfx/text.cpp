@@ -47,9 +47,9 @@ namespace JUI
      */
     void Text::set_colour( const Colour* colour )
     {
-        colour_.r = colour->r;
-        colour_.g = colour->g;
-        colour_.b = colour->b;
+        colour_.set_red( colour->get_red() );
+        colour_.set_green( colour->get_green() );
+        colour_.set_blue( colour->get_blue() );
     }
 
     /*
@@ -66,7 +66,7 @@ namespace JUI
     void Text::set_alpha( int alpha )
     {
         Component::set_alpha( alpha );
-        colour_.a = get_alpha();
+        colour_.set_alpha( get_alpha() );
     }
 
     /*

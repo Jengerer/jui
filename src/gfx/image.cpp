@@ -45,7 +45,7 @@ namespace JUI
     void Image::set_alpha( int alpha )
     {
         Component::set_alpha( alpha );
-        tint_.a = get_alpha();
+		tint_.set_alpha( get_alpha() );
     }
 
     /*
@@ -53,9 +53,9 @@ namespace JUI
      */
     void Image::set_tint( const Colour* tint )
     {
-        tint_.r = tint->r;
-        tint_.g = tint->g;
-        tint_.b = tint->b;
+        tint_.set_red( tint->get_red() );
+        tint_.set_green( tint->get_green() );
+        tint_.set_blue( tint->get_blue() );
     }
 
     /*
