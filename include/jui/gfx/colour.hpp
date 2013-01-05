@@ -6,31 +6,31 @@
 namespace JUI
 {
 
-    // Alpha constants.
-    const GLubyte COMPONENT_MIN = 0;
-    const GLubyte COMPONENT_MAX = 255;
+	// Alpha constants.
+	const GLubyte COMPONENT_MIN = 0;
+	const GLubyte COMPONENT_MAX = 255;
 
 	const double HUE_MIN = 0;
-    const double HUE_MAX = 360;// Not include 360
+	const double HUE_MAX = 360;// Not include 360
 	const double SATURATION_MIN = 0;
-    const double SATURATION_MAX = 1;
+	const double SATURATION_MAX = 1;
 	const double VALUE_MIN = 0;
-    const double VALUE_MAX = 1;
+	const double VALUE_MAX = 1;
 
 	const double HUE_SCALING = 60;
 
-    // Colour struct.
-    class __declspec(dllexport) Colour
-    {
+	// Colour struct.
+	class __declspec(dllexport) Colour
+	{
 
-    public:
+	public:
 
-        Colour( GLubyte red = COMPONENT_MAX, 
-            GLubyte green = COMPONENT_MAX,
-            GLubyte blue = COMPONENT_MAX, 
-            GLubyte alpha = COMPONENT_MAX );
+		Colour( GLubyte red = COMPONENT_MAX, 
+			GLubyte green = COMPONENT_MAX,
+			GLubyte blue = COMPONENT_MAX, 
+			GLubyte alpha = COMPONENT_MAX );
 
-    public:
+	public:
 
 		// Getters
 		GLubyte get_alpha( void ) const;
@@ -59,15 +59,15 @@ namespace JUI
 
 		GLubyte alpha_;
 		GLubyte red_;
-        GLubyte green_;
-        GLubyte blue_;
+		GLubyte green_;
+		GLubyte blue_;
 
-    };
+	};
 
-    // Useful colours.
-    const Colour COLOUR_WHITE( COMPONENT_MAX, COMPONENT_MAX, COMPONENT_MAX );
-    const Colour COLOUR_BLACK( COMPONENT_MIN, COMPONENT_MIN, COMPONENT_MIN );
-    const Colour COLOUR_BLANK( COMPONENT_MIN, COMPONENT_MIN, COMPONENT_MIN, COMPONENT_MIN );
+	// Useful colours.
+	const Colour COLOUR_WHITE( COMPONENT_MAX, COMPONENT_MAX, COMPONENT_MAX );
+	const Colour COLOUR_BLACK( COMPONENT_MIN, COMPONENT_MIN, COMPONENT_MIN );
+	const Colour COLOUR_BLANK( COMPONENT_MIN, COMPONENT_MIN, COMPONENT_MIN, COMPONENT_MIN );
 
 }
 

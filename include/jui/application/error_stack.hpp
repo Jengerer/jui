@@ -7,41 +7,41 @@
 namespace JUI
 {
 
-    /*
-     * Singleton class for managing error stack from components.
-     */
-    class __declspec(dllexport) ErrorStack
-    {
-    
-    public:
+	/*
+	 * Singleton class for managing error stack from components.
+	 */
+	class __declspec(dllexport) ErrorStack
+	{
+	
+	public:
 
-        // Public destructor allocator.
-        ~ErrorStack( void );
+		// Public destructor allocator.
+		~ErrorStack( void );
 
-        // Singleton instance management.
-        static ErrorStack* get_instance( void );
-        static void shut_down( void );
+		// Singleton instance management.
+		static ErrorStack* get_instance( void );
+		static void shut_down( void );
 
-        // Error logging functions.
-        void log( const char* format, ... );
-        void clear( void );
+		// Error logging functions.
+		void log( const char* format, ... );
+		void clear( void );
 
-        // Stack retrieval.
-        const JUTIL::String* get_top_error( void ) const;
+		// Stack retrieval.
+		const JUTIL::String* get_top_error( void ) const;
 
-    private:
+	private:
 
-        ErrorStack( void );
+		ErrorStack( void );
 
-    private:
+	private:
 
-        static ErrorStack* instance_;
+		static ErrorStack* instance_;
 
-    private:
+	private:
 
-        JUTIL::Vector<JUTIL::String*> errors_;
+		JUTIL::Vector<JUTIL::String*> errors_;
 
-    };
+	};
 
 }
 

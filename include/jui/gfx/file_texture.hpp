@@ -7,19 +7,19 @@
 namespace JUI
 {
 
-    class FileTexture : public Texture
-    {
-        
-    public:
+	class FileTexture : public Texture
+	{
+		
+	public:
 
-        __declspec(dllexport) FileTexture( const JUTIL::String* filename );
-        __declspec(dllexport) const JUTIL::String* get_filename( void ) const;
+		__declspec(dllexport) FileTexture( const JUTIL::String* filename );
+		__declspec(dllexport) const JUTIL::String* get_filename( void ) const;
 
-    private:
+	private:
 
-        const JUTIL::String* filename_;
+		const JUTIL::String* filename_;
 
-    };
+	};
 
 }
 

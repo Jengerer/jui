@@ -10,46 +10,46 @@
 namespace JUI
 {
 
-    /*
-     * Freetype font object manager.
-     */
-    class FreetypeFontManager
-    {
+	/*
+	 * Freetype font object manager.
+	 */
+	class FreetypeFontManager
+	{
 
-    public:
+	public:
 
-        // Public destructor for base allocator.
-        ~FreetypeFontManager( void );
+		// Public destructor for base allocator.
+		~FreetypeFontManager( void );
 
-	    // Singleton instance manager.
-	    static FreetypeFontManager* get_instance( void );
-	    static void shut_down( void );
+		// Singleton instance manager.
+		static FreetypeFontManager* get_instance( void );
+		static void shut_down( void );
 
-	    // Font creation and destruction.
-	    FontInterface* create_font( const JUTIL::String* filename, unsigned int height );
-	    void destroy_font( FontInterface* font );
+		// Font creation and destruction.
+		FontInterface* create_font( const JUTIL::String* filename, unsigned int height );
+		void destroy_font( FontInterface* font );
 
-    private:
+	private:
 
-	    // Private constructor/destructor.
-	    FreetypeFontManager( void );
+		// Private constructor/destructor.
+		FreetypeFontManager( void );
 
-	    // Interface initializer.
-	    bool initialize( void );
-	    void close( void );
+		// Interface initializer.
+		bool initialize( void );
+		void close( void );
 
-    private:
+	private:
 
-	    // Singleton instance.
-	    static FreetypeFontManager* instance_;
+		// Singleton instance.
+		static FreetypeFontManager* instance_;
 
-    private:
+	private:
 
-	    // Singleton member variables.
-	    FT_Library library_;
-	    JUTIL::Vector<FontInterface*> fonts_;
+		// Singleton member variables.
+		FT_Library library_;
+		JUTIL::Vector<FontInterface*> fonts_;
 
-    };
+	};
 
 }
 

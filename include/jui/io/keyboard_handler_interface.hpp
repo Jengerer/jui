@@ -6,15 +6,15 @@
 namespace JUI
 {
 
-    class KeyboardHandlerInterface
-    {
+	class KeyboardHandlerInterface
+	{
 
-    public:
+	public:
 
-        virtual IOResult on_key_pressed( int key ) = 0;
-        virtual IOResult on_key_released( int key ) = 0;
+		virtual IOResult on_key_pressed( int key ) = 0;
+		virtual IOResult on_key_released( int key ) = 0;
 
-    };
+	};
 
 }
 

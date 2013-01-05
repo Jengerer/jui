@@ -6,40 +6,40 @@
 namespace JUI
 {
 
-    class FileDownloader
-    {
-        
-    public:
+	class FileDownloader
+	{
+		
+	public:
 
-        // Initialize and exit.
-        static __declspec(dllexport) FileDownloader* get_instance( void );
-        static __declspec(dllexport) void shut_down( void );
+		// Initialize and exit.
+		static __declspec(dllexport) FileDownloader* get_instance( void );
+		static __declspec(dllexport) void shut_down( void );
 
-        // Get a file if it doesn't exist.
-        __declspec(dllexport) bool check_and_get( const JUTIL::String* filename, const JUTIL::String* url );
+		// Get a file if it doesn't exist.
+		__declspec(dllexport) bool check_and_get( const JUTIL::String* filename, const JUTIL::String* url );
 
-        // Get a file.
-        __declspec(dllexport) bool get( const JUTIL::String* filename, const JUTIL::String* url );
+		// Get a file.
+		__declspec(dllexport) bool get( const JUTIL::String* filename, const JUTIL::String* url );
 
-        // Read a file.
-        __declspec(dllexport) bool read( const JUTIL::String* url, JUTIL::DynamicString* output );
+		// Read a file.
+		__declspec(dllexport) bool read( const JUTIL::String* url, JUTIL::DynamicString* output );
 
-    private:
+	private:
 
-        // Private constructor.
-        FileDownloader( DownloaderInterface* downloader );
+		// Private constructor.
+		FileDownloader( DownloaderInterface* downloader );
 
-    private:
+	private:
 
-        // Singleton instance.
-        static FileDownloader* instance_;
+		// Singleton instance.
+		static FileDownloader* instance_;
 
-    private:
+	private:
 
-        // Singleton member variable.
-        DownloaderInterface* downloader_;
+		// Singleton member variable.
+		DownloaderInterface* downloader_;
 
-    };
+	};
 
 }
 

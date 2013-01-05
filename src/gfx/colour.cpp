@@ -4,13 +4,13 @@
 namespace JUI
 {
 
-    Colour::Colour( GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha )
-    {
-        set_alpha( alpha );
+	Colour::Colour( GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha )
+	{
+		set_alpha( alpha );
 		set_red( red );
 		set_green( green );
 		set_blue( blue );
-    }
+	}
 
 	GLubyte Colour::get_alpha( void ) const
 	{

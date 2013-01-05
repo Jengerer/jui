@@ -6,14 +6,14 @@
 namespace JUI
 {
 
-    class IDrawable
-    {
+	class IDrawable
+	{
 
-    public:
+	public:
 
-        virtual void draw( Graphics2D* graphics ) = 0;
+		virtual void draw( Graphics2D* graphics ) = 0;
 
-    };
+	};
 
 }
 

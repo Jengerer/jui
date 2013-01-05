@@ -7,59 +7,59 @@
 namespace JUI
 {
 
-    /*
-     * Class for maintaining a generic renderable string.
-     */
-    template <class Type>
-    class __declspec(dllexport) BaseRenderableString : public RenderableStringInterface
-    {
+	/*
+	 * Class for maintaining a generic renderable string.
+	 */
+	template <class Type>
+	class __declspec(dllexport) BaseRenderableString : public RenderableStringInterface
+	{
 
-    public:
+	public:
 
-        BaseRenderableString( const Type* string );
+		BaseRenderableString( const Type* string );
 
-        // String functions.
-        unsigned long get_character_code( size_t index ) const;
-        size_t get_length( void ) const;
+		// String functions.
+		unsigned long get_character_code( size_t index ) const;
+		size_t get_length( void ) const;
 
-    private:
+	private:
 
-        const Type* string_;
+		const Type* string_;
 
-    };
+	};
 
-    // Type definitions for common string types.
-    typedef BaseRenderableString<JUTIL::String> RenderableString;
-    typedef BaseRenderableString<JUTIL::WideString> RenderableWideString;
+	// Type definitions for common string types.
+	typedef BaseRenderableString<JUTIL::String> RenderableString;
+	typedef BaseRenderableString<JUTIL::WideString> RenderableWideString;
 
-    /*
-     * Base renderable string constructor by base string pointer.
-     * Assumes string object lifetime exceeds time required to cache string drawing.
-     */
-    template <class Type>
-    BaseRenderableString<Type>::BaseRenderableString( const Type* string )
-    {
-        string_ = string;
-    }
+	/*
+	 * Base renderable string constructor by base string pointer.
+	 * Assumes string object lifetime exceeds time required to cache string drawing.
+	 */
+	template <class Type>
+	BaseRenderableString<Type>::BaseRenderableString( const Type* string )
+	{
+		string_ = string;
+	}
 
-    /*
-     * Get the character code at an index.
-     */
-    template <class Type>
-    unsigned long BaseRenderableString<Type>::get_character_code( size_t index ) const
-    {
-        unsigned long character_code = static_cast<unsigned long>(string_->get_character( index ));
-        return character_code;
-    }
+	/*
+	 * Get the character code at an index.
+	 */
+	template <class Type>
+	unsigned long BaseRenderableString<Type>::get_character_code( size_t index ) const
+	{
+		unsigned long character_code = static_cast<unsigned long>(string_->get_character( index ));
+		return character_code;
+	}
 
-    /*
-     * Get length of string.
-     */
-    template <class Type>
-    size_t BaseRenderableString<Type>::get_length( void ) const
-    {
-        return string_->get_length();
-    }
+	/*
+	 * Get length of string.
+	 */
+	template <class Type>
+	size_t BaseRenderableString<Type>::get_length( void ) const
+	{
+		return string_->get_length();
+	}
 
 }
 

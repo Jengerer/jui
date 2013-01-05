@@ -8,31 +8,31 @@
 namespace JUI
 {
 
-    // A new record! Longest class name in the project!
-    class RoundedRectangleContainer : public ConstrainedContainer
-    {
+	// A new record! Longest class name in the project!
+	class RoundedRectangleContainer : public ConstrainedContainer
+	{
 
-    public:
+	public:
 
-        RoundedRectangleContainer( unsigned int radius, unsigned int padding, float localX = 0.0f, float localY = 0.0f );
+		RoundedRectangleContainer( unsigned int radius, unsigned int padding, float localX = 0.0f, float localY = 0.0f );
 
-        // Container functions.
-        virtual void		pack();
+		// Container functions.
+		virtual void        pack();
 
-        // Content and rectangle.
-        void				SetContent( Component* content );
-        RoundedRectangle*	GetRoundedRectangle() const;
+		// Content and rectangle.
+		void                SetContent( Component* content );
+		RoundedRectangle*   GetRoundedRectangle() const;
 
-        // Attribute function settings.
-        void				SetPadding( unsigned int padding );
+		// Attribute function settings.
+		void                SetPadding( unsigned int padding );
 
-    private:
+	private:
 
-        RoundedRectangle*	roundedRect_;
-        Component*			content_;
-        unsigned int		padding_;
+		RoundedRectangle*   roundedRect_;
+		Component*          content_;
+		unsigned int        padding_;
 
-    };
+	};
 
 }
 

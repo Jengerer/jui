@@ -6,22 +6,22 @@
 namespace JUI
 {
 
-    class Box : public Component
-    {
+	class Box : public Component
+	{
 
-    public:
-        
-        // Constructor.
-        Box();
+	public:
+		
+		// Constructor.
+		Box();
 
-        // IDrawable over-ride.
-        virtual void draw( Graphics2D* graphics );
+		// IDrawable over-ride.
+		virtual void draw( Graphics2D* graphics );
 
-    private:
+	private:
 
-        Colour colour_;
+		Colour colour_;
 
-    };
+	};
 
 }
 

@@ -7,19 +7,19 @@
 namespace JUI
 {
 
-    /*
-     * Interface to handle mouse events.
-     */
-    class MouseHandlerInterface
-    {
+	/*
+	 * Interface to handle mouse events.
+	 */
+	class MouseHandlerInterface
+	{
 
-    public:
+	public:
 
-        virtual IOResult on_mouse_clicked( Mouse *mouse ) = 0;
-        virtual IOResult on_mouse_released( Mouse *mouse ) = 0;
-        virtual IOResult on_mouse_moved( Mouse *mouse ) = 0;
+		virtual IOResult on_mouse_clicked( Mouse *mouse ) = 0;
+		virtual IOResult on_mouse_released( Mouse *mouse ) = 0;
+		virtual IOResult on_mouse_moved( Mouse *mouse ) = 0;
 
-    };
+	};
 
 }
 

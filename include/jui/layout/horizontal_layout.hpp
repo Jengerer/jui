@@ -7,33 +7,33 @@
 namespace JUI
 {
 
-    enum EVerticalAlignType {
-        ALIGN_TOP,
-        ALIGN_MIDDLE,
-        ALIGN_BOTTOM
-    };
+	enum EVerticalAlignType {
+		ALIGN_TOP,
+		ALIGN_MIDDLE,
+		ALIGN_BOTTOM
+	};
 
-    class HorizontalLayout: public Layout
-    {
+	class HorizontalLayout: public Layout
+	{
 
-    public:
+	public:
 
-        __declspec(dllexport) HorizontalLayout( unsigned int spacing = 0, EVerticalAlignType align_type = ALIGN_MIDDLE );
+		__declspec(dllexport) HorizontalLayout( unsigned int spacing = 0, EVerticalAlignType align_type = ALIGN_MIDDLE );
 
-        // Packs elements into a horizontal layout.
-        __declspec(dllexport) virtual void pack( void );
-        __declspec(dllexport) void SetMinimumHeight( int minimumHeight );
+		// Packs elements into a horizontal layout.
+		__declspec(dllexport) virtual void pack( void );
+		__declspec(dllexport) void SetMinimumHeight( int minimumHeight );
 
-        __declspec(dllexport) void set_align_type( EVerticalAlignType align_type );
-        __declspec(dllexport) EVerticalAlignType get_align_type( void ) const;
+		__declspec(dllexport) void set_align_type( EVerticalAlignType align_type );
+		__declspec(dllexport) EVerticalAlignType get_align_type( void ) const;
 
-    private:
+	private:
 
-        int minimum_height_;
-        EVerticalAlignType align_type_;
+		int minimum_height_;
+		EVerticalAlignType align_type_;
 
 
-    };
+	};
 
 }
 

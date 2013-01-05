@@ -6,21 +6,21 @@
 namespace JUI
 {
 
-    /*
-     * Interface for requesting files from an external server.
-     */
-    class DownloaderInterface
-    {
+	/*
+	 * Interface for requesting files from an external server.
+	 */
+	class DownloaderInterface
+	{
 
-    public:
+	public:
 
-        // Download a file to disk.
-        virtual bool download( const JUTIL::String* url, const JUTIL::String* destination ) = 0;
+		// Download a file to disk.
+		virtual bool download( const JUTIL::String* url, const JUTIL::String* destination ) = 0;
 
-        // Read file to string builder.
-        virtual bool read( const JUTIL::String* url, JUTIL::DynamicString* output ) = 0;
+		// Read file to string builder.
+		virtual bool read( const JUTIL::String* url, JUTIL::DynamicString* output ) = 0;
 
-    };
+	};
 
 }
 

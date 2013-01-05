@@ -6,14 +6,14 @@
 namespace JUI
 {
 
-    class ResourceSourceInterface
-    {
+	class ResourceSourceInterface
+	{
 
-    public:
+	public:
 
-        virtual void get_resource( const std::string& target, const std::string& destination ) = 0;
+		virtual void get_resource( const std::string& target, const std::string& destination ) = 0;
 
-    };
+	};
 
 }
 

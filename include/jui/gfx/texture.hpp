@@ -6,39 +6,39 @@
 namespace JUI
 {
 
-    class Texture
-    {
+	class Texture
+	{
 
-    public:
+	public:
 
-        __declspec(dllexport) Texture();
-        __declspec(dllexport) Texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu = 1.0f, GLfloat tv = 1.0f );
-        __declspec(dllexport) virtual ~Texture();
+		__declspec(dllexport) Texture();
+		__declspec(dllexport) Texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu = 1.0f, GLfloat tv = 1.0f );
+		__declspec(dllexport) virtual ~Texture();
 
-        // Texture setter.
-        __declspec(dllexport) void set_texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu, GLfloat tv );
+		// Texture setter.
+		__declspec(dllexport) void set_texture( GLuint texture, GLsizei width, GLsizei height, GLfloat tu, GLfloat tv );
 
-        // Texture attribute functions.
-        __declspec(dllexport) bool is_loaded() const;
-        __declspec(dllexport) GLuint get_texture() const;
-        __declspec(dllexport) GLsizei get_width() const;
-        __declspec(dllexport) GLsizei get_height() const;
-        __declspec(dllexport) GLfloat get_tu() const;
-        __declspec(dllexport) GLfloat get_tv() const;
+		// Texture attribute functions.
+		__declspec(dllexport) bool is_loaded() const;
+		__declspec(dllexport) GLuint get_texture() const;
+		__declspec(dllexport) GLsizei get_width() const;
+		__declspec(dllexport) GLsizei get_height() const;
+		__declspec(dllexport) GLfloat get_tu() const;
+		__declspec(dllexport) GLfloat get_tv() const;
 
-    private:
+	private:
 
-        GLuint texture_;
+		GLuint texture_;
 
-        // Size variables.
-        GLsizei width_;
-        GLsizei height_;
+		// Size variables.
+		GLsizei width_;
+		GLsizei height_;
 
-        // Texture mapping coordinates.
-        GLfloat tu_;
-        GLfloat tv_;
+		// Texture mapping coordinates.
+		GLfloat tu_;
+		GLfloat tv_;
 
-    };
+	};
 
 }
 

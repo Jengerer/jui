@@ -10,17 +10,17 @@
 namespace JUI
 {
 
-    /*
-     * Generic function used by OpenGL.
-     */
-    class OpenGLShared
-    {
+	/*
+	 * Generic function used by OpenGL.
+	 */
+	class OpenGLShared
+	{
 
-    public:
+	public:
 
-        static GLsizei next_power_of_2( GLsizei num );
+		static GLsizei next_power_of_2( GLsizei num );
 
-    };
+	};
 
 }
 
