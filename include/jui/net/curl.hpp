@@ -43,8 +43,13 @@ namespace JUI
 		// Downloader interface functions.
 		virtual bool download( const JUTIL::String* string, const JUTIL::String* destination );
 		virtual bool read( const JUTIL::String* url, JUTIL::DynamicString* output );
+		virtual bool read_cached( const JUTIL::String* url, const JUTIL::String* destination, JUTIL::DynamicString* output );
 
 	private:
+
+		bool creat_path_to( const JUTIL::String* destination );
+		bool read_from_local_file( const JUTIL::String* destination, JUTIL::DynamicString* output );
+		bool write_to_local_file( const JUTIL::String* destination, JUTIL::String* output );
 
 		// Private constructor.
 		Curl( void );

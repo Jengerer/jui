@@ -88,4 +88,12 @@ namespace JUI
 		return downloader_->read( url, output );
 	}
 
+	/*
+	 * Read a cached file to string.
+	 */
+	bool FileDownloader::read_cached( const JUTIL::String* filename, const JUTIL::String* url, JUTIL::DynamicString* output )
+	{
+		return downloader_->read_cached( url, filename, output );
+	}
+
 }

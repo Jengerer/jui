@@ -20,6 +20,9 @@ namespace JUI
 		// Read file to string builder.
 		virtual bool read( const JUTIL::String* url, JUTIL::DynamicString* output ) = 0;
 
+		// Read cached file to string builder.
+		virtual bool read_cached( const JUTIL::String* url, const JUTIL::String* destination, JUTIL::DynamicString* output ) = 0;
+
 	};
 
 }

@@ -24,6 +24,9 @@ namespace JUI
 		// Read a file.
 		__declspec(dllexport) bool read( const JUTIL::String* url, JUTIL::DynamicString* output );
 
+		// Read a cached filed.
+		__declspec(dllexport) bool read_cached( const JUTIL::String* filename, const JUTIL::String* url, JUTIL::DynamicString* output );
+
 	private:
 
 		// Private constructor.
