@@ -218,18 +218,10 @@ namespace JUI
 			JUTIL::DynamicString current_time_string;
 			char rfc_822_string [26];
 			int test = strftime( rfc_822_string, 26, "%a, %d %b %Y %H:%M:%S", &current_gmt );
-			
-			/*/
 			if(!current_time_string.write( "If-Modified-Since: %s GMT", rfc_822_string )){
 				stack->log( "Curl: failed to write date string" );
 				return false;
 			}
-			//*/
-			//*/
-			current_time_string.set_length( 48 );
-			sprintf(current_time_string.get_string(), "If-Modified-Since: %s GMT", rfc_822_string );
-			//*/
-
 			if (!write_to_local_file( &date_destination, &current_time_string )) {
 				stack->log( "Curl: failed to write cache date file" );
 				return false;
