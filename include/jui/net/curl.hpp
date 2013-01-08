@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include "jui/net/downloader_interface.hpp"
+#include <string/string_hasher.hpp>
 
 /*
  * Curl implementation of downloader interface.

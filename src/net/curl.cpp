@@ -155,29 +155,61 @@ namespace JUI
 
 		bool send_http_header = true;
 
-		FILE* file = nullptr;
-		errno_t error = fopen_s( &file, destination->get_string(), "r" );
-		if (error != 0) {
-			// Cache does not exist, fetch the entire file.
-			send_http_header = false;
-		}
-		if( file != nullptr ){
-			fclose( file );
-		}
-		
+		// Create date and sum strings
 		JUTIL::DynamicString date_destination;
 		if (!date_destination.copy( destination->get_string(), destination->get_length() )) {
 			stack->log( "Curl: failed to allocate for date path name." );
 			return false;
 		}
 		if(!date_destination.write( ".date" )) {
-			stack->log( "Curl: failed to append file extention." );
+			stack->log( "Curl: failed to append date file extention." );
+			return false;
+		}
+		JUTIL::DynamicString sum_destination;
+		if (!sum_destination.copy( destination->get_string(), destination->get_length() )) {
+			stack->log( "Curl: failed to allocate for sum path name." );
+			return false;
+		}
+		if(!sum_destination.write( ".sum" )) {
+			stack->log( "Curl: failed to append sum file extention." );
 			return false;
 		}
 
-		if(!creat_path_to( &date_destination )) {
+		// Ensure that the folder exists
+		if(!creat_path_to( destination )) {
 			stack->log( "Curl: failed to create cache folder." );
 			return false;
+		}
+
+		// Check if the cache file exists
+		JUTIL::DynamicString cache_string;
+		if (read_from_local_file( destination, &cache_string )) {
+			// Check the sum
+			JUTIL::DynamicString cache_sum_string;
+			if(read_from_local_file( &sum_destination, &cache_sum_string )) {
+				uint8_t calculated_sum [JUTIL::StringHasher::MD5_HASH_SIZE];
+				JUTIL::StringHasher::md5( &cache_string, calculated_sum );
+
+				JUTIL::DynamicString calculated_sum_string;
+				for( int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i ){
+					if(!calculated_sum_string.write( "%02x", calculated_sum[i] )){
+						stack->log( "Curl: failed to write to sum string." );
+						return false;
+					}
+				}
+
+				if(!cache_sum_string.is_equal( &calculated_sum_string )){
+					send_http_header = false;
+				}
+
+			}else{
+				// Sum does not exist, fetch the entire file.
+				send_http_header = false;
+			}
+
+		}else{
+			// Cache does not exist, fetch the entire file.
+			send_http_header = false;
 		}
 
 		// Read from date file.
@@ -186,14 +218,18 @@ namespace JUI
 			// Date file does not exist, fetch the entire file
 			send_http_header = false;
 		}
+
+		// TODO: probably should check if the date file is of proper form
+		// Example
+		// If-Modified-Since: Mon, 07 Jan 2013 18:12:53 GMT
 		
 		// Create empty memory buffer struct.
-		JUTIL::DynamicString string;
+		JUTIL::DynamicString downloaded_string;
 
 		// Set up CURL operation.
 		curl_easy_setopt( curl_, CURLOPT_URL, url->get_string() );
 		curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_buffer );
-		curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &string );
+		curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &downloaded_string );
 		curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
 		
 		// Add the if-modified header
@@ -210,8 +246,9 @@ namespace JUI
 			return false;
 		}
 
-		// Update the cache and the date
-		if( !send_http_header || string.get_length() != 0 ){
+		// Update the cache, the date and the sum
+		if( !send_http_header || downloaded_string.get_length() != 0 ){
+			// Generate the date string
 			time_t current_time = time( nullptr );
 			struct tm current_gmt;
 			gmtime_s( &current_gmt, &current_time );
@@ -222,18 +259,34 @@ namespace JUI
 				stack->log( "Curl: failed to write date string" );
 				return false;
 			}
+
+			// Generate the sum string
+			uint8_t calculated_sum [JUTIL::StringHasher::MD5_HASH_SIZE];
+			JUTIL::StringHasher::md5( &cache_string, calculated_sum );
+			JUTIL::DynamicString calculated_sum_string;
+			for( int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i ){
+				if(!calculated_sum_string.write( "%02x", calculated_sum[i] )){
+					stack->log( "Curl: failed to write to sum string." );
+					return false;
+				}
+			}
+
+			if (!write_to_local_file( &sum_destination, &calculated_sum_string )) {
+				stack->log( "Curl: failed to write cache date file" );
+				return false;
+			}
 			if (!write_to_local_file( &date_destination, &current_time_string )) {
 				stack->log( "Curl: failed to write cache date file" );
 				return false;
 			}
-			if(!write_to_local_file( destination, &string )) {
+			if(!write_to_local_file( destination, &downloaded_string )) {
 				stack->log( "Curl: failed to write cache file" );
 				return false;
 			}
 		}
 
 		// Clean up and remove header for other curl reads
-		string.release();
+		downloaded_string.release();
 		curl_easy_setopt( curl_, CURLOPT_HTTPHEADER, nullptr);
 		
 		// Return the cache
@@ -282,6 +335,10 @@ namespace JUI
 		FILE* file;
 		errno_t error = fopen_s( &file, destination->get_string(), "rb" );
 		if (error != 0) {
+			return false;
+		}
+
+		if(file == nullptr){
 			return false;
 		}
 		
