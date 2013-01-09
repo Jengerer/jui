@@ -262,7 +262,7 @@ namespace JUI
 
 			// Generate the sum string
 			uint8_t calculated_sum [JUTIL::StringHasher::MD5_HASH_SIZE];
-			JUTIL::StringHasher::md5( &cache_string, calculated_sum );
+			JUTIL::StringHasher::md5( &downloaded_string, calculated_sum );
 			JUTIL::DynamicString calculated_sum_string;
 			for( int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i ){
 				if(!calculated_sum_string.write( "%02x", calculated_sum[i] )){
