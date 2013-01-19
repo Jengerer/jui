@@ -45,6 +45,7 @@ namespace JUI
 		__declspec(dllexport) void set_size( int width, int height );
 		__declspec(dllexport) void set_fullscreen( bool is_fullscreen );
 		__declspec(dllexport) void set_border( bool has_border );
+		__declspec(dllexport) void set_icon( WORD icon );
 
 		// Get window display parameters.
 		int         get_width( void ) const;
@@ -69,6 +70,10 @@ namespace JUI
 
 		// Window handle.
 		HWND        wnd_;
+
+		// Icon data
+		WORD        icon_;
+		bool        default_icon_;
 
 		// Window external parameters.
 		JUTIL::ConstantString title_;

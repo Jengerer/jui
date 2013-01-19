@@ -61,6 +61,7 @@ namespace JUI
 		set_size( DEFAULT_WIDTH, DEFAULT_HEIGHT );
 		set_fullscreen( DEFAULT_FULLSCREEN );
 		set_border( DEFAULT_BORDER );
+		default_icon_ = true;
 	}
 
 	/*
@@ -178,6 +179,15 @@ namespace JUI
 	{
 		has_border_ = has_border;
 	}
+		
+	/*
+	 * Sets the window icon.
+	 */
+	void Window::set_icon( WORD icon )
+	{
+		icon_ = icon;
+		default_icon_ = false;
+	}
 
 	/*
 	 * Gets the width of the window.
@@ -226,7 +236,11 @@ namespace JUI
 	{
 		WNDCLASS wnd_class;
 		wnd_class.hInstance     = get_instance();
-		wnd_class.hIcon         = NULL;
+		if( default_icon_ ){
+			wnd_class.hIcon     = NULL;
+		}else{
+			wnd_class.hIcon     = LoadIcon( get_instance(), MAKEINTRESOURCE(101) );
+		}
 		wnd_class.hCursor       = LoadCursor( NULL, IDC_ARROW );
 		wnd_class.hbrBackground = NULL;
 		wnd_class.cbWndExtra    = 0;
