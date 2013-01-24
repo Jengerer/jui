@@ -75,6 +75,12 @@ namespace JUI
 		void draw_rounded_rectangle_border( int x, int y, int width, int height, int radius, int stroke_size );
 		void draw_texture( const Texture* texture, int x, int y );
 		void draw_texture( const Texture* texture, int x, int y, int width, int height );
+
+		void draw_texture_restricted( const Texture* texture, int x, int y, 
+			int restricted_x, int restricted_y, int restricted_width, int restricted_height );
+		void draw_texture_restricted( const Texture* texture, int x, int y, int width, int height, 
+			int restricted_x, int restricted_y, int restricted_width, int restricted_height );
+
 		void draw_display_list( GLuint list, int x, int y );
 
 		// Line loop functions.

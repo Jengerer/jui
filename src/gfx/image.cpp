@@ -67,6 +67,14 @@ namespace JUI
 	}
 
 	/*
+	 * Returns texture to draw.
+	 */
+	const Texture* Image::get_texture( void ) const
+	{
+		return texture_;
+	}
+	
+	/*
 	 * Set texture to draw as component.
 	 */
 	void Image::set_texture( const Texture *texture )

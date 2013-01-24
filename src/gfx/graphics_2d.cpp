@@ -669,9 +669,30 @@ namespace JUI
 	 */
 	void Graphics2D::draw_texture( const Texture* texture, int x, int y, int width, int height )
 	{
+		draw_texture_restricted( texture, x, y, width, height, 0, 0, width, height );
+	}
+
+	/*
+	 * Draw only part of a texture to buffer.
+	 */
+	void Graphics2D::draw_texture_restricted( const Texture* texture, int x, int y, 
+			int restricted_x, int restricted_y, int restricted_width, int restricted_height )
+	{
+		draw_texture_restricted( texture, x, y, texture->get_width(), texture->get_height(), 
+			restricted_x, restricted_y, restricted_width, restricted_height );
+	}
+
+	/*
+	 * Draw only part of a texture to buffer with size.
+	 */
+	void Graphics2D::draw_texture_restricted( const Texture* texture, int x, int y, int width, int height, 
+		int restricted_x, int restricted_y, int restricted_width, int restricted_height )
+	{
 		// Set up end texture.
-		int x2 = x + width;
-		int y2 = y + height;
+		int x1 = restricted_x;
+		int x2 = restricted_x + restricted_width;
+		int y1 = restricted_y;
+		int y2 = restricted_y + restricted_height;
 
 		// Set texture.
 		glBindTexture( GL_TEXTURE_2D, texture->get_texture() );
@@ -679,25 +700,40 @@ namespace JUI
 		// Get texture coordinates.
 		GLfloat tu = texture->get_tu();
 		GLfloat tv = texture->get_tv();
+		
+		GLfloat tu1 = (GLfloat) x1;
+		GLfloat tu2 = (GLfloat) x2;
+		GLfloat tv1 = (GLfloat) y1;
+		GLfloat tv2 = (GLfloat) y2;
+
+		tu1 *= tu;
+		tu2 *= tu;
+		tv1 *= tv;
+		tv2 *= tv;
+
+		tu1 /= width;
+		tu2 /= width;
+		tv1 /= height;
+		tv2 /= height;
 
 		// Draw quad.
 		begin( GL_QUADS );
 
 		// Top left.
-		glTexCoord2f( 0.0f, 0.0f );
-		draw_vertex( x, y );
+		glTexCoord2f( tu1, tv1 );
+		draw_vertex( x + x1, y + y1 );
 
 		// Top right.
-		glTexCoord2f( tu, 0.0f );
-		draw_vertex( x2, y );
+		glTexCoord2f( tu2, tv1 );
+		draw_vertex( x + x2, y + y1 );
 
 		// Bottom right.
-		glTexCoord2f( tu, tv );
-		draw_vertex( x2, y2 );
+		glTexCoord2f( tu2, tv2 );
+		draw_vertex( x + x2, y + y2 );
 
 		// Bottom left.
-		glTexCoord2f( 0.0f, tv );
-		draw_vertex( x, y2 );
+		glTexCoord2f( tu1, tv2 );
+		draw_vertex( x + x1, y + y2 );
 
 		// End quad.
 		glEnd();

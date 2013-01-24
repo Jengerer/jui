@@ -19,6 +19,7 @@ namespace JUI
 
 		// Drawing functions.
 		virtual void draw( Graphics2D* graphics );
+		const Texture* get_texture( void ) const;
 		void set_texture( const Texture *texture );
 
 		// Imagine rendering attributes.

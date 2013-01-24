@@ -91,6 +91,9 @@
     <ClCompile Include="src\application\application_controller.cpp">
       <Filter>src\application</Filter>
     </ClCompile>
+    <ClCompile Include="src\gfx\cropped_image.cpp">
+      <Filter>src\gfx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\jui\application\application.hpp">
@@ -206,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="include\jui\io\io_common.hpp">
       <Filter>include\jui\io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jui\gfx\cropped_image.hpp">
+      <Filter>include\jui\gfx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
