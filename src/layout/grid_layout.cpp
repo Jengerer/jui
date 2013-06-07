@@ -3,10 +3,8 @@
 namespace JUI
 {
 
-	GridLayout::GridLayout( int grid_width, unsigned int spacing )
+	GridLayout::GridLayout( void )
 	{
-		grid_width_ = grid_width;
-		set_spacing( spacing );
 	}
 
 	GridLayout::~GridLayout( void )
@@ -14,25 +12,25 @@ namespace JUI
 		// GridLayout destroyed.
 	}
 
-	void GridLayout::pack( void )
+	void GridLayout::pack( unsigned int width, unsigned int spacing )
 	{
+		// Handle easy empty case.
 		if (components_.is_empty()) {
 			set_size( 0, 0 );
 			return;
 		}
 
 		// Base component sizes on first element.
-		Component *first = components_.get( 0 );
+		Component *first = components_.at( 0 );
 		int component_width = first->get_width();
 		int component_height = first->get_height();
-		int spacing = get_spacing();
 
 		// Grid height is components / width, + 1 if remainder.
 		size_t num_components = components_.get_length();
-		int grid_height = num_components / grid_width_ + (num_components % grid_width_ == 0 ? 0 : 1);
+		int grid_height = num_components / width + (num_components % width == 0 ? 0 : 1);
 
 		// Calculate width and height.
-		int total_width = grid_width_ * (component_width + spacing) - spacing;
+		int total_width = width * (component_width + spacing) - spacing;
 		int total_height = grid_height * (component_height + spacing) - spacing;
 		set_size( total_width, total_height );
 
@@ -45,9 +43,9 @@ namespace JUI
 		int y;
 		size_t i;
 		for (i = 0; i < num_components; ++i) {
-			Component* current = components_.get( i );
-			x = (i % grid_width_) * TOTAL_X_SPACING;
-			y = (i / grid_width_) * TOTAL_Y_SPACING;
+			Component* current = components_.at( i );
+			x = (i % width) * TOTAL_X_SPACING;
+			y = (i / width) * TOTAL_Y_SPACING;
 			set_constraint( current, x, y );
 		}
 	}

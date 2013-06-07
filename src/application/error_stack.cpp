@@ -79,7 +79,7 @@ namespace JUI
 		// Destroy strings.
 		unsigned int i;
 		for (i = 0; i < errors_.get_length(); ++i) {
-			JUTIL::String* error = errors_.get( i );
+			JUTIL::String* error = errors_.at( i );
 			JUTIL::BaseAllocator::destroy( error );
 		}
 		errors_.clear();
@@ -97,7 +97,7 @@ namespace JUI
 		}
 
 		size_t last_index = errors_.get_length() - 1;
-		return errors_.get( last_index );
+		return errors_.at( last_index );
 	}
 
 	/*

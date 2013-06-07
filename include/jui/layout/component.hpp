@@ -37,7 +37,7 @@ namespace JUI
 		int y_;
 		int width_;
 		int height_;
-		GLubyte alpha_;
+		unsigned char alpha_;
 
 	};
 

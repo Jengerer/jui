@@ -6,23 +6,22 @@ namespace JUI
 	/*
 	 * Vertical layout constructor.
 	 */
-	VerticalLayout::VerticalLayout( unsigned int spacing, EHorizontalAlignType align_type ) : Layout( spacing )
+	VerticalLayout::VerticalLayout( void )
 	{
-		set_align_type( align_type );
 		set_minimum_width( 0 );
 	}
 
 	/*
 	 * Align all elements into vertical layout.
 	 */
-	void VerticalLayout::pack( void )
+	void VerticalLayout::pack( unsigned int spacing, HorizontalAlignType align_type )
 	{
-		// First get maximum width.
+		// First get maximum width and clamp above minimum width.
 		int max_width = 0;
 		size_t i;
 		size_t length = components_.get_length();
 		for (i = 0; i < length; ++i) {
-			Component* component = components_.get( i );
+			Component* component = components_.at( i );
 			int width = component->get_width();
 			if (width > max_width) {
 				max_width = width;
@@ -37,16 +36,16 @@ namespace JUI
 		// Now pack.
 		int height = 0;
 		for (i = 0; i < length; ++i) {
-			Component *component = components_.get( i );
+			Component *component = components_.at( i );
 
 			// Push by spacing if not first.
 			if (i != 0) {
-				height += get_spacing();
+				height += spacing;
 			}
 
 			// Set position aligned horizontally.
 			int x;
-			switch (get_align_type()) {
+			switch (align_type) {
 			case ALIGN_LEFT:
 				x = 0;
 				break;
@@ -68,27 +67,11 @@ namespace JUI
 	}
 
 	/*
-	 * Set horizontal element alignment type.
-	 */
-	void VerticalLayout::set_align_type( EHorizontalAlignType align_type )
-	{
-		align_type_ = align_type;
-	}
-
-	/*
-	 * Get current setting for alignment type.
-	 */
-	EHorizontalAlignType VerticalLayout::get_align_type( void ) const
-	{
-		return align_type_;
-	}
-
-	/*
 	 * Set minimum width for layout.
 	 */
-	void VerticalLayout::set_minimum_width( int minimumWidth )
+	void VerticalLayout::set_minimum_width( int width )
 	{
-		minimum_width_ = minimumWidth;
+		minimum_width_ = width;
 	}
 
 }

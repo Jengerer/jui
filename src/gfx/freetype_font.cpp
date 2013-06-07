@@ -76,7 +76,7 @@ namespace JUI
 	{
 		// Generate textures for glyphs.
 		unsigned int glyph_count = face_->num_glyphs;
-		if (!textures_.set_length( glyph_count )) {
+		if (!textures_.resize( glyph_count )) {
 			return NoMemoryFailure;
 		}
 
@@ -88,7 +88,7 @@ namespace JUI
 		}
 
 		// Generate list of advances for characters.
-		if (!advances_.set_length( glyph_count )) {
+		if (!advances_.resize( glyph_count )) {
 			return NoMemoryFailure;
 		}
 
@@ -154,7 +154,7 @@ namespace JUI
 			}
 
 			// Set up texture params.
-			GLuint texture = textures_.get( index );
+			GLuint texture = textures_.at( index );
 			glBindTexture( GL_TEXTURE_2D, texture );
 			glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
 			glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
@@ -162,7 +162,7 @@ namespace JUI
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 
 			// Store character advance.
-			advances_.set( index, face_->glyph->advance.x >> 6 );
+			advances_.at( index ) = face_->glyph->advance.x >> 6;
 
 			// Create texture from the buffer.
 			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 
@@ -235,7 +235,7 @@ namespace JUI
 	{
 		FT_UInt index = FT_Get_Char_Index( face_, c );
 		if (index != 0) {
-			return advances_.get( index );
+			return advances_.at( index );
 		}
 
 		return 0;

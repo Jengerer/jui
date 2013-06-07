@@ -15,17 +15,11 @@ namespace JUI
 
 	public:
 
-		Layout( unsigned int spacing = 0 );
+		Layout( void );
 		virtual ~Layout( void );
 
-		// Format the elements into the appropriate layout.
-		virtual void pack( void ) = 0;
-
-		// Sets the spacing between elements.
-		int get_spacing( void ) const;
-		void set_spacing( int spacing );
-
 		// Bound restriction based on parent.
+		// TODO: Is parent needed?
 		virtual bool is_visible( Component *component ) const;
 
 		// Sets a parent to handle size constraints.
@@ -35,7 +29,6 @@ namespace JUI
 	private:
 
 		Container* parent_;
-		int spacing_;
 
 	};
 

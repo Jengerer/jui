@@ -3,11 +3,10 @@
 namespace JUI
 {
 
-	Layout::Layout( unsigned int spacing )
+	Layout::Layout( void )
 	{
 		// Layout created.
 		set_parent( nullptr );
-		set_spacing( spacing );
 	}
 
 	Layout::~Layout( void )
@@ -23,16 +22,6 @@ namespace JUI
 		}
 
 		return Container::is_visible( component );
-	}
-
-	void Layout::set_spacing( int spacing )
-	{
-		spacing_ = spacing;
-	}
-
-	int Layout::get_spacing( void ) const
-	{
-		return spacing_;
 	}
 
 	void Layout::set_parent( Container *parent )

@@ -22,6 +22,7 @@ namespace JUI
 		// Container resource handling.
 		virtual bool add( Component *component );
 		virtual void remove( Component *component );
+		virtual bool reserve( unsigned int elements );
 
 		// Drawing functions.
 		virtual void draw( Graphics2D* graphics );

@@ -3,21 +3,18 @@
 namespace JUI
 {
 
-	HorizontalLayout::HorizontalLayout( unsigned int spacing, EVerticalAlignType align_type ) : Layout( spacing )
+	HorizontalLayout::HorizontalLayout( void )
 	{
-		// HorizontalLayout created.
-		set_align_type( align_type );
-		SetMinimumHeight( 0 );
 	}
 
-	void HorizontalLayout::pack( void )
+	void HorizontalLayout::pack( unsigned int spacing, VerticalAlignType align_type )
 	{
-		// First get maximum height.
+		// First get tallest element and clamp above minimum height.
 		int max_height = 0;
 		size_t i;
 		size_t length = components_.get_length();
 		for (i = 0; i < length; ++i) {
-			Component* component = components_.get( i );
+			Component* component = components_.at( i );
 			int height = component->get_height();
 			if (height > max_height) {
 				max_height = height;
@@ -27,19 +24,19 @@ namespace JUI
 			max_height = minimum_height_;
 		}
 
-		// Now pack.
+		// Now pack all elements into position.
 		int width = 0;
 		for (i = 0; i < length; ++i) {
-			Component* component = components_.get( i );
+			Component* component = components_.at( i );
 
 			// Push by spacing if not first.
 			if (i != 0) {
-				width += get_spacing();
+				width += spacing;
 			}
 
 			// Set position aligned vertically.
 			int y;
-			switch (get_align_type()) {
+			switch (align_type) {
 			case ALIGN_TOP:
 				y = 0;
 				break;
@@ -60,19 +57,9 @@ namespace JUI
 		set_size( width, max_height );
 	}
 
-	void HorizontalLayout::SetMinimumHeight( int minimumHeight )
+	void HorizontalLayout::set_minimum_height( int height )
 	{
-		minimum_height_ = minimumHeight;
-	}
-
-	void HorizontalLayout::set_align_type( EVerticalAlignType align_type )
-	{
-		align_type_ = align_type;
-	}
-
-	EVerticalAlignType HorizontalLayout::get_align_type( void ) const
-	{
-		return align_type_;
+		minimum_height_ = height;
 	}
 
 }

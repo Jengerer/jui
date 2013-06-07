@@ -15,15 +15,11 @@ namespace JUI
 
 	public:
 
-		GridLayout( int grid_width, unsigned int spacing );
+		GridLayout( void );
 		virtual ~GridLayout( void );
 
 		// Layout packing.
-		virtual void pack( void );
-
-	private:
-
-		int grid_width_;
+		virtual void pack( unsigned int width, unsigned int spacing );
 
 	};
 

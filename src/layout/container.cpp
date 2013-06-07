@@ -28,7 +28,7 @@ namespace JUI
 		size_t i;
 		size_t length = components_.get_length();
 		for (i = 0; i < length; ++i) {
-			Component* current = components_.get( i );
+			Component* current = components_.at( i );
 			JUTIL::BaseAllocator::destroy( current );
 		}
 	}
@@ -50,6 +50,15 @@ namespace JUI
 	}
 
 	/*
+	 * Reserve an amount of elements if we know ahead of time
+	 * how many are going to be added.
+	 */
+	bool Container::reserve( unsigned int elements )
+	{
+		return components_.reserve( elements );
+	}
+
+	/*
 	 * Draw this container (and all children).
 	 */
 	void Container::draw( Graphics2D* graphics )
@@ -58,7 +67,7 @@ namespace JUI
 		size_t i;
 		size_t length = components_.get_length();
 		for (i = 0; i < length; ++i) {
-			Component* child = components_.get( i );
+			Component* child = components_.at( i );
 
 			// Don't draw if not visible.
 			if (is_visible( child )) {
@@ -78,7 +87,7 @@ namespace JUI
 		size_t i;
 		size_t length = components_.get_length();
 		for (i = 0; i < length; ++i) {
-			Component* child = components_.get( i );
+			Component* child = components_.at( i );
 			child->set_alpha( alpha );
 		}
 	}
