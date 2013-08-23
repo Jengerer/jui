@@ -444,6 +444,7 @@ namespace JUI
 		// Start triangle strip.
 		push_matrix();
 		translate( x, y );
+        glTranslatef( -0.25f, -0.25f, 0.0f );
 
 		// Draw rounded corners.
 		begin( GL_LINES );
@@ -510,6 +511,7 @@ namespace JUI
 		// Start triangle strip.
 		push_matrix();
 		translate( x, y );
+        glTranslatef( -0.25f, -0.25f, 0.0f );
 
 		// Draw rounded corners.
 		begin( GL_LINES );

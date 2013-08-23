@@ -108,7 +108,7 @@ namespace JUI
 	{
 		// Generate display lists for all characters.
 		FT_UInt index;
-		for (FT_ULong i = FT_Get_First_Char( face_, &index); i != 0; i = FT_Get_Next_Char( face_, i, &index )) {
+		for (FT_ULong i = FT_Get_First_Char( face_, &index ); i != 0; i = FT_Get_Next_Char( face_, i, &index )) {
 			// Load the glyph for the character.
 			FT_Error error = FT_Load_Glyph( face_, index, FT_LOAD_DEFAULT );
 			if (error != 0) {
@@ -145,12 +145,11 @@ namespace JUI
 				for (GLsizei x = 0; x < bitmap.width; ++x) {
 					unsigned int src_index = SRC_BPP * (x + bitmap.width * y);
 					unsigned int dest_index = DEST_BPP * (x + y * width);
-					raw_buffer[ dest_index ] = 0xff;
-					raw_buffer[ dest_index + 1 ]  = bitmap.buffer[ src_index ];
+					raw_buffer[ dest_index ] = raw_buffer[ dest_index + 1 ]  = bitmap.buffer[ src_index ];
 				}
 
 				// Zero the rest.
-				memset( row_start + DEST_SRC_WIDTH, 0, ROW_REMAINDER);
+				memset( row_start + DEST_SRC_WIDTH, 0, ROW_REMAINDER );
 			}
 
 			// Set up texture params.
@@ -158,8 +157,8 @@ namespace JUI
 			glBindTexture( GL_TEXTURE_2D, texture );
 			glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
 			glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 
 			// Store character advance.
 			advances_.at( index ) = face_->glyph->advance.x >> 6;

@@ -56,7 +56,7 @@ namespace JUI
 		}
 
 		// Set character height.
-		FT_Set_Char_Size( face, 0, height << 6, 96, 96 );
+		FT_Set_Char_Size( face, height << 6, height << 6, 96, 96 );
 
 		// Create font.
 		FreetypeFont* font;

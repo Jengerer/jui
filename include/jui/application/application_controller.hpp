@@ -87,7 +87,6 @@ namespace JUI
 				top->get_string(),
 				"Application Initialization Failure",
 				MB_ICONERROR | MB_OK );
-			set_application( nullptr );
 			return false;
 		}
 

@@ -59,7 +59,7 @@ namespace JUI
 			return;
 		}
 		string = new (string) JUTIL::DynamicString();
-		if (!string->write( format, args )) {
+		if (!string->vwrite( format, args )) {
 			return;
 		}
 

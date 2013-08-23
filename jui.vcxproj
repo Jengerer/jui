@@ -46,10 +46,10 @@
     <OutDir>$(SolutionDir)\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <IncludePath>$(SDK_LIB_DIR)\boost\;$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath>$(SDK_LIB_DIR)\boost\lib;$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
     <OutDir>$(SolutionDir)\lib</OutDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
