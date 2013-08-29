@@ -6,7 +6,7 @@ namespace JUI
 {
 
 	// Default window parameters.
-	const char* DEFAULT_TITLE = "Default Application";
+	const JUTIL::ConstantString DEFAULT_TITLE = "Default Application";
 	const int DEFAULT_WIDTH = 640;
 	const int DEFAULT_HEIGHT = 480;
 	const bool DEFAULT_FULLSCREEN = false;
@@ -56,7 +56,7 @@ namespace JUI
 		set_handle( nullptr );
 
 		// Set default parameters.
-		set_title( DEFAULT_TITLE );
+		set_title( &DEFAULT_TITLE );
 		set_instance( instance );
 		set_size( DEFAULT_WIDTH, DEFAULT_HEIGHT );
 		set_fullscreen( DEFAULT_FULLSCREEN );
@@ -142,7 +142,7 @@ namespace JUI
 	/*
 	 * Gets the window title.
 	 */
-	const JUTIL::ConstantString* Window::get_title( void ) const
+	const JUTIL::String* Window::get_title( void ) const
 	{
 		return &title_;
 	}
@@ -150,9 +150,9 @@ namespace JUI
 	/*
 	 * Sets the window title.
 	 */
-	void Window::set_title( const JUTIL::ConstantString& title )
+	void Window::set_title( const JUTIL::String* title )
 	{
-		title_ = title;
+		title_.set_string( title );
 	}
 
 	/*

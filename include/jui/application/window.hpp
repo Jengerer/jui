@@ -4,7 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
-#include <string/constant_string.hpp>
+#include <string/string.hpp>
 
 namespace JUI
 {
@@ -34,56 +34,56 @@ namespace JUI
 		~Window( void );
 
 		// Window creation.
-		ReturnStatus  create_window( void );
+		ReturnStatus create_window( void );
 		
 		// Get window external parameters.
-		HWND		get_handle( void ) const;
-		const JUTIL::ConstantString* get_title( void ) const;
+		HWND get_handle( void ) const;
+		const JUTIL::String* get_title( void ) const;
 
 		// Setting window display parameters.
-		__declspec(dllexport) void set_title( const JUTIL::ConstantString& title );
+		__declspec(dllexport) void set_title( const JUTIL::String* title );
 		__declspec(dllexport) void set_size( int width, int height );
 		__declspec(dllexport) void set_fullscreen( bool is_fullscreen );
 		__declspec(dllexport) void set_border( bool has_border );
 		__declspec(dllexport) void set_icon( WORD icon );
 
 		// Get window display parameters.
-		int         get_width( void ) const;
-		int         get_height( void ) const;
-		bool        is_fullscreen( void ) const;
-		bool        has_border( void ) const;
+		int get_width( void ) const;
+		int get_height( void ) const;
+		bool is_fullscreen( void ) const;
+		bool has_border( void ) const;
 
 		// Window status parameters.
-		bool        is_active( void );
+		bool is_active( void );
 
 	private:
 
 		// Creating window class.
-		bool        register_class( void );
+		bool register_class( void );
 
 		// Setting window external parameters.
-		void        set_handle( HWND hwnd );
-		void        set_instance( HINSTANCE instance );
-		HINSTANCE   get_instance( void ) const;
+		void set_handle( HWND hwnd );
+		void set_instance( HINSTANCE instance );
+		HINSTANCE get_instance( void ) const;
 
 	private:
 
 		// Window handle.
-		HWND        wnd_;
+		HWND wnd_;
 
 		// Icon data
-		WORD        icon_;
-		bool        default_icon_;
+		WORD icon_;
+		bool default_icon_;
 
 		// Window external parameters.
 		JUTIL::ConstantString title_;
 		HINSTANCE instance_;
 
 		// Window display parameters.
-		int         width_;
-		int         height_;
-		bool        is_fullscreen_;
-		bool        has_border_;
+		int width_;
+		int height_;
+		bool is_fullscreen_;
+		bool has_border_;
 
 	};
 

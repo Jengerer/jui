@@ -449,21 +449,18 @@ namespace JUI
 		// Draw rounded corners.
 		begin( GL_LINES );
 
-		// Most of this is stolen off the wikipedia page for the midpoint circle algorithm
-
+		// Most of this is stolen off the wikipedia page for the midpoint circle algorithm.
 		int f = 1 - radius;
 		int ddF_x = 1;
 		int ddF_y = -2 * radius;
 		int fast_dim = 0;
 		int slow_dim = radius;
 
-		while(fast_dim < slow_dim)
-		{
+		while (fast_dim < slow_dim) {
 			// ddF_x == 2 * x + 1;
 			// ddF_y == -2 * y;
 			// f == x*x + y*y - radius*radius + 2*x - y + 1;
-			if(f >= 0) 
-			{
+			if (f >= 0) {
 				slow_dim--;
 				ddF_y += 2;
 				f += ddF_y;
@@ -472,23 +469,22 @@ namespace JUI
 			ddF_x += 2;
 			f += ddF_x;
 			
-			//Only render if we are moving to the next small dimention next time
-			//Skip if we are on the last iteration
-			if(f >= 0 && fast_dim < slow_dim) 
-			{
+			// Only render if we are moving to the next small dimention next time
+			// Skip if we are on the last iteration
+			if(f >= 0 && fast_dim < slow_dim) {
 				draw_vertex(width - radius + fast_dim, height - radius - 1 + slow_dim);
 				draw_vertex(        radius - fast_dim, height - radius - 1 + slow_dim);
 				draw_vertex(width - radius + fast_dim,          radius     - slow_dim);
 				draw_vertex(        radius - fast_dim,          radius     - slow_dim);
 			}
 			
-			//Always render
-			//Skip if we are on the last iteration but render the last line
-			if(fast_dim <= slow_dim){
-				draw_vertex(width - radius + slow_dim, height - radius - 1 + fast_dim);
-				draw_vertex(        radius - slow_dim, height - radius - 1 + fast_dim);
-				draw_vertex(width - radius + slow_dim,          radius     - fast_dim);
-				draw_vertex(        radius - slow_dim,          radius     - fast_dim);
+			// Always render
+			// Skip if we are on the last iteration but render the last line
+			if (fast_dim <= slow_dim) {
+				draw_vertex( width - radius + slow_dim, height - radius - 1 + fast_dim);
+				draw_vertex( radius - slow_dim, height - radius - 1 + fast_dim);
+				draw_vertex(width - radius + slow_dim, radius - fast_dim);
+				draw_vertex( radius - slow_dim, radius - fast_dim);
 			}
 		}
 
@@ -516,8 +512,7 @@ namespace JUI
 		// Draw rounded corners.
 		begin( GL_LINES );
 
-		// Most of this is stolen off the wikipedia page for the midpoint circle algorithm
-
+		// Most of this is stolen off the wikipedia page for the midpoint circle algorithm.
 		int f_out = 1 - radius;
 		int ddF_x_out = 1;
 		int ddF_y_out = -2 * radius;
@@ -534,13 +529,11 @@ namespace JUI
 		int fast_lim_in;
 		int slow_lim_in;
 
-		while(fast_dim_out < slow_dim_out)
-		{
+		while (fast_dim_out < slow_dim_out) {
 			// ddF_x == 2 * x + 1;
 			// ddF_y == -2 * y;
 			// f == x*x + y*y - radius*radius + 2*x - y + 1;
-			if(f_out >= 0) 
-			{
+			if(f_out >= 0) {
 				slow_dim_out--;
 				ddF_y_out += 2;
 				f_out += ddF_y_out;
@@ -559,13 +552,11 @@ namespace JUI
 			fast_dim_in = 0;
 			slow_dim_in = radius_in;
 
-			while(fast_dim_in < slow_dim_in)
-			{
+			while (fast_dim_in < slow_dim_in) {
 				// ddF_x == 2 * x + 1;
 				// ddF_y == -2 * y;
 				// f == x*x + y*y - radius*radius + 2*x - y + 1;
-				if(f_in >= 0) 
-				{
+				if (f_in >= 0) {
 					slow_dim_in--;
 					ddF_y_in += 2;
 					f_in += ddF_y_in;
@@ -575,66 +566,62 @@ namespace JUI
 				f_in += ddF_x_in;
 
 				// If we found the correct row, update the limit for that dimention
-				if(f_in >= 0 && fast_dim_in < slow_dim_in) 
-				{
-					if(fast_dim_out == slow_dim_in){
+				if (f_in >= 0 && fast_dim_in < slow_dim_in) {
+					if (fast_dim_out == slow_dim_in) {
 						slow_lim_in = fast_dim_in;
 					}
-					if(slow_dim_out == slow_dim_in){
+					if (slow_dim_out == slow_dim_in) {
 						fast_lim_in = fast_dim_in;
 					}
 				}
-				if(fast_dim_in <= slow_dim_in)
-				{
-					if(fast_dim_out == fast_dim_in){
-						//case 1
+				if (fast_dim_in <= slow_dim_in) {
+					if (fast_dim_out == fast_dim_in) {
+						// Case 1.
 						slow_lim_in = slow_dim_in;
 					}
 				}
 				
-				// Stop if we have both limits
-				if(slow_lim_in != 0 && fast_lim_in != 0){
+				// Stop if we have both limits.
+				if (slow_lim_in != 0 && fast_lim_in != 0) {
 					break;
 				}
 			}
 
-			//Only render if we are moving to the next small dimention next time
-			//Skip if we are on the last iteration
-			if(f_out >= 0 && fast_dim_out < slow_dim_out) 
-			{
-				draw_vertex(width - radius + fast_dim_out, height - radius - 1 + slow_dim_out);
-				draw_vertex(width - radius + fast_lim_in , height - radius - 1 + slow_dim_out);
-				draw_vertex(        radius - fast_lim_in , height - radius - 1 + slow_dim_out);
-				draw_vertex(        radius - fast_dim_out, height - radius - 1 + slow_dim_out);
+			// Only render if we are moving to the next small dimension next time.
+			// Skip if we are on the last iteration.
+			if (f_out >= 0 && fast_dim_out < slow_dim_out) {
+				draw_vertex( width - radius + fast_dim_out, height - radius - 1 + slow_dim_out );
+				draw_vertex( width - radius + fast_lim_in, height - radius - 1 + slow_dim_out );
+				draw_vertex( radius - fast_lim_in, height - radius - 1 + slow_dim_out );
+				draw_vertex( radius - fast_dim_out, height - radius - 1 + slow_dim_out );
 
-				draw_vertex(width - radius + fast_dim_out,          radius     - slow_dim_out);
-				draw_vertex(width - radius + fast_lim_in ,          radius     - slow_dim_out);
-				draw_vertex(        radius - fast_lim_in ,          radius     - slow_dim_out);
-				draw_vertex(        radius - fast_dim_out,          radius     - slow_dim_out);
+				draw_vertex( width - radius + fast_dim_out, radius - slow_dim_out );
+				draw_vertex( width - radius + fast_lim_in, radius - slow_dim_out );
+				draw_vertex( radius - fast_lim_in, radius - slow_dim_out );
+				draw_vertex( radius - fast_dim_out, radius - slow_dim_out );
 			}
 			
-			//Always render
-			//Skip if we are on the last iteration but render the last line
-			if(fast_dim_out <= slow_dim_out){
-				
-				draw_vertex(width - radius + slow_dim_out, height - radius - 1 + fast_dim_out);
-				draw_vertex(width - radius + slow_lim_in , height - radius - 1 + fast_dim_out);
-				draw_vertex(        radius - slow_lim_in , height - radius - 1 + fast_dim_out);
-				draw_vertex(        radius - slow_dim_out, height - radius - 1 + fast_dim_out);
+			// Always render.
+			// Skip if we are on the last iteration but render the last line.
+			if (fast_dim_out <= slow_dim_out) {
+				draw_vertex( width - radius + slow_dim_out, height - radius - 1 + fast_dim_out );
+				draw_vertex( width - radius + slow_lim_in , height - radius - 1 + fast_dim_out );
+				draw_vertex( radius - slow_lim_in , height - radius - 1 + fast_dim_out );
+				draw_vertex( radius - slow_dim_out, height - radius - 1 + fast_dim_out );
 
-				draw_vertex(width - radius + slow_dim_out,          radius     - fast_dim_out);
-				draw_vertex(width - radius + slow_lim_in ,          radius     - fast_dim_out);
-				draw_vertex(        radius - slow_lim_in ,          radius     - fast_dim_out);
-				draw_vertex(        radius - slow_dim_out,          radius     - fast_dim_out);
+				draw_vertex( width - radius + slow_dim_out, radius - fast_dim_out );
+				draw_vertex( width - radius + slow_lim_in , radius - fast_dim_out );
+				draw_vertex( radius - slow_lim_in , radius - fast_dim_out );
+				draw_vertex( radius - slow_dim_out, radius - fast_dim_out );
 			}
 		}
 		// Draw borders.
 		end();
 		
-		draw_rectangle(                   0, radius, stroke_size, height - (2 * radius) );
+		draw_rectangle( 0, radius, stroke_size, height - (2 * radius) );
 		draw_rectangle( width - stroke_size, radius, stroke_size, height - (2 * radius) );
 
-		draw_rectangle( radius,                    0, width - (2 * radius), stroke_size );
+		draw_rectangle( radius, 0, width - (2 * radius), stroke_size );
 		draw_rectangle( radius, height - stroke_size, width - (2 * radius), stroke_size );
 
 		pop_matrix();
