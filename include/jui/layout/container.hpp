@@ -26,7 +26,6 @@ namespace JUI
 
 		// Drawing functions.
 		virtual void draw( Graphics2D* graphics );
-		virtual void set_alpha( int alpha );
 
 		// Local/global child position handling.
 		void clamp_child( Component *child, int padding = 0.0f ) const;

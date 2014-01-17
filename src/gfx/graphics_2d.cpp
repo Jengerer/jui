@@ -13,6 +13,9 @@ namespace JUI
 		// Set window handle.
 		window_ = window;
 
+		// Set default alpha.
+		blend_alpha_ = 1.0f;
+
 		// Null device and resource context.
 		dc_ = nullptr;
 		rc_ = nullptr;
@@ -405,7 +408,7 @@ namespace JUI
 	/*
 	 * Draw single pixel.
 	 */
-	void Graphics2D::draw_pixel( int x, int y, const Colour& colour )
+	void Graphics2D::draw_pixel( int x, int y, const Colour* colour )
 	{
 		// Draw single pixel.
 		glBegin( GL_POINTS );
@@ -836,11 +839,30 @@ namespace JUI
 	}
 
 	/*
+	 * Set global alpha to blend multiplicatively into all colours.
+	 */
+	void Graphics2D::set_blend_alpha( float alpha )
+	{
+		blend_alpha_ = alpha;
+	}
+
+	/*
+	 * Get globally multiplied alpha value.
+	 */
+	float Graphics2D::get_blend_alpha( void ) const
+	{
+		return blend_alpha_;
+	}
+
+
+	/*
 	 * Set drawn colour.
 	 */
-	void Graphics2D::set_colour( const Colour& colour )
+	void Graphics2D::set_colour( const Colour* colour )
 	{
-		glColor4ub( colour.get_red(), colour.get_green(), colour.get_blue(), colour.get_alpha() );
+		// Apply requested colour with blend factor.
+		float a = colour->get_alpha() * blend_alpha_;
+		glColor4f( colour->get_red(), colour->get_green(), colour->get_blue(), a );
 	}
 
 	/*

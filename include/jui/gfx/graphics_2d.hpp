@@ -69,7 +69,7 @@ namespace JUI
 		ReturnStatus get_texture( const JUTIL::String* filename, FileTexture** output );
 
 		// Drawing functions.
-		void draw_pixel( int x, int y, const Colour& colour );
+		void draw_pixel( int x, int y, const Colour* colour );
 		void draw_rectangle( int x, int y, int width, int height );
 		void draw_rounded_rectangle( int x, int y, int width, int height, int radius );
 		void draw_rounded_rectangle_border( int x, int y, int width, int height, int radius, int stroke_size );
@@ -103,7 +103,9 @@ namespace JUI
 
 		// Render mode handling.
 		void set_blend_state( GLenum src_blend, GLenum dest_blend );
-		void set_colour( const Colour& colour );
+		void set_blend_alpha( float alpha );
+		float get_blend_alpha( void ) const;
+		void set_colour( const Colour* colour );
 
 		// Framebuffer handling.
 		void render_to_texture( const Texture* texture );
@@ -130,8 +132,10 @@ namespace JUI
 		// OpenGL contexts.
 		HGLRC rc_;
 
-		// Framebuffer variables.
+		// Rendering members.
 		GLuint fbo_;
+		JUI::Colour colour_;
+		float blend_alpha_;
 
 		// Texture map.
 		TextureMap textures_;

@@ -8,7 +8,6 @@ namespace JUI
 	 */
 	Box::Box( void )
 	{
-		colour_ = Colour( 255, 125, 0, 255 );
 	}
 
 	/*
@@ -16,7 +15,7 @@ namespace JUI
 	 */
 	void Box::draw( Graphics2D* graphics )
 	{
-		graphics->set_colour( colour_ );
+		graphics->set_colour( &colour_ );
 
 		// Draw rectangle over bounds.
 		int x = get_x();

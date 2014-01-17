@@ -35,7 +35,7 @@ namespace JUI
 	{
 		// Draw texture.
 		if (get_texture() != nullptr) {
-			graphics->set_colour( *get_tint() );
+			graphics->set_colour( get_tint() );
 
 			// Draw texture.
 			int x = get_x();

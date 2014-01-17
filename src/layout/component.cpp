@@ -10,7 +10,7 @@ namespace JUI
 	{
 		set_position( 0, 0 );
 		set_size( 0, 0 );
-		set_alpha( 255 );
+		set_alpha( COMPONENT_MAX );
 	}
 
 	/*
@@ -20,7 +20,7 @@ namespace JUI
 	{
 		set_position( x, y );
 		set_size( 0, 0 );
-		set_alpha( 255 );
+		set_alpha( COMPONENT_MAX );
 	}
 
 	/*
@@ -84,7 +84,7 @@ namespace JUI
 	/*
 	 * Set component alpha (clamping invalid values).
 	 */
-	void Component::set_alpha( int alpha )
+	void Component::set_alpha( float alpha )
 	{
 		if (alpha > COMPONENT_MAX) {
 			alpha_ = COMPONENT_MAX;
@@ -93,14 +93,14 @@ namespace JUI
 			alpha_ = COMPONENT_MIN;
 		}
 		else {
-			alpha_ = static_cast<GLubyte>(alpha);
+			alpha_ = alpha;
 		}
 	}
 
 	/*
 	 * Get clamped component alpha.
 	 */
-	GLubyte Component::get_alpha( void ) const
+	float Component::get_alpha( void ) const
 	{
 		return alpha_;
 	}

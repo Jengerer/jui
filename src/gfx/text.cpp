@@ -76,7 +76,7 @@ namespace JUI
 	{
 		graphics->push_matrix();
 		graphics->translate( get_x(), get_y() );
-		graphics->set_colour( colour_ );
+		graphics->set_colour( &colour_ );
 		glCallList( list_ );
 		graphics->pop_matrix();
 	}

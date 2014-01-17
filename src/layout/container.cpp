@@ -63,6 +63,11 @@ namespace JUI
 	 */
 	void Container::draw( Graphics2D* graphics )
 	{
+		// Apply current alpha to all children.
+		float blend_alpha = graphics->get_blend_alpha();
+		float new_alpha = blend_alpha * get_alpha();
+		graphics->set_blend_alpha( new_alpha );
+
 		// Draw all children.
 		size_t i;
 		size_t length = components_.get_length();
@@ -74,22 +79,9 @@ namespace JUI
 				child->draw( graphics );
 			}
 		}
-	}
 
-	/*
-	 * Set the container's alpha and propogate call to children.
-	 */
-	void Container::set_alpha( int alpha )
-	{
-		Component::set_alpha( alpha );
-
-		// Pass to children.
-		size_t i;
-		size_t length = components_.get_length();
-		for (i = 0; i < length; ++i) {
-			Component* child = components_.at( i );
-			child->set_alpha( alpha );
-		}
+		// Restore parent blend.
+		graphics->set_blend_alpha( blend_alpha );
 	}
 
 	/*

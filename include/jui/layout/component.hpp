@@ -23,8 +23,8 @@ namespace JUI
 		virtual int get_y( void ) const;
 
 		// Visibility functions.
-		virtual void set_alpha( int alpha ); // Using int to handle underflow.
-		GLubyte get_alpha( void ) const;
+		void set_alpha( float alpha );
+		float get_alpha( void ) const;
 
 		// Size functions.
 		virtual void set_size( int width, int height );
@@ -37,7 +37,7 @@ namespace JUI
 		int y_;
 		int width_;
 		int height_;
-		unsigned char alpha_;
+		float alpha_;
 
 	};
 
