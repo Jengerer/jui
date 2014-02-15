@@ -39,7 +39,7 @@ namespace JUI
 
 		case WM_CLOSE:
 		case WM_DESTROY:
-			PostQuitMessage( 0 );
+			application->exit_application();
 			return 0;
 			break;
 		}

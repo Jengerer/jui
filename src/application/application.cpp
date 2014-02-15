@@ -60,7 +60,7 @@ namespace JUI
 	 */
 	void Application::exit_application( void )
 	{
-		PostMessage( get_window()->get_handle(), WM_DESTROY, 0, 0 );
+		PostQuitMessage( 0 );
 	}
 
 	/*

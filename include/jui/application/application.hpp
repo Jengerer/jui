@@ -45,7 +45,7 @@ namespace JUI
 		// Create interfaces.
 		__declspec(dllexport) virtual ReturnStatus initialize( void );
 		__declspec(dllexport) virtual void clean_up( void );
-		__declspec(dllexport) void exit_application( void );
+		__declspec(dllexport) virtual void exit_application( void );
 
 		// Application singularity/dependency checks.
 		static __declspec(dllexport) unsigned int get_process_count( const char* process_name );
