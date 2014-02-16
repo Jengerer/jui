@@ -113,6 +113,15 @@ namespace JUI
 	 */
 	void FreetypeFontManager::close( void )
 	{
+		// Free all fonts.
+		unsigned int i;
+		unsigned int size = fonts_.get_length();
+		for (i = 0; i < size; ++i) {
+			FontInterface* font = fonts_.at( i );
+			font->release();
+		}
+		fonts_.clear();
+
 		// Unload library.
 		if (library_ != nullptr) {
 			FT_Done_FreeType( library_ );
