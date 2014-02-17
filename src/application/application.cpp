@@ -116,35 +116,6 @@ namespace JUI
 	}
 
 	/*
-	 * Update's the mouse's position and state.
-	 * Returns true if mouse handling successful, false otherwise.
-	 */
-	bool Application::trigger_mouse_events( void )
-	{
-		// Update mouse position.
-		if (!trigger_mouse_moved()) {
-			return false;
-		}
-
-		// Trigger click events on change state.
-		bool mouse_pressed = (GetAsyncKeyState( VK_LBUTTON ) & 0x8000) != 0;
-		if (mouse_pressed != mouse_.is_pressed()) {
-			if (mouse_pressed) {
-				// Mouse pressed, previously unpressed.
-				if (!trigger_mouse_clicked()) {
-					return false;
-				}
-			}
-			else if (!trigger_mouse_released()) {
-				return false;
-			}
-		}
-
-		// No issues.
-		return true;
-	}
-
-	/*
 	 * Updates the mouse position and triggers event.
 	 * Returns true if mouse handling successful, false otherwise.
 	 */
@@ -168,6 +139,7 @@ namespace JUI
 	bool Application::trigger_mouse_clicked( void )
 	{
 		mouse_.set_pressed( true );
+		mouse_.poll();
 		IOResult result = on_mouse_clicked( &mouse_ );
 		if (result == IO_RESULT_ERROR) {
 			return false;
@@ -184,6 +156,7 @@ namespace JUI
 	bool Application::trigger_mouse_released( void )
 	{
 		mouse_.set_pressed( false );
+		mouse_.poll();
 		IOResult result = on_mouse_released( &mouse_ );
 		if (result == IO_RESULT_ERROR) {
 			return false;

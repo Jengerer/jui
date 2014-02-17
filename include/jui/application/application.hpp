@@ -61,7 +61,6 @@ namespace JUI
 		__declspec(dllexport) virtual ReturnStatus run( void );
 
 		// Input event triggers.
-		bool trigger_mouse_events( void );
 		bool trigger_mouse_moved( void );
 		bool trigger_mouse_clicked( void );
 		bool trigger_mouse_released( void );

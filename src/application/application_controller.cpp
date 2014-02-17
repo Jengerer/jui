@@ -22,7 +22,7 @@ namespace JUI
 		bool running = true;
 		while (running) {
 			// Check for Windows messages.
-			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 				// Don't dispatch if quitting.
 				if (msg.message == WM_QUIT) {
 					running = false;
