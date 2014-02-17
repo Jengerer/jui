@@ -5,7 +5,7 @@
 
 namespace JUI
 {
-	const JUTIL::ConstantString JUI_VERSION( "0.1" );
+	_declspec(dllexport) const JUTIL::String* get_version_string( void );
 }
 
 #endif // JUI_VERSION_HPP

@@ -94,6 +94,9 @@
     <ClCompile Include="src\gfx\cropped_image.cpp">
       <Filter>src\gfx</Filter>
     </ClCompile>
+    <ClCompile Include="src\jui_version.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\jui\application\application.hpp">

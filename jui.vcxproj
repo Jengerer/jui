@@ -150,6 +150,7 @@
     <ClCompile Include="src\gfx\wrapped_text.cpp" />
     <ClCompile Include="src\io\keyboard.cpp" />
     <ClCompile Include="src\io\mouse.cpp" />
+    <ClCompile Include="src\jui_version.cpp" />
     <ClCompile Include="src\layout\grid_layout.cpp" />
     <ClCompile Include="src\layout\horizontal_layout.cpp" />
     <ClCompile Include="src\layout\horizontal_split_layout.cpp" />
