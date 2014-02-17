@@ -55,11 +55,13 @@ namespace JUI
 		ErrorStack::shut_down();
 
 		// Write leaks to file.
+#if defined(_DEBUG)
 		JUTIL::AllocationManager* allocation_manager = JUTIL::AllocationManager::get_instance();
 		if (allocation_manager != nullptr) {
 			allocation_manager->dump_leaks( DEFAULT_LEAKS_OUTPUT_FILE.get_string() );
 			JUTIL::AllocationManager::shut_down();
 		}
+#endif
 	}
 
 	/*
