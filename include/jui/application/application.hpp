@@ -23,6 +23,9 @@ namespace JUI
 		{
 			Success = 0,
 
+			// Notice to exit without error.
+			EarlyExit,
+
 			// Initialization/loading results.
 			WindowCreateFailure,
 			GraphicsInitializeFailure,

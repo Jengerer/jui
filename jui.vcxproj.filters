@@ -213,6 +213,9 @@
     <ClInclude Include="include\jui\gfx\cropped_image.hpp">
       <Filter>include\jui\gfx</Filter>
     </ClInclude>
+    <ClInclude Include="include\jui\jui_version.hpp">
+      <Filter>include\jui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

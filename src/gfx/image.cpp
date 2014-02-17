@@ -42,7 +42,7 @@ namespace JUI
 	/*
 	 * Set alpha for this image.
 	 */
-	void Image::set_alpha( int alpha )
+	void Image::set_alpha( float alpha )
 	{
 		Component::set_alpha( alpha );
 		tint_.set_alpha( get_alpha() );

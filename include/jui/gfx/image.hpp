@@ -23,7 +23,7 @@ namespace JUI
 		void set_texture( const Texture *texture );
 
 		// Imagine rendering attributes.
-		void set_alpha( int alpha );
+		void set_alpha( float alpha );
 		void set_tint( const Colour* tint );
 		const Colour* get_tint( void ) const;
 

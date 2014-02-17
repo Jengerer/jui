@@ -5,6 +5,7 @@ namespace JUI
 
 	HorizontalLayout::HorizontalLayout( void )
 	{
+		set_minimum_height( 0 );
 	}
 
 	void HorizontalLayout::pack( unsigned int spacing, VerticalAlignType align_type )

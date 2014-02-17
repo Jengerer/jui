@@ -174,7 +174,7 @@ namespace JUI
 		}
 
 		// No issues.
-		return false;
+		return true;
 	}
 
 	/*
@@ -190,7 +190,7 @@ namespace JUI
 		}
 
 		// No issues.
-		return false;
+		return true;
 	}
 
 	/*

@@ -14,6 +14,9 @@ namespace JUI
 	 */
 	void ApplicationController::main_loop( void )
 	{
+		// Error stack for reporting.
+		ErrorStack* stack = ErrorStack::get_instance();
+
 		// Enter main program loop.
 		MSG msg;
 		bool running = true;
@@ -31,7 +34,11 @@ namespace JUI
 			}
 
 			// Run frame.
-			get_application()->run();
+			Application::ReturnStatus status = application_->run();
+			if (status != Application::Success) {
+				const JUTIL::String* error = stack->get_top_error();
+				MessageBox( NULL, error->get_string(), "Application Error", MB_OK | MB_ICONERROR );
+			}
 		}
 	}
 

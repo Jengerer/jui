@@ -63,7 +63,7 @@ namespace JUI
 	/*
 	 * Set text alpha.
 	 */
-	void Text::set_alpha( int alpha )
+	void Text::set_alpha( float alpha )
 	{
 		Component::set_alpha( alpha );
 		colour_.set_alpha( get_alpha() );

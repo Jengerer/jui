@@ -82,11 +82,14 @@ namespace JUI
 		// Initialize application interfaces.
 		Application::ReturnStatus result = application->initialize();
 		if (result != Application::Success) {
-			const JUTIL::String* top = error_stack->get_top_error();
-			MessageBox( nullptr,
-				top->get_string(),
-				"Application Initialization Failure",
-				MB_ICONERROR | MB_OK );
+			// Spit an error if not a benevolent exit.
+			if (result != Application::EarlyExit) {
+				const JUTIL::String* top = error_stack->get_top_error();
+				MessageBox( nullptr,
+					top->get_string(),
+					"Application Initialization Failure",
+					MB_ICONERROR | MB_OK );
+			}
 			return false;
 		}
 

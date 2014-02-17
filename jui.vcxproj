@@ -46,11 +46,11 @@
     <OutDir>$(SolutionDir)\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SDK_LIB_DIR)\boost\;$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <IncludePath>$(SDK_LIB_DIR)\boost\include;$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SDK_LIB_DIR)\boost\lib;$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
-    <OutDir>$(SolutionDir)\lib</OutDir>
+    <OutDir>$(SolutionDir)\lib\</OutDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -113,6 +113,7 @@
     <ClInclude Include="include\jui\io\mouse.hpp" />
     <ClInclude Include="include\jui\io\keyboard.hpp" />
     <ClInclude Include="include\jui\io\mouse_handler_interface.hpp" />
+    <ClInclude Include="include\jui\jui_version.hpp" />
     <ClInclude Include="include\jui\layout\component.hpp" />
     <ClInclude Include="include\jui\layout\constrained_container.hpp" />
     <ClInclude Include="include\jui\layout\vertical_layout.hpp" />

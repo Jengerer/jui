@@ -23,7 +23,7 @@ namespace JUI
 		void set_text( const JUTIL::WideString* string );
 		void set_colour( const Colour* colour );
 		const Colour* get_colour( void ) const;
-		virtual void set_alpha( int alpha );
+		virtual void set_alpha( float alpha );
 
 	private:
 
