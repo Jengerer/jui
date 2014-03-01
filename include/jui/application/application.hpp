@@ -55,6 +55,7 @@ namespace JUI
 
 		// Drawing functions.
 		__declspec(dllexport) void draw_frame( void );
+		__declspec(dllexport) void swap_buffers( void );
 		__declspec(dllexport) Window* get_window( void );
 
 		// Main running functions.

@@ -112,6 +112,13 @@ namespace JUI
 	{
 		graphics_.clear_scene();
 		draw( &graphics_ );
+	}
+
+	/*
+	 * Swap the buffer and show what we drew.
+	 */
+	void Application::swap_buffers( void )
+	{
 		graphics_.swap_buffers();
 	}
 

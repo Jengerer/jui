@@ -58,6 +58,8 @@ namespace JUI
 		GLuint  list_;
 		JUTIL::Vector<GLuint> textures_;
 		JUTIL::Vector<FT_Pos> advances_;
+
+		// Fallback font when no matching character exists.
 		
 	};
 
