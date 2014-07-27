@@ -100,6 +100,28 @@ namespace JUI
 		return errors_.at( last_index );
 	}
 
+	/* Get number of errors in the stack. */
+	size_t ErrorStack::get_error_count( void ) const
+	{
+		// Report at least default.
+		size_t count = errors_.get_length();
+		if (count == 0) {
+			count = 1;
+		}
+		return count;
+	}
+
+	/* Get an error message by its index. */
+	const JUTIL::String* ErrorStack::get_error( size_t index ) const
+	{
+		// Report at least default.
+		size_t count = errors_.get_length();
+		if (index >= count) {
+			return &DEFAULT_ERROR_MESSAGE;
+		}
+		return errors_.at( index );
+	}
+
 	/*
 	 * Error stack constructor.
 	 */

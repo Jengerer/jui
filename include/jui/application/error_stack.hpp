@@ -28,6 +28,8 @@ namespace JUI
 
 		// Stack retrieval.
 		const JUTIL::String* get_top_error( void ) const;
+		size_t get_error_count( void ) const;
+		const JUTIL::String* get_error( size_t index ) const;
 
 	private:
 
