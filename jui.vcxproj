@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,18 +14,21 @@
     <ProjectGuid>{5D3FF792-7C17-4B0B-BAF2-E5328F39934F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>JengererUI</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -38,18 +41,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>./include;$(SDK_LIB_DIR)\boost\include;$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <IncludePath>./include;$(SdkLibraryPath)jutil\include\;$(SdkLibraryPath)libpng;$(SdkLibraryPath)curl\include;$(SdkLibraryPath)freetype\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SDK_LIB_DIR)\boost\lib;$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Debug\;$(SDK_LIB_DIR)\libcurl\lib\Debug\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath>$(SdkLibraryPath)jutil\lib\;$(SdkLibraryPath)libpng\projects\vstudio\Debug Library\;$(SdkLibraryPath)curl\build\Win32\VC14\;$(SdkLibraryPath)freetype\objs\Win32\Debug Static\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_debug</TargetName>
     <OutDir>$(SolutionDir)\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SDK_LIB_DIR)\boost\include;$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\libcurl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <IncludePath>$(SDK_LIB_DIR)\boost\include;$(SDK_LIB_DIR)\jutil\include\;$(SDK_LIB_DIR)\libpng;$(SDK_LIB_DIR)\curl\include;$(SDK_LIB_DIR)\freetype\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SDK_LIB_DIR)\boost\lib;$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SDK_LIB_DIR)\libcurl\lib\Release\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <LibraryPath>$(SDK_LIB_DIR)\boost\lib;$(SDK_LIB_DIR)\jutil\lib\;$(SDK_LIB_DIR)\libpng\projects\vstudio\Release\;$(SdkLibraryPath)curl\build\Win32\VC14\;$(SDK_LIB_DIR)\freetype\objs\win32\vc2010\;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
     <OutDir>$(SolutionDir)\lib\</OutDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
@@ -59,13 +62,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;CURL_STATICLIB;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;CURL_STATICLIB;HTTP_ONLY;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jutil_debug.lib;zlib.lib;libpng15.lib;freetype2410_D.lib;glu32.lib;opengl32.lib;libcurl.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;jutil_debug.lib;libpng16.lib;freetype.lib;glu32.lib;opengl32.lib;libcurld.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
