@@ -22,7 +22,7 @@ namespace JUI
 		bool running = true;
 		while (running) {
 			// Check for Windows messages.
-			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 				// Don't dispatch if quitting.
 				if (msg.message == WM_QUIT) {
 					running = false;
@@ -37,7 +37,7 @@ namespace JUI
 			Application::ReturnStatus status = application_->run();
 			if (status != Application::Success) {
 				const JUTIL::String* error = stack->get_top_error();
-				MessageBox( NULL, error->get_string(), "Application Error", MB_OK | MB_ICONERROR );
+				MessageBox(nullptr, error->get_string(), "Application Error", MB_OK | MB_ICONERROR );
 			}
 		}
 	}

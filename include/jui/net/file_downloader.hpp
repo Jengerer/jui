@@ -27,6 +27,12 @@ namespace JUI
 		// Read a cached filed.
 		__declspec(dllexport) bool read_cached( const JUTIL::String* filename, const JUTIL::String* url, JUTIL::DynamicString* output );
 
+		// Set maximum wait time for an operation to complete
+		__declspec(dllexport) void set_timeout( long timeout );
+
+		// Removes maxximum wait time for operations to complete.
+		__declspec(dllexport) void clear_timeout();
+
 	private:
 
 		// Private constructor.

@@ -10,9 +10,10 @@ namespace JUI
 	/*
 	 * Constructor does nothing.
 	 */
-	Curl::Curl( void )
+	Curl::Curl( void ) :
+		curl_( nullptr ),
+		timeout_( 0 )
 	{
-		// Nothing.
 	}
 
 	/*
@@ -95,7 +96,7 @@ namespace JUI
 			return false;
 		}
 
-		creat_path_to( destination );
+		create_path_to( destination );
 
 		// Read contents of file.
 		JUTIL::DynamicString contents;
@@ -130,6 +131,7 @@ namespace JUI
 		curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_buffer );
 		curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &string );
 		curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
+		curl_easy_setopt( curl_, CURLOPT_TIMEOUT, timeout_ );
 		CURLcode result = curl_easy_perform( curl_ );
 		if (result != CURLE_OK) {
 			stack->log( "Curl: read failed for %s.", url->get_string() );
@@ -176,7 +178,7 @@ namespace JUI
 		}
 
 		// Ensure that the folder exists
-		if(!creat_path_to( destination )) {
+		if(!create_path_to( destination )) {
 			stack->log( "Curl: failed to create cache folder." );
 			return false;
 		}
@@ -186,35 +188,37 @@ namespace JUI
 		if (read_from_local_file( destination, &cache_string )) {
 			// Check the sum
 			JUTIL::DynamicString cache_sum_string;
-			if(read_from_local_file( &sum_destination, &cache_sum_string )) {
+			if (read_from_local_file( &sum_destination, &cache_sum_string )) {
 				uint8_t calculated_sum [JUTIL::StringHasher::MD5_HASH_SIZE];
 				JUTIL::StringHasher::md5( &cache_string, calculated_sum );
 
 				JUTIL::DynamicString calculated_sum_string;
-				for( int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i ){
-					if(!calculated_sum_string.write( "%02x", calculated_sum[i] )){
+				for (int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i){
+					if (!calculated_sum_string.write( "%02x", calculated_sum[i] )){
 						stack->log( "Curl: failed to write to sum string." );
 						return false;
 					}
 				}
 
-				if(!cache_sum_string.is_equal( &calculated_sum_string )){
+				if (!cache_sum_string.is_equal( &calculated_sum_string )){
 					send_http_header = false;
 				}
 
-			}else{
+			}
+			else {
 				// Sum does not exist, fetch the entire file.
 				send_http_header = false;
 			}
 
-		}else{
+		}
+		else {
 			// Cache does not exist, fetch the entire file.
 			send_http_header = false;
 		}
 
 		// Read from date file.
 		JUTIL::DynamicString date;
-		if(!read_from_local_file( &date_destination, &date )) {
+		if (!read_from_local_file( &date_destination, &date )) {
 			// Date file does not exist, fetch the entire file
 			send_http_header = false;
 		}
@@ -231,9 +235,10 @@ namespace JUI
 		curl_easy_setopt( curl_, CURLOPT_WRITEFUNCTION, write_buffer );
 		curl_easy_setopt( curl_, CURLOPT_WRITEDATA, &downloaded_string );
 		curl_easy_setopt( curl_, CURLOPT_FAILONERROR, true );
+		curl_easy_setopt( curl_, CURLOPT_TIMEOUT, timeout_ );
 		
 		// Add the if-modified header
-		if(send_http_header){
+		if (send_http_header) {
 			struct curl_slist if_modified_since_header;
 			if_modified_since_header.data = date.get_string();
 			if_modified_since_header.next = nullptr;
@@ -247,7 +252,7 @@ namespace JUI
 		}
 
 		// Update the cache, the date and the sum
-		if( !send_http_header || downloaded_string.get_length() != 0 ){
+		if (!send_http_header || downloaded_string.get_length() != 0){
 			// Generate the date string
 			time_t current_time = time( nullptr );
 			struct tm current_gmt;
@@ -255,7 +260,7 @@ namespace JUI
 			JUTIL::DynamicString current_time_string;
 			char rfc_822_string [26];
 			int test = strftime( rfc_822_string, 26, "%a, %d %b %Y %H:%M:%S", &current_gmt );
-			if(!current_time_string.write( "If-Modified-Since: %s GMT", rfc_822_string )){
+			if (!current_time_string.write( "If-Modified-Since: %s GMT", rfc_822_string )){
 				stack->log( "Curl: failed to write date string" );
 				return false;
 			}
@@ -264,7 +269,7 @@ namespace JUI
 			uint8_t calculated_sum [JUTIL::StringHasher::MD5_HASH_SIZE];
 			JUTIL::StringHasher::md5( &downloaded_string, calculated_sum );
 			JUTIL::DynamicString calculated_sum_string;
-			for( int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i ){
+			for (int i = 0; i < JUTIL::StringHasher::MD5_HASH_SIZE; ++i){
 				if(!calculated_sum_string.write( "%02x", calculated_sum[i] )){
 					stack->log( "Curl: failed to write to sum string." );
 					return false;
@@ -279,7 +284,7 @@ namespace JUI
 				stack->log( "Curl: failed to write cache date file" );
 				return false;
 			}
-			if(!write_to_local_file( destination, &downloaded_string )) {
+			if (!write_to_local_file( destination, &downloaded_string )) {
 				stack->log( "Curl: failed to write cache file" );
 				return false;
 			}
@@ -290,7 +295,7 @@ namespace JUI
 		curl_easy_setopt( curl_, CURLOPT_HTTPHEADER, nullptr);
 		
 		// Return the cache
-		if(!read_from_local_file( destination, output )) {
+		if (!read_from_local_file( destination, output )) {
 			stack->log( "Curl: cache read failed for %s.", destination->get_string() );
 			return false;
 		}
@@ -298,10 +303,27 @@ namespace JUI
 		return true;
 
 	}
+
+	/*
+	 * Sets maximum operation wait time.
+	 */
+	void Curl::set_timeout( long timeout )
+	{
+		timeout_ = timeout;
+	}
+
+	/*
+	 * Removes maximum operation wait time.
+	 */
+	void Curl::clear_timeout()
+	{
+		timeout_ = 0;
+	}
+
 	/*
 	 * Creates a path to the given file if it does not exist.
 	 */
-	bool Curl::creat_path_to( const JUTIL::String* destination )
+	bool Curl::create_path_to( const JUTIL::String* destination )
 	{
 		// Copy destination to create path.
 		JUTIL::DynamicString destination_copy;

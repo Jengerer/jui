@@ -96,4 +96,20 @@ namespace JUI
 		return downloader_->read_cached( url, filename, output );
 	}
 
+	/*
+	 * Set maximum wait time for an operation to complete.
+	 */
+	void FileDownloader::set_timeout( long timeout )
+	{
+		downloader_->set_timeout( timeout );
+	}
+
+	/*
+	 * Removes maximum operation wait time.
+	 */
+	void FileDownloader::clear_timeout()
+	{
+		downloader_->clear_timeout();
+	}
+
 }

@@ -23,6 +23,12 @@ namespace JUI
 		// Read cached file to string builder.
 		virtual bool read_cached( const JUTIL::String* url, const JUTIL::String* destination, JUTIL::DynamicString* output ) = 0;
 
+		// Set maximum wait time for an operation to complete.
+		virtual void set_timeout( long timeout ) = 0;
+
+		// Remove maximum wait time for operations to complete.
+		virtual void clear_timeout() = 0;
+
 	};
 
 }

@@ -46,9 +46,13 @@ namespace JUI
 		virtual bool read( const JUTIL::String* url, JUTIL::DynamicString* output );
 		virtual bool read_cached( const JUTIL::String* url, const JUTIL::String* destination, JUTIL::DynamicString* output );
 
+		// Parameter tweaks
+		virtual void set_timeout( long timeout );
+		virtual void clear_timeout();
+
 	private:
 
-		bool creat_path_to( const JUTIL::String* destination );
+		bool create_path_to( const JUTIL::String* destination );
 		bool read_from_local_file( const JUTIL::String* destination, JUTIL::DynamicString* output );
 		bool write_to_local_file( const JUTIL::String* destination, JUTIL::String* output );
 
@@ -71,6 +75,7 @@ namespace JUI
 
 		// Singleton members.
 		CURL* curl_;
+		long timeout_;
 
 	};
 
