@@ -9,7 +9,7 @@
 namespace JUI
 {
 
-	class __declspec(dllexport) Text : public Component
+	class JUI_API Text : public Component
 	{
 
 	public:

@@ -1,27 +1,29 @@
 #ifndef KEYBOARD_HPP
 #define KEYBOARD_HPP
 
+#include "jui/jui_base.hpp"
+
 namespace JUI
 {
 
 	// Number of key codes.
 	const size_t KEY_COUNT = 255;
 
-	class Keyboard
+	class JUI_API Keyboard
 	{
 
 	public:
 
-		__declspec(dllexport) Keyboard();
+		Keyboard();
 		
 		// Keyboard state getters.
-		__declspec(dllexport) bool is_key_pressed( int code ) const;
+		bool is_key_pressed( int code ) const;
 		
 		// State updater.
-		__declspec(dllexport) void set_key_state( int code, bool is_pressed );
+		void set_key_state( int code, bool is_pressed );
 
 		// Reset key states.
-		__declspec(dllexport) void clear_states();
+		void clear_states();
 
 	private:
 

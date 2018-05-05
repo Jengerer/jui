@@ -1,6 +1,7 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
+#include "jui/jui_base.hpp"
 #include "jui/layout/container.hpp"
 #include "jui/gfx/graphics_2d.hpp"
 #include "jui/io/mouse_handler_interface.hpp"
@@ -42,31 +43,31 @@ namespace JUI
 
 	public:
 
-		__declspec(dllexport) Application( HINSTANCE instance );
-		__declspec(dllexport) virtual ~Application( void );
+		JUI_API Application( HINSTANCE instance );
+		JUI_API virtual ~Application( void );
 
 		// Create interfaces.
-		__declspec(dllexport) virtual ReturnStatus initialize( void );
-		__declspec(dllexport) virtual void clean_up( void );
-		__declspec(dllexport) virtual void exit_application( void );
+		JUI_API virtual ReturnStatus initialize( void );
+		JUI_API virtual void clean_up( void );
+		JUI_API virtual void exit_application( void );
 
 		// Application singularity/dependency checks.
-		static __declspec(dllexport) unsigned int get_process_count( const char* process_name );
+		JUI_API static unsigned int get_process_count( const char* process_name );
 
 		// Drawing functions.
-		__declspec(dllexport) void draw_frame( void );
-		__declspec(dllexport) void swap_buffers( void );
-		__declspec(dllexport) Window* get_window( void );
+		JUI_API void draw_frame( void );
+		JUI_API void swap_buffers( void );
+		JUI_API Window* get_window( void );
 
 		// Main running functions.
-		__declspec(dllexport) virtual ReturnStatus run( void );
+		JUI_API virtual ReturnStatus run( void );
 
 		// Input event triggers.
-		bool trigger_mouse_moved( void );
-		bool trigger_mouse_clicked( void );
-		bool trigger_mouse_released( void );
-		bool trigger_key_pressed( int key );
-		bool trigger_key_released( int key );
+		JUI_API bool trigger_mouse_moved( void );
+		JUI_API bool trigger_mouse_clicked( void );
+		JUI_API bool trigger_mouse_released( void );
+		JUI_API bool trigger_key_pressed( int key );
+		JUI_API bool trigger_key_released( int key );
 
 	protected:
 

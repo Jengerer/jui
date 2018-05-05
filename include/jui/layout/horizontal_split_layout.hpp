@@ -7,18 +7,18 @@
 namespace JUI
 {
 
-	class __declspec(dllexport) HorizontalSplitLayout: public Layout
+	class HorizontalSplitLayout: public Layout
 	{
 
 	public:
 
 		// Creation.
-		HorizontalSplitLayout( int width );
+		JUI_API HorizontalSplitLayout( int width );
 
 		// Layout packing functions.
-		virtual void pack( void );
-		bool set_left( Component* component );
-		bool set_right( Component* component );
+		JUI_API virtual void pack( void );
+		JUI_API bool set_left( Component* component );
+		JUI_API bool set_right( Component* component );
 
 	private:
 

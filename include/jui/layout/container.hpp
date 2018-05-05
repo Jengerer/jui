@@ -7,30 +7,30 @@
 namespace JUI
 {
 
-	class __declspec(dllexport) Container : public Component
+	class Container : public Component
 	{
 
 	public:
 
 		// Container constructor.
-		Container( void );
-		Container( int x, int y );
+		JUI_API Container( void );
+		JUI_API Container( int x, int y );
 
 		// Container destructor.
-		virtual ~Container( void );
+		virtual JUI_API ~Container( void );
 
 		// Container resource handling.
-		virtual bool add( Component *component );
-		virtual void remove( Component *component );
-		virtual bool reserve( unsigned int elements );
+		virtual JUI_API bool add( Component *component );
+		virtual JUI_API void remove( Component *component );
+		virtual JUI_API bool reserve( unsigned int elements );
 
 		// Drawing functions.
-		virtual void draw( Graphics2D* graphics );
+		virtual JUI_API void draw( Graphics2D* graphics );
 
 		// Local/global child position handling.
-		void clamp_child( Component *child, int padding = 0.0f ) const;
-		virtual bool is_visible( Component* child ) const;
-		virtual bool is_within_bounds( Component* child ) const;
+		void JUI_API clamp_child( Component *child, int padding = 0.0f ) const;
+		virtual JUI_API bool is_visible( Component* child ) const;
+		virtual JUI_API bool is_within_bounds( Component* child ) const;
 
 	protected:
 

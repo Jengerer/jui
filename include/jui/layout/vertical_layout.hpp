@@ -22,11 +22,11 @@ namespace JUI
 
 	public:
 
-		__declspec(dllexport) VerticalLayout( void );
+		JUI_API VerticalLayout( void );
 
 		// Packs elements into a horizontal layout.
-		__declspec(dllexport) virtual void pack( unsigned int spacing, HorizontalAlignType align_type );
-		__declspec(dllexport) void set_minimum_width( int width );
+		JUI_API virtual void pack( unsigned int spacing, HorizontalAlignType align_type );
+		JUI_API void set_minimum_width( int width );
 
 	private:
 

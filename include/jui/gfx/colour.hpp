@@ -1,6 +1,7 @@
 #ifndef COLOUR_HPP
 #define COLOUR_HPP
 
+#include "jui/jui_base.hpp"
 #include "jui/gfx/opengl_shared.hpp"
 
 namespace JUI
@@ -27,7 +28,7 @@ namespace JUI
 	const float MAX_BYTE = 255.0f;
 
 	// Colour struct.
-	class __declspec(dllexport) Colour
+	class JUI_API Colour
 	{
 
 	public:

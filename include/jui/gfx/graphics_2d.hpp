@@ -20,7 +20,7 @@ namespace JUI
 	/*
 	 * Class for managing a 2D rendering surfaces.
 	 */
-	class __declspec(dllexport) Graphics2D
+	class Graphics2D
 	{
 
 	public:
@@ -48,64 +48,64 @@ namespace JUI
 
 	public:
 
-		Graphics2D( Window* window );
-		~Graphics2D( void );
+		JUI_API Graphics2D( Window* window );
+		JUI_API ~Graphics2D( void );
 
 		// Loading/closing interfaces.
-		ReturnStatus initialize( void );
-		ReturnStatus clean_up( void );
+		JUI_API ReturnStatus initialize( void );
+		JUI_API ReturnStatus clean_up( void );
 
 		// Scene initialization.
-		void setup_scene( void );
-		void resize_scene( GLsizei width, GLsizei height );
+		JUI_API void setup_scene( void );
+		JUI_API void resize_scene( GLsizei width, GLsizei height );
 
 		// Buffer handling.
-		void clear_scene( void );
-		void swap_buffers( void );
+		JUI_API void clear_scene( void );
+		JUI_API void swap_buffers( void );
 
 		// Resource handling.
-		Texture* create_empty_texture( GLsizei width, GLsizei height, GLenum format );
-		GLuint create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
-		ReturnStatus get_texture( const JUTIL::String* filename, FileTexture** output );
+		JUI_API Texture* create_empty_texture( GLsizei width, GLsizei height, GLenum format );
+		JUI_API GLuint create_texture( GLubyte* data, GLsizei width, GLsizei height, GLenum format );
+		JUI_API ReturnStatus get_texture( const JUTIL::String* filename, FileTexture** output );
 
 		// Drawing functions.
-		void draw_pixel( int x, int y, const Colour* colour );
-		void draw_rectangle( int x, int y, int width, int height );
-		void draw_rounded_rectangle( int x, int y, int width, int height, int radius );
-		void draw_rounded_rectangle_border( int x, int y, int width, int height, int radius, int stroke_size );
-		void draw_texture( const Texture* texture, int x, int y );
-		void draw_texture( const Texture* texture, int x, int y, int width, int height );
+		JUI_API void draw_pixel( int x, int y, const Colour* colour );
+		JUI_API void draw_rectangle( int x, int y, int width, int height );
+		JUI_API void draw_rounded_rectangle( int x, int y, int width, int height, int radius );
+		JUI_API void draw_rounded_rectangle_border( int x, int y, int width, int height, int radius, int stroke_size );
+		JUI_API void draw_texture( const Texture* texture, int x, int y );
+		JUI_API void draw_texture( const Texture* texture, int x, int y, int width, int height );
 
-		void draw_texture_restricted( const Texture* texture, int x, int y, 
+		JUI_API void draw_texture_restricted( const Texture* texture, int x, int y, 
 			int restricted_x, int restricted_y, int restricted_width, int restricted_height );
-		void draw_texture_restricted( const Texture* texture, int x, int y, int width, int height, 
+		JUI_API void draw_texture_restricted( const Texture* texture, int x, int y, int width, int height, 
 			int restricted_x, int restricted_y, int restricted_width, int restricted_height );
 
-		void draw_display_list( GLuint list, int x, int y );
+		JUI_API void draw_display_list( GLuint list, int x, int y );
 
 		// Line loop functions.
-		void begin( GLenum mode ) const;
-		void draw_vertex( int x, int y ) const;
-		void end( void ) const;
+		JUI_API void begin( GLenum mode ) const;
+		JUI_API void draw_vertex( int x, int y ) const;
+		JUI_API void end( void ) const;
 
 		// Drawing state functions.
-		void translate( int x, int y ) const;
+		JUI_API void translate( int x, int y ) const;
 
 		// Drawing matrix handling.
-		void push_matrix( void ) const;
-		void pop_matrix( void ) const;
+		JUI_API void push_matrix( void ) const;
+		JUI_API void pop_matrix( void ) const;
 
 		// Setting render context.
 		HGLRC get_render_context( void ) const;
-		HGLRC get_loading_context( void ) const;
-		bool set_render_context( HGLRC context );
+		JUI_API HGLRC get_loading_context( void ) const;
+		JUI_API bool set_render_context( HGLRC context );
 		bool unset_render_context( void );
 
 		// Render mode handling.
 		void set_blend_state( GLenum src_blend, GLenum dest_blend );
 		void set_blend_alpha( float alpha );
 		float get_blend_alpha( void ) const;
-		void set_colour( const Colour* colour );
+		JUI_API void set_colour( const Colour* colour );
 
 		// Framebuffer handling.
 		void render_to_texture( const Texture* texture );

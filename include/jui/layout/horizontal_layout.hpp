@@ -19,11 +19,11 @@ namespace JUI
 
 	public:
 
-		__declspec(dllexport) HorizontalLayout( void );
+		JUI_API HorizontalLayout( void );
 
 		// Packs elements into a horizontal layout.
-		__declspec(dllexport) void pack( unsigned int spacing, VerticalAlignType align_type );
-		__declspec(dllexport) void set_minimum_height( int height );
+		JUI_API void pack( unsigned int spacing, VerticalAlignType align_type );
+		JUI_API void set_minimum_height( int height );
 
 	private:
 

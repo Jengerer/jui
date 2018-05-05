@@ -7,7 +7,7 @@ namespace JUI
 	/*
 	 * Interface for rendering a generic string.
 	 */
-	class __declspec(dllexport) RenderableStringInterface
+	class RenderableStringInterface
 	{
 
 	public:

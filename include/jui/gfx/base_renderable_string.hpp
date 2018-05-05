@@ -11,7 +11,7 @@ namespace JUI
 	 * Class for maintaining a generic renderable string.
 	 */
 	template <class Type>
-	class __declspec(dllexport) BaseRenderableString : public RenderableStringInterface
+	class BaseRenderableString : public RenderableStringInterface
 	{
 
 	public:

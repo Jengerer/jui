@@ -62,7 +62,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;CURL_STATICLIB;HTTP_ONLY;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JUI_EXPORT;WIN32;_DEBUG;CURL_STATICLIB;HTTP_ONLY;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -116,6 +116,7 @@
     <ClInclude Include="include\jui\io\mouse.hpp" />
     <ClInclude Include="include\jui\io\keyboard.hpp" />
     <ClInclude Include="include\jui\io\mouse_handler_interface.hpp" />
+    <ClInclude Include="include\jui\jui_base.hpp" />
     <ClInclude Include="include\jui\jui_version.hpp" />
     <ClInclude Include="include\jui\layout\component.hpp" />
     <ClInclude Include="include\jui\layout\constrained_container.hpp" />

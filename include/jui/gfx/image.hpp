@@ -9,7 +9,7 @@ namespace JUI
 	/*
 	 * Component for drawing a single image.
 	 */
-	class __declspec(dllexport) Image: public Component
+	class JUI_API Image: public Component
 	{
 
 	public:

@@ -1,12 +1,13 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
+#include "jui/jui_base.hpp"
 #include "jui/gfx/idrawable.hpp"
 
 namespace JUI
 {
 
-	class __declspec(dllexport) Component : public IDrawable
+	class JUI_API Component : public IDrawable
 	{
 
 	public:

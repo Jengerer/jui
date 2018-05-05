@@ -10,7 +10,7 @@ namespace JUI
 	/*
 	 * Static application controller.
 	 */
-	class __declspec(dllexport) ApplicationController
+	class JUI_API ApplicationController
 	{
 
 	public:

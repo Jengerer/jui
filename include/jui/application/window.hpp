@@ -5,6 +5,7 @@
 
 #include <windows.h>
 #include <string/string.hpp>
+#include "jui/jui_base.hpp"
 
 namespace JUI
 {
@@ -12,7 +13,7 @@ namespace JUI
 	// Prototype for window handling.
 	LRESULT CALLBACK wnd_proc( HWND hWnd, UINT message, WPARAM wparam, LPARAM lparam );
 
-	class Window
+	class JUI_API Window
 	{
 
 	public:
@@ -41,11 +42,11 @@ namespace JUI
 		const JUTIL::String* get_title( void ) const;
 
 		// Setting window display parameters.
-		__declspec(dllexport) void set_title( const JUTIL::String* title );
-		__declspec(dllexport) void set_size( int width, int height );
-		__declspec(dllexport) void set_fullscreen( bool is_fullscreen );
-		__declspec(dllexport) void set_border( bool has_border );
-		__declspec(dllexport) void set_icon( WORD icon );
+		void set_title( const JUTIL::String* title );
+		void set_size( int width, int height );
+		void set_fullscreen( bool is_fullscreen );
+		void set_border( bool has_border );
+		void set_icon( WORD icon );
 
 		// Get window display parameters.
 		int get_width( void ) const;

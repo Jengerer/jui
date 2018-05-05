@@ -6,7 +6,7 @@
 namespace JUI
 {
 
-	class __declspec(dllexport) WrappedText : public Text
+	class JUI_API WrappedText : public Text
 	{
 
 	public:

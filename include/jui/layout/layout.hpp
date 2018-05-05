@@ -10,21 +10,21 @@ namespace JUI
 	/*
 	 * Generic layout class that formats inner components.
 	 */
-	class __declspec(dllexport) Layout: public ConstrainedContainer
+	class Layout: public ConstrainedContainer
 	{
 
 	public:
 
-		Layout( void );
-		virtual ~Layout( void );
+		JUI_API Layout( void );
+		JUI_API virtual ~Layout( void );
 
 		// Bound restriction based on parent.
 		// TODO: Is parent needed?
-		virtual bool is_visible( Component *component ) const;
+		JUI_API virtual bool is_visible( Component *component ) const;
 
 		// Sets a parent to handle size constraints.
-		void set_parent( Container *parent );
-		const Container* get_parent( void ) const ;
+		JUI_API void set_parent( Container *parent );
+		JUI_API const Container* get_parent( void ) const ;
 
 	private:
 

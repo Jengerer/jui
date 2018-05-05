@@ -21,27 +21,27 @@ namespace JUI
 		MOUSE_CURSOR_HAND
 	};
 
-	class Mouse
+	class JUI_API Mouse
 	{
 
 	public:
 
-		__declspec(dllexport) Mouse( Window* window );
+		Mouse( Window* window );
 
 		// Mouse control and settings.
-		__declspec(dllexport) void set_window( Window* window );
-		__declspec(dllexport) void poll();
+		void set_window( Window* window );
+		void poll();
 
 		// State getter.
-		__declspec(dllexport) void set_pressed( bool is_pressed );
-		__declspec(dllexport) bool is_pressed() const;
+		void set_pressed( bool is_pressed );
+		bool is_pressed() const;
 
 		// Position functions.
-		__declspec(dllexport) int get_x( void ) const;
-		__declspec(dllexport) int get_y( void ) const;
+		int get_x( void ) const;
+		int get_y( void ) const;
 
 		// Call to components.
-		__declspec(dllexport) bool is_touching( const Component* component ) const;
+		bool is_touching( const Component* component ) const;
 
 	private:
 

@@ -219,6 +219,9 @@
     <ClInclude Include="include\jui\jui_version.hpp">
       <Filter>include\jui</Filter>
     </ClInclude>
+    <ClInclude Include="include\jui\jui_base.hpp">
+      <Filter>include\jui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

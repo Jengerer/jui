@@ -2,10 +2,11 @@
 #define JUI_VERSION_HPP
 
 #include <string/string.hpp>
+#include "jui/jui_base.hpp"
 
 namespace JUI
 {
-	_declspec(dllexport) const JUTIL::String* get_version_string( void );
+	JUI_API const JUTIL::String* get_version_string( void );
 }
 
 #endif // JUI_VERSION_HPP

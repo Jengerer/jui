@@ -8,27 +8,27 @@
 namespace JUI
 {
 
-	class __declspec(dllexport) ConstrainedContainer : public Container
+	class ConstrainedContainer : public Container
 	{
 	public:
 
-		ConstrainedContainer( void );
-		ConstrainedContainer( int x, int y );
-		virtual ~ConstrainedContainer( void );
+		JUI_API ConstrainedContainer( void );
+		JUI_API ConstrainedContainer( int x, int y );
+		virtual JUI_API ~ConstrainedContainer( void );
 
 		// Component override.
-		virtual void set_position( int x, int y );
+		virtual JUI_API void set_position( int x, int y );
 
 		// Container overrides.
-		virtual bool add( Component* child );
-		virtual void remove( Component* child );
+		virtual JUI_API bool add( Component* child );
+		virtual JUI_API void remove( Component* child );
 		
 		// Constraint management.
-		Constraint* set_constraint( Component* child, int x, int y );
-		void remove_constraint( Component* child );
-		void remove_all_constraints( void );
-		void apply_constraint( Constraint* constraint );
-		void apply_constraints( void );
+		JUI_API Constraint* set_constraint( Component* child, int x, int y );
+		JUI_API void remove_constraint( Component* child );
+		JUI_API void remove_all_constraints( void );
+		JUI_API void apply_constraint( Constraint* constraint );
+		JUI_API void apply_constraints( void );
 
 	private:
 
