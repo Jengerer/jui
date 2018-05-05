@@ -12,3 +12,5 @@
 *.ilk
 *.dll
 *.opendb
+*.ipdb
+*.iobj
